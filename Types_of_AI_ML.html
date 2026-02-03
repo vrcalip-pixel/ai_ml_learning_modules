@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Types of AI & Machine Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            position: relative;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #11998e 0%, #38ef7d 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: #11998e;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #11998e;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            color: #0d7368;
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .definition-box {
+            background: #e8f9f6;
+            border-left: 5px solid #11998e;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .definition-box strong {
+            color: #11998e;
+            font-size: 1.2em;
+        }
+        
+        .type-card {
+            background: white;
+            border: 3px solid #11998e;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(17, 153, 142, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .type-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(17, 153, 142, 0.3);
+        }
+        
+        .type-header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .comparison-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-card h4 {
+            color: #11998e;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .example-box {
+            background: #fff9e6;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .example-box::before {
+            content: "💡 Real-World Example: ";
+            font-weight: bold;
+            color: #f57c00;
+        }
+        
+        .use-case-box {
+            background: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .use-case-box::before {
+            content: "🎯 Application: ";
+            font-weight: bold;
+            color: #1976d2;
+        }
+        
+        .key-points {
+            background: #f3e5f5;
+            border-left: 5px solid #9c27b0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .key-points h4 {
+            color: #9c27b0;
+            margin-bottom: 10px;
+        }
+        
+        .key-points ul {
+            margin-left: 20px;
+        }
+        
+        .key-points li {
+            margin: 8px 0;
+        }
+        
+        .interactive-demo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .demo-option {
+            background: white;
+            color: #333;
+            padding: 15px 25px;
+            margin: 10px;
+            border-radius: 25px;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+        
+        .demo-option:hover {
+            transform: scale(1.05);
+            border-color: #38ef7d;
+        }
+        
+        .demo-option.selected {
+            background: #38ef7d;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .demo-result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .demo-result.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        .quiz-section {
+            background: #e8f5e9;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .quiz-question {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #4caf50;
+        }
+        
+        .quiz-options {
+            margin-top: 15px;
+        }
+        
+        .quiz-option {
+            background: #f5f5f5;
+            border: 2px solid #4caf50;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quiz-option:hover {
+            background: #c8e6c9;
+            transform: translateX(5px);
+        }
+        
+        .quiz-option.correct {
+            background: #4caf50;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .quiz-option.incorrect {
+            background: #f44336;
+            color: white;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+        }
+        
+        .feedback.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+            border: 2px solid #4caf50;
+        }
+        
+        .feedback.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+            border: 2px solid #f44336;
+        }
+        
+        .visual-diagram {
+            background: white;
+            border: 3px solid #11998e;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .diagram-row {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .diagram-box {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 150px;
+            margin: 10px;
+            font-weight: bold;
+        }
+        
+        .arrow {
+            font-size: 2em;
+            color: #11998e;
+            margin: 0 10px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(17, 153, 142, 0.4);
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .completion-badge {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .badge {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.4);
+        }
+        
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .pros {
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .pros h4 {
+            color: #2e7d32;
+        }
+        
+        .cons {
+            background: #ffebee;
+            border-left: 5px solid #f44336;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .cons h4 {
+            color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Types of AI & Machine Learning</h1>
+            <p>Understanding the Different Flavors of Artificial Intelligence</p>
+        </header>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+        
+        <div class="content">
+            <!-- Section 1: Introduction -->
+            <div class="section active" id="section1">
+                <h2>Welcome Back!</h2>
+                <p>You've already learned what AI is and its history. Now it's time to dive deeper into the different <strong>types</strong> of AI and machine learning. Just like ice cream comes in different flavors, AI comes in different types—each with its own strengths and uses!</p>
+                
+                <h3>What You'll Learn</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>🎯 Types of AI</h4>
+                        <p>• Narrow AI (Weak AI)<br>
+                        • General AI (Strong AI)<br>
+                        • The differences between them</p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>🧠 Types of Machine Learning</h4>
+                        <p>• Supervised Learning<br>
+                        • Unsupervised Learning<br>
+                        • Reinforcement Learning</p>
+                    </div>
+                </div>
+                
+                <div class="key-points">
+                    <h4>🔑 Why This Matters</h4>
+                    <ul>
+                        <li>Different problems require different AI approaches</li>
+                        <li>Understanding types helps you recognize AI in action</li>
+                        <li>Future careers may involve choosing the right AI type for specific tasks</li>
+                        <li>You'll understand what AI can (and can't) do today</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Section 2: Types of AI -->
+            <div class="section" id="section2">
+                <h2>Types of AI: Narrow vs. General</h2>
+                <p>When we talk about "types" of AI, we're usually categorizing them by how <strong>broad</strong> their intelligence is. Let's explore the two main categories!</p>
+                
+                <div class="type-card">
+                    <div class="type-header">🎯 Narrow AI (Weak AI)</div>
+                    
+                    <div class="definition-box">
+                        <strong>Narrow AI</strong> is designed to perform a <strong>specific task</strong> very well. It's "narrow" because it can only do what it was trained to do—nothing more. This is the type of AI that exists everywhere today!
+                    </div>
+                    
+                    <h3>Characteristics of Narrow AI:</h3>
+                    <ul>
+                        <li><strong>Specialized:</strong> Designed for ONE specific task or narrow range of tasks</li>
+                        <li><strong>Limited scope:</strong> Can't transfer knowledge to different domains</li>
+                        <li><strong>Currently exists:</strong> All AI we use today is Narrow AI</li>
+                        <li><strong>Very effective:</strong> Often better than humans at its specific task</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <strong>Email Spam Filter:</strong> This AI is excellent at detecting spam emails, but it can't drive a car, play chess, or do anything else. It has one job: identify spam.
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Netflix Recommendations:</strong> Amazing at suggesting shows based on your viewing history, but it can't help you file your taxes or translate languages.
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Self-Driving Car AI:</strong> Can navigate roads and avoid obstacles, but it can't diagnose medical conditions or write poetry.
+                    </div>
+                    
+                    <h3>More Examples of Narrow AI:</h3>
+                    <div class="comparison-grid">
+                        <div class="comparison-card">
+                            <h4>🔍 Image Recognition</h4>
+                            <p>Face ID on phones, medical imaging analysis, photo tagging</p>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>💬 Voice Assistants</h4>
+                            <p>Siri, Alexa, Google Assistant responding to voice commands</p>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>🎮 Game AI</h4>
+                            <p>Chess programs, video game opponents, AlphaGo</p>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>📝 Language Tools</h4>
+                            <p>Grammar checkers, translation apps, chatbots</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="type-card">
+                    <div class="type-header">🧠 General AI (Strong AI / AGI)</div>
+                    
+                    <div class="definition-box">
+                        <strong>General AI</strong> (also called Artificial General Intelligence or AGI) would be able to understand, learn, and apply knowledge across <strong>any domain</strong>—just like humans do. It doesn't exist yet!
+                    </div>
+                    
+                    <h3>Characteristics of General AI:</h3>
+                    <ul>
+                        <li><strong>Flexible:</strong> Can perform ANY intellectual task a human can</li>
+                        <li><strong>Transfer learning:</strong> Can apply knowledge from one area to another</li>
+                        <li><strong>Currently theoretical:</strong> We haven't created this yet!</li>
+                        <li><strong>Human-like reasoning:</strong> Would use common sense and abstract thinking</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <strong>Hypothetical Example:</strong> A General AI could learn to cook by reading recipes, then use that knowledge to fix a car engine, write a novel, solve math problems, and have a philosophical conversation—all without being specifically programmed for each task. It would learn and adapt like humans do.
+                    </div>
+                    
+                    <div class="key-points">
+                        <h4>⚠️ Important Note</h4>
+                        <p>When you hear about "AI" in the news or see it in products, it's <strong>always Narrow AI</strong>. General AI is still science fiction! Researchers debate whether we'll ever create it, and if we do, it's likely decades away.</p>
+                    </div>
+                </div>
+                
+                <h3>Quick Comparison: Narrow vs. General AI</h3>
+                <div class="visual-diagram">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="background: #11998e; color: white;">
+                            <th style="padding: 15px; border: 1px solid #ddd;">Feature</th>
+                            <th style="padding: 15px; border: 1px solid #ddd;">Narrow AI</th>
+                            <th style="padding: 15px; border: 1px solid #ddd;">General AI</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Exists Today?</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">✅ Yes</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">❌ No (Theoretical)</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Task Range</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">One specific task</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Any intellectual task</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Learning</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Limited to training data</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Flexible, like humans</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Examples</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Siri, Netflix, spam filters</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">None yet (maybe someday!)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Section 3: Supervised Learning -->
+            <div class="section" id="section3">
+                <h2>Types of Machine Learning</h2>
+                <p>Now let's explore the three main types of machine learning. Think of these as different "teaching methods" for training AI!</p>
+                
+                <div class="type-card">
+                    <div class="type-header">📊 Supervised Learning</div>
+                    
+                    <div class="definition-box">
+                        <strong>Supervised Learning</strong> is like learning with a teacher. The AI is given labeled training data (input + correct answer), and it learns to predict the correct output for new, unseen data.
+                    </div>
+                    
+                    <h3>How It Works:</h3>
+                    <div class="visual-diagram">
+                        <div class="diagram-row">
+                            <div class="diagram-box">Training Data<br>(with labels)</div>
+                            <div class="arrow">→</div>
+                            <div class="diagram-box">AI Model<br>Learns Patterns</div>
+                            <div class="arrow">→</div>
+                            <div class="diagram-box">Make Predictions<br>on New Data</div>
+                        </div>
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Email Spam Detection:</strong> You show the AI thousands of emails labeled as "spam" or "not spam." The AI learns what makes an email spam (keywords like "FREE!!!", suspicious links, etc.). Now it can identify spam in new emails it's never seen before!
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>House Price Prediction:</strong> Feed the AI data about houses (square footage, bedrooms, location) along with their selling prices. The AI learns the relationship between features and price. Now it can estimate the price of a house it's never seen!
+                    </div>
+                    
+                    <h3>Key Characteristics:</h3>
+                    <ul>
+                        <li><strong>Needs labeled data:</strong> Every training example must have the correct answer</li>
+                        <li><strong>Clear goal:</strong> Predict a specific output</li>
+                        <li><strong>Most common:</strong> Used in many real-world applications</li>
+                        <li><strong>Two types:</strong> Classification (categories) or Regression (numbers)</li>
+                    </ul>
+                    
+                    <h3>Real-World Applications:</h3>
+                    <div class="comparison-grid">
+                        <div class="use-case-box">
+                            <strong>Medical Diagnosis:</strong> Train on X-rays labeled "healthy" or "disease" to detect illnesses
+                        </div>
+                        <div class="use-case-box">
+                            <strong>Credit Scoring:</strong> Predict if someone will repay a loan based on past borrower data
+                        </div>
+                        <div class="use-case-box">
+                            <strong>Image Recognition:</strong> Identify objects in photos (cats, dogs, cars, etc.)
+                        </div>
+                        <div class="use-case-box">
+                            <strong>Speech Recognition:</strong> Convert spoken words to text (Siri understanding you)
+                        </div>
+                    </div>
+                    
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Advantages</h4>
+                            <ul>
+                                <li>Very accurate when trained properly</li>
+                                <li>Clear performance metrics</li>
+                                <li>Well-understood technique</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ Challenges</h4>
+                            <ul>
+                                <li>Requires lots of labeled data (expensive!)</li>
+                                <li>Time-consuming to label data</li>
+                                <li>Can't discover unknown patterns</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Unsupervised Learning -->
+            <div class="section" id="section4">
+                <div class="type-card">
+                    <div class="type-header">🔍 Unsupervised Learning</div>
+                    
+                    <div class="definition-box">
+                        <strong>Unsupervised Learning</strong> is like learning by exploration—without a teacher! The AI is given data WITHOUT labels and must find patterns, structures, or groupings on its own.
+                    </div>
+                    
+                    <h3>How It Works:</h3>
+                    <div class="visual-diagram">
+                        <div class="diagram-row">
+                            <div class="diagram-box">Unlabeled Data</div>
+                            <div class="arrow">→</div>
+                            <div class="diagram-box">AI Finds<br>Hidden Patterns</div>
+                            <div class="arrow">→</div>
+                            <div class="diagram-box">Discovers<br>Structure/Groups</div>
+                        </div>
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Customer Segmentation:</strong> A store has data on thousands of customers (age, purchases, browsing habits) but doesn't know how to group them. Unsupervised learning automatically discovers groups like "budget shoppers," "luxury buyers," "tech enthusiasts," etc., without being told these categories exist!
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>News Article Clustering:</strong> Google News groups similar articles together without anyone labeling topics. The AI reads articles and says "these 20 articles are all about the same event" by finding patterns in the text.
+                    </div>
+                    
+                    <h3>Key Characteristics:</h3>
+                    <ul>
+                        <li><strong>No labels needed:</strong> Just give it raw data</li>
+                        <li><strong>Discovers patterns:</strong> Finds structure you might not know exists</li>
+                        <li><strong>Exploratory:</strong> Great for understanding your data</li>
+                        <li><strong>Common techniques:</strong> Clustering, dimensionality reduction, anomaly detection</li>
+                    </ul>
+                    
+                    <h3>Real-World Applications:</h3>
+                    <div class="comparison-grid">
+                        <div class="use-case-box">
+                            <strong>Recommendation Systems:</strong> Netflix grouping similar viewers to suggest shows
+                        </div>
+                        <div class="use-case-box">
+                            <strong>Anomaly Detection:</strong> Credit card fraud detection by finding unusual patterns
+                        </div>
+                        <div class="use-case-box">
+                            <strong>Market Basket Analysis:</strong> "Customers who buy X often buy Y"
+                        </div>
+                        <div class="use-case-box">
+                            <strong>Image Compression:</strong> Finding common patterns to reduce file size
+                        </div>
+                    </div>
+                    
+                    <h3>Interactive Example: How Would YOU Group These?</h3>
+                    <div class="interactive-demo">
+                        <p style="margin-bottom: 20px;">Imagine you have data on app users but no labels. The AI might discover natural groups. Which groupings make sense?</p>
+                        <div class="demo-option" onclick="selectDemo(this, 1)">
+                            Group 1: Morning users who check news<br>
+                            Group 2: Evening users who watch videos<br>
+                            Group 3: Night owls who shop
+                        </div>
+                        <div class="demo-option" onclick="selectDemo(this, 2)">
+                            Group 1: People aged 18-25<br>
+                            Group 2: People aged 26-40<br>
+                            Group 3: People aged 41+
+                        </div>
+                        <div class="demo-result" id="demoResult1">
+                            <strong>✅ Great thinking!</strong> This is exactly what unsupervised learning does—it groups users by <strong>behavior patterns</strong>, not predetermined categories. These natural groups help companies target features to different user types!
+                        </div>
+                        <div class="demo-result" id="demoResult2">
+                            <strong>Not quite!</strong> Unsupervised learning discovers patterns from the data itself, not pre-defined categories like age. It might actually find that age doesn't matter as much as behavior! The AI groups by what it sees in the data, not what we tell it to look for.
+                        </div>
+                    </div>
+                    
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Advantages</h4>
+                            <ul>
+                                <li>No expensive labeling needed</li>
+                                <li>Discovers unexpected patterns</li>
+                                <li>Good for exploration</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ Challenges</h4>
+                            <ul>
+                                <li>Results can be hard to interpret</li>
+                                <li>No "right answer" to verify against</li>
+                                <li>May find meaningless patterns</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Reinforcement Learning -->
+            <div class="section" id="section5">
+                <div class="type-card">
+                    <div class="type-header">🎮 Reinforcement Learning</div>
+                    
+                    <div class="definition-box">
+                        <strong>Reinforcement Learning</strong> is like learning by trial and error with rewards and punishments. The AI (called an "agent") learns to make decisions by trying different actions and getting feedback on whether those actions were good or bad.
+                    </div>
+                    
+                    <h3>How It Works:</h3>
+                    <div class="visual-diagram">
+                        <div class="diagram-row">
+                            <div class="diagram-box">Agent Takes<br>Action</div>
+                            <div class="arrow">→</div>
+                            <div class="diagram-box">Environment<br>Responds</div>
+                            <div class="arrow">→</div>
+                            <div class="diagram-box">Reward or<br>Penalty</div>
+                            <div class="arrow">→</div>
+                            <div class="diagram-box">Agent Learns<br>& Improves</div>
+                        </div>
+                        <p style="margin-top: 20px; font-style: italic;">This cycle repeats thousands or millions of times!</p>
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Teaching AI to Play Video Games:</strong> The AI doesn't know the rules at first. It tries random button presses. When it scores points, it gets a reward. When it loses a life, it gets a penalty. Over millions of attempts, it figures out which actions lead to high scores!
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Self-Driving Cars:</strong> The AI practices in simulations millions of times. When it stays in the lane and avoids obstacles, it gets rewards. When it crashes or breaks traffic laws, it gets penalties. Eventually, it learns to drive safely!
+                    </div>
+                    
+                    <h3>Key Components:</h3>
+                    <ul>
+                        <li><strong>Agent:</strong> The AI that's learning (like a robot or game player)</li>
+                        <li><strong>Environment:</strong> The world the agent interacts with</li>
+                        <li><strong>Actions:</strong> Things the agent can do</li>
+                        <li><strong>Rewards:</strong> Positive feedback for good actions</li>
+                        <li><strong>Goal:</strong> Maximize total reward over time</li>
+                    </ul>
+                    
+                    <h3>Think of It Like Training a Dog:</h3>
+                    <div class="key-points">
+                        <p>When your dog sits on command → Give a treat (reward)</p>
+                        <p>When your dog jumps on guests → Say "no" firmly (penalty)</p>
+                        <p>After many repetitions → Dog learns which behaviors get treats!</p>
+                        <p><strong>Reinforcement learning works the same way with AI!</strong></p>
+                    </div>
+                    
+                    <h3>Real-World Applications:</h3>
+                    <div class="comparison-grid">
+                        <div class="use-case-box">
+                            <strong>Game AI:</strong> AlphaGo beat world champions at Go by playing against itself millions of times
+                        </div>
+                        <div class="use-case-box">
+                            <strong>Robotics:</strong> Teaching robots to walk, grasp objects, or navigate warehouses
+                        </div>
+                        <div class="use-case-box">
+                            <strong>Traffic Management:</strong> Optimizing traffic light timing to reduce congestion
+                        </div>
+                        <div class="use-case-box">
+                            <strong>Resource Management:</strong> Data centers optimizing energy use and cooling
+                        </div>
+                    </div>
+                    
+                    <h3>Famous Example: AlphaGo</h3>
+                    <div class="example-box">
+                        In 2016, Google's AlphaGo used reinforcement learning to master the ancient game of Go—a game so complex that experts thought AI was decades away from mastering it. AlphaGo played millions of games against itself, learning from every win and loss. It eventually beat the world champion Lee Sedol 4-1!
+                    </div>
+                    
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ Advantages</h4>
+                            <ul>
+                                <li>Can solve complex problems</li>
+                                <li>Learns optimal strategies</li>
+                                <li>Works in dynamic environments</li>
+                                <li>No labeled data needed</li>
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>❌ Challenges</h4>
+                            <ul>
+                                <li>Requires lots of training time</li>
+                                <li>Needs good reward design</li>
+                                <li>Can be computationally expensive</li>
+                                <li>May find "cheating" shortcuts</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Comparison & Quiz -->
+            <div class="section" id="section6">
+                <h2>Comparing the Three Types of Machine Learning</h2>
+                
+                <div class="visual-diagram">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="background: #11998e; color: white;">
+                            <th style="padding: 15px; border: 1px solid #ddd;">Feature</th>
+                            <th style="padding: 15px; border: 1px solid #ddd;">Supervised</th>
+                            <th style="padding: 15px; border: 1px solid #ddd;">Unsupervised</th>
+                            <th style="padding: 15px; border: 1px solid #ddd;">Reinforcement</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Training Data</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Labeled (with answers)</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Unlabeled (raw data)</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Rewards & penalties</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Goal</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Predict output</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Find patterns/groups</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Maximize rewards</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Learning Style</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Learning with a teacher</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Self-discovery</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Trial and error</td>
+                        </tr>
+                        <tr style="background: #f5f5f5;">
+                            <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Example</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Spam detection</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Customer segmentation</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Game playing AI</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 15px; border: 1px solid #ddd; font-weight: bold;">Best For</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Clear prediction tasks</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Exploring data</td>
+                            <td style="padding: 15px; border: 1px solid #ddd;">Sequential decisions</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <h3 style="margin-top: 40px;">Quick Analogy:</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>📚 Supervised Learning</h4>
+                        <p><strong>Like studying with a textbook that has all the answers in the back.</strong> You learn by checking if you got the right answer.</p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>🔍 Unsupervised Learning</h4>
+                        <p><strong>Like organizing your closet without instructions.</strong> You group similar items together based on what makes sense to you.</p>
+                    </div>
+                </div>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>🎮 Reinforcement Learning</h4>
+                        <p><strong>Like learning to ride a bike.</strong> You try different things, fall down (penalty), stay balanced (reward), and eventually master it!</p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>💡 Which to Use?</h4>
+                        <p>It depends on your problem, available data, and what you're trying to achieve!</p>
+                    </div>
+                </div>
+                
+                <h2 style="margin-top: 50px;">Knowledge Check!</h2>
+                <div class="quiz-section">
+                    <div class="quiz-question">
+                        <strong>Question 1: Siri and Alexa are examples of which type of AI?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 1)">Narrow AI (Weak AI)</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 1)">General AI (Strong AI)</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 1)">Super AI</div>
+                        </div>
+                        <div class="feedback" id="feedback1"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Question 2: Which type of machine learning requires labeled training data?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 2)">Supervised Learning</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 2)">Unsupervised Learning</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 2)">Reinforcement Learning</div>
+                        </div>
+                        <div class="feedback" id="feedback2"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Question 3: A store wants to group customers by shopping behavior without predefined categories. Which ML type should they use?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 3)">Supervised Learning</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 3)">Unsupervised Learning</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 3)">Reinforcement Learning</div>
+                        </div>
+                        <div class="feedback" id="feedback3"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Question 4: Teaching a robot to walk by giving it rewards when it stays balanced is an example of:</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 4)">Supervised Learning</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 4)">Unsupervised Learning</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 4)">Reinforcement Learning</div>
+                        </div>
+                        <div class="feedback" id="feedback4"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Question 5: Does General AI (AGI) exist today?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 5)">Yes, in advanced research labs</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 5)">No, it's still theoretical</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 5)">Yes, Google and OpenAI have created it</div>
+                        </div>
+                        <div class="feedback" id="feedback5"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 7: Completion -->
+            <div class="section" id="section7">
+                <div class="completion-badge">
+                    <div class="badge">🎓</div>
+                    <h2>Outstanding Work!</h2>
+                    <p>You've mastered the types of AI and machine learning!</p>
+                </div>
+                
+                <h2>What You've Learned</h2>
+                <div class="key-points">
+                    <ul>
+                        <li>✅ <strong>Narrow AI</strong> is specialized for specific tasks (all AI today)</li>
+                        <li>✅ <strong>General AI</strong> would be flexible like humans (doesn't exist yet)</li>
+                        <li>✅ <strong>Supervised Learning</strong> learns from labeled examples</li>
+                        <li>✅ <strong>Unsupervised Learning</strong> discovers patterns in unlabeled data</li>
+                        <li>✅ <strong>Reinforcement Learning</strong> learns through trial, error, and rewards</li>
+                        <li>✅ Different problems require different AI approaches</li>
+                    </ul>
+                </div>
+                
+                <h3>Real-World Connections</h3>
+                <p>Now when you use technology, you can identify what type of AI is at work:</p>
+                <div class="comparison-grid">
+                    <div class="comparison-card">
+                        <h4>🎵 Spotify Recommendations</h4>
+                        <p><strong>Type:</strong> Supervised + Unsupervised<br>
+                        Groups similar songs and learns your preferences</p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>🚗 Tesla Autopilot</h4>
+                        <p><strong>Type:</strong> Reinforcement Learning<br>
+                        Learns safe driving through millions of simulations</p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>📧 Gmail Spam Filter</h4>
+                        <p><strong>Type:</strong> Supervised Learning<br>
+                        Trained on millions of labeled spam/not spam emails</p>
+                    </div>
+                    <div class="comparison-card">
+                        <h4>🛍️ Amazon "Customers Also Bought"</h4>
+                        <p><strong>Type:</strong> Unsupervised Learning<br>
+                        Finds patterns in shopping behavior</p>
+                    </div>
+                </div>
+                
+                <h3>Next Steps in Your AI Journey</h3>
+                <div class="type-card">
+                    <p>Continue exploring:</p>
+                    <ul>
+                        <li>🧠 <strong>Deep Learning & Neural Networks</strong> - How AI learns complex patterns</li>
+                        <li>⚖️ <strong>AI Ethics</strong> - Responsible AI development and use</li>
+                        <li>💼 <strong>AI Careers</strong> - Opportunities in this growing field</li>
+                        <li>🛠️ <strong>Hands-On Projects</strong> - Try building simple ML models yourself!</li>
+                    </ul>
+                </div>
+                
+                <div style="text-align: center; margin-top: 40px;">
+                    <p style="font-size: 1.3em; color: #11998e;"><strong>You're building a strong foundation in AI! Keep going! 🚀</strong></p>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="nav-buttons">
+                <button id="prevBtn" onclick="changeSection(-1)">← Previous</button>
+                <button id="nextBtn" onclick="changeSection(1)">Next →</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentSection = 1;
+        const totalSections = 7;
+        
+        function updateProgress() {
+            const progress = (currentSection / totalSections) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        function showSection(n) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            if (n > totalSections) { currentSection = totalSections; }
+            if (n < 1) { currentSection = 1; }
+            
+            sections[currentSection - 1].classList.add('active');
+            
+            document.getElementById('prevBtn').disabled = currentSection === 1;
+            document.getElementById('nextBtn').textContent = currentSection === totalSections ? 'Finish ✓' : 'Next →';
+            
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function changeSection(n) {
+            currentSection += n;
+            showSection(currentSection);
+        }
+        
+        function selectDemo(element, demoNum) {
+            // Remove previous selections
+            document.querySelectorAll('.demo-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Hide previous results
+            document.querySelectorAll('.demo-result').forEach(result => {
+                result.classList.remove('show');
+            });
+            
+            // Show selected and result
+            element.classList.add('selected');
+            document.getElementById('demoResult' + demoNum).classList.add('show');
+        }
+        
+        function checkAnswer(element, isCorrect, questionNum) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById('feedback' + questionNum);
+            
+            // Disable all options
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedback.classList.add('show', 'correct');
+                feedback.textContent = '✓ Correct! Excellent work!';
+            } else {
+                element.classList.add('incorrect');
+                // Highlight correct answer
+                options.forEach(opt => {
+                    if (opt.onclick.toString().includes('true')) {
+                        opt.classList.add('correct');
+                    }
+                });
+                feedback.classList.add('show', 'incorrect');
+                feedback.textContent = '✗ Not quite. The correct answer is highlighted in green. Review the material and try again!';
+            }
+        }
+        
+        // Initialize
+        showSection(currentSection);
+    </script>
+</body>
+</html>

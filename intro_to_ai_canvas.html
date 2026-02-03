@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Introduction to AI</title>
+<style>
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.ai-module {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    margin: -20px -20px 30px -20px;
+}
+
+.ai-module h1 {
+    font-size: 2.5em;
+    margin: 0 0 10px 0;
+}
+
+.ai-module p {
+    font-size: 1.2em;
+    margin: 0;
+    opacity: 0.95;
+}
+
+.content-section {
+    background: white;
+    padding: 30px 20px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #667eea;
+    font-size: 2em;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #667eea;
+    padding-bottom: 10px;
+}
+
+h3 {
+    color: #764ba2;
+    font-size: 1.5em;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+h4 {
+    color: #0288d1;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+p {
+    margin-bottom: 15px;
+    font-size: 1.05em;
+}
+
+.definition-box {
+    background: #f0f4ff;
+    border-left: 5px solid #667eea;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+
+.definition-box strong {
+    color: #667eea;
+    font-size: 1.2em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.timeline-item {
+    background: #fff;
+    border: 2px solid #667eea;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.timeline-year {
+    background: #667eea;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.concept-card {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 10px;
+    padding: 25px;
+    margin: 20px 0;
+}
+
+.concept-title {
+    color: #667eea;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.example-box {
+    background: #fff9e6;
+    border-left: 5px solid #ffc107;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+}
+
+.example-box::before {
+    content: "💡 Example: ";
+    font-weight: bold;
+    color: #f57c00;
+}
+
+.key-takeaways {
+    background: #e1f5fe;
+    border-left: 5px solid #0288d1;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+
+.key-takeaways ul {
+    margin: 10px 0 0 20px;
+    padding: 0;
+}
+
+.key-takeaways li {
+    margin: 8px 0;
+}
+
+.completion-section {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 10px;
+    margin: 30px 0;
+}
+
+.badge {
+    font-size: 5em;
+    margin-bottom: 20px;
+}
+
+.completion-section h2 {
+    color: white;
+    border: none;
+    margin-bottom: 10px;
+}
+
+.checklist {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.checklist ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.checklist li {
+    padding: 10px;
+    margin: 5px 0;
+    background: #f5f7fa;
+    border-radius: 5px;
+}
+
+.checklist li::before {
+    content: "✓ ";
+    color: #4caf50;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-right: 10px;
+}
+
+ul.regular-list {
+    margin-left: 20px;
+}
+
+ul.regular-list li {
+    margin: 8px 0;
+}
+
+.nav-note {
+    background: #e8f5e9;
+    border: 2px solid #4caf50;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 30px 0;
+    text-align: center;
+}
+
+.nav-note strong {
+    color: #2e7d32;
+}
+</style>
+</head>
+<body>
+
+<div class="ai-module">
+    <h1>🤖 Introduction to Artificial Intelligence</h1>
+    <p>Your Journey into AI Begins Here</p>
+</div>
+
+<div class="content-section">
+    <h2>Welcome to the World of AI!</h2>
+    <p>Artificial Intelligence is all around us—from the recommendations you see on Netflix to voice assistants like Siri and Alexa. But what exactly is AI, and how does it work? In this module, you'll discover the fundamentals of AI in a way that's easy to understand, even if you've never studied computer science before.</p>
+    
+    <h3>What You'll Learn</h3>
+    <div class="concept-card">
+        <div class="concept-title">✓ What AI really means</div>
+        <div class="concept-title">✓ The fascinating history of AI</div>
+        <div class="concept-title">✓ Key concepts that power AI today</div>
+        <div class="concept-title">✓ How AI impacts your daily life</div>
+    </div>
+</div>
+
+<div class="content-section">
+    <h2>What is Artificial Intelligence?</h2>
+    
+    <div class="definition-box">
+        <strong>Artificial Intelligence (AI)</strong>
+        AI is the ability of machines and computer programs to perform tasks that typically require human intelligence. This includes things like learning from experience, understanding language, recognizing patterns, solving problems, and making decisions.
+    </div>
+    
+    <p>Think of AI as teaching computers to "think" and learn, similar to how humans do—but in their own unique way.</p>
+    
+    <div class="example-box">
+        When you type a search query into Google, AI helps predict what you're looking for. When Netflix suggests a show you might like, that's AI analyzing your viewing habits. When your phone recognizes your face to unlock, that's AI at work!
+    </div>
+    
+    <h3>AI vs. Human Intelligence</h3>
+    <p>It's important to understand that AI doesn't "think" exactly like humans do. While humans use creativity, emotions, and life experiences to make decisions, AI uses data, patterns, and algorithms (step-by-step instructions).</p>
+    
+    <div class="concept-card">
+        <div class="concept-title">Humans are great at:</div>
+        <ul class="regular-list">
+            <li>Creative thinking and imagination</li>
+            <li>Understanding emotions and social cues</li>
+            <li>Adapting to completely new situations</li>
+            <li>Using common sense</li>
+        </ul>
+    </div>
+    
+    <div class="concept-card">
+        <div class="concept-title">AI excels at:</div>
+        <ul class="regular-list">
+            <li>Processing huge amounts of data quickly</li>
+            <li>Finding patterns in complex information</li>
+            <li>Performing repetitive tasks without getting tired</li>
+            <li>Making predictions based on past data</li>
+        </ul>
+    </div>
+</div>
+
+<div class="content-section">
+    <h2>The History of AI: From Dreams to Reality</h2>
+    <p>AI might seem like a modern invention, but people have been dreaming about intelligent machines for centuries! Let's take a journey through time to see how AI evolved.</p>
+    
+    <div class="timeline-item">
+        <div class="timeline-year">1950s</div>
+        <h3>The Birth of AI</h3>
+        <p><strong>1950:</strong> Alan Turing, a British mathematician, asked "Can machines think?" and created the famous Turing Test to measure machine intelligence.</p>
+        <p><strong>1956:</strong> The term "Artificial Intelligence" was coined at a conference at Dartmouth College. This is considered the official birth of AI as a field of study.</p>
+    </div>
+    
+    <div class="timeline-item">
+        <div class="timeline-year">1960s-1970s</div>
+        <h3>Early Optimism & Challenges</h3>
+        <p>Scientists created early AI programs that could play checkers and solve algebra problems. However, computers were slow and expensive, limiting what AI could do. This period had lots of excitement but also disappointments when AI couldn't deliver on big promises.</p>
+    </div>
+    
+    <div class="timeline-item">
+        <div class="timeline-year">1980s-1990s</div>
+        <h3>The AI Winter & Revival</h3>
+        <p>Funding for AI research decreased during the "AI Winter" when progress slowed. But the 1990s brought new hope with expert systems (programs that could give advice like human experts) and the first time a computer (Deep Blue) beat a world chess champion in 1997!</p>
+    </div>
+    
+    <div class="timeline-item">
+        <div class="timeline-year">2000s-2010s</div>
+        <h3>The Machine Learning Revolution</h3>
+        <p>The internet provided massive amounts of data, and computers became much more powerful. Machine learning (where computers learn from data) became incredibly effective. AI started appearing in everyday products like smartphones and recommendation systems.</p>
+    </div>
+    
+    <div class="timeline-item">
+        <div class="timeline-year">2020s</div>
+        <h3>AI Everywhere</h3>
+        <p>Today, AI powers virtual assistants, self-driving cars, medical diagnosis tools, and creative tools that can write text and create images. ChatGPT and other conversational AI systems have brought AI into mainstream conversation like never before.</p>
+    </div>
+    
+    <div class="key-takeaways">
+        <h4>🔑 Key Takeaway</h4>
+        <p>AI hasn't been a steady march forward—it's had ups and downs. The breakthroughs we see today are built on decades of research, failed experiments, and persistent scientists who kept believing in the potential of intelligent machines.</p>
+    </div>
+</div>
+
+<div class="content-section">
+    <h2>Key Concepts in AI</h2>
+    <p>Now that you know what AI is and where it came from, let's explore some fundamental concepts that make AI work. Don't worry—we'll keep it simple!</p>
+    
+    <h3>1. Machine Learning (ML)</h3>
+    <div class="definition-box">
+        <strong>Machine Learning</strong>
+        Machine Learning is a way of teaching computers to learn from data without being explicitly programmed for every single task. Instead of giving step-by-step instructions, we show the computer examples, and it figures out patterns on its own.
+    </div>
+    
+    <div class="example-box">
+        Imagine teaching a child to recognize dogs. You don't give them a rulebook with "has four legs, has fur, barks." Instead, you show them pictures of different dogs, and they learn what makes a dog a dog. Machine learning works the same way—show it thousands of dog pictures, and it learns the pattern!
+    </div>
+    
+    <h3>2. Neural Networks & Deep Learning</h3>
+    <div class="definition-box">
+        <strong>Neural Networks</strong>
+        Neural Networks are AI systems inspired by the human brain. They consist of layers of connected "neurons" (not real neurons, but mathematical functions) that process information. <strong>Deep Learning</strong> uses neural networks with many layers to learn very complex patterns.
+    </div>
+    
+    <div class="concept-card">
+        <div class="concept-title">Why "Deep" Learning?</div>
+        <p>The "deep" refers to having many layers in the neural network. Each layer learns to recognize different features—early layers might detect edges and colors, while deeper layers recognize more complex features like faces or objects.</p>
+    </div>
+    
+    <div class="example-box">
+        When you upload a photo to Facebook and it automatically suggests tagging your friends, that's deep learning recognizing faces by analyzing millions of facial features through multiple layers of processing.
+    </div>
+    
+    <h3>3. Natural Language Processing (NLP)</h3>
+    <div class="definition-box">
+        <strong>Natural Language Processing</strong>
+        NLP is the branch of AI that helps computers understand, interpret, and generate human language. It's what powers chatbots, translation apps, and voice assistants.
+    </div>
+    
+    <div class="example-box">
+        When you ask Siri "What's the weather today?" NLP helps it understand that you're asking about current weather conditions, not the weather yesterday or tomorrow. When Google Translate converts English to Spanish, that's NLP in action!
+    </div>
+    
+    <h3>4. Computer Vision</h3>
+    <div class="definition-box">
+        <strong>Computer Vision</strong>
+        Computer Vision gives computers the ability to "see" and understand images and videos, similar to how humans use their eyes and brain to interpret visual information.
+    </div>
+    
+    <div class="example-box">
+        Self-driving cars use computer vision to detect pedestrians, read traffic signs, and identify lane markings. Medical AI can analyze X-rays and MRI scans to help doctors spot potential health issues.
+    </div>
+    
+    <h3>5. Training Data & Algorithms</h3>
+    <div class="concept-card">
+        <div class="concept-title">Training Data</div>
+        <p>This is the information we feed to AI systems so they can learn. The more quality data an AI has, the better it can learn patterns and make predictions. Think of it like studying material before a test—the more relevant examples you study, the better prepared you are!</p>
+    </div>
+    
+    <div class="concept-card">
+        <div class="concept-title">Algorithms</div>
+        <p>An algorithm is simply a set of step-by-step instructions to solve a problem or complete a task. AI algorithms are special because they can adjust themselves based on the data they see, getting better over time.</p>
+    </div>
+    
+    <div class="key-takeaways">
+        <h4>🔑 Key Takeaways</h4>
+        <ul>
+            <li>Machine Learning lets computers learn from examples instead of following rigid rules</li>
+            <li>Neural Networks and Deep Learning are inspired by how our brains work</li>
+            <li>NLP helps AI understand and generate human language</li>
+            <li>Computer Vision lets AI "see" and interpret images</li>
+            <li>Good data and smart algorithms are the foundation of effective AI</li>
+        </ul>
+    </div>
+</div>
+
+<div class="content-section">
+    <h2>AI in Your Daily Life</h2>
+    <p>You interact with AI more than you might realize! Let's explore how AI shows up in everyday situations.</p>
+    
+    <div class="concept-card">
+        <div class="concept-title">📱 Your Smartphone</div>
+        <ul class="regular-list">
+            <li>Face recognition to unlock your phone</li>
+            <li>Autocorrect and predictive text when typing</li>
+            <li>Virtual assistants (Siri, Google Assistant)</li>
+            <li>Photo organization and search</li>
+            <li>App recommendations</li>
+        </ul>
+    </div>
+    
+    <div class="concept-card">
+        <div class="concept-title">🎬 Entertainment</div>
+        <ul class="regular-list">
+            <li>Netflix, Spotify, and YouTube recommendations</li>
+            <li>Social media content feeds</li>
+            <li>Video game opponents and characters</li>
+            <li>Filters and effects on Instagram/TikTok</li>
+        </ul>
+    </div>
+    
+    <div class="concept-card">
+        <div class="concept-title">🛒 Shopping & Services</div>
+        <ul class="regular-list">
+            <li>Amazon product recommendations</li>
+            <li>Customer service chatbots</li>
+            <li>Fraud detection for credit cards</li>
+            <li>Dynamic pricing (like Uber surge pricing)</li>
+            <li>Email spam filters</li>
+        </ul>
+    </div>
+    
+    <div class="concept-card">
+        <div class="concept-title">🚗 Transportation</div>
+        <ul class="regular-list">
+            <li>GPS navigation and traffic predictions (Google Maps, Waze)</li>
+            <li>Ride-sharing apps matching drivers and riders</li>
+            <li>Self-driving car technology</li>
+            <li>Parking spot detection</li>
+        </ul>
+    </div>
+    
+    <div class="concept-card">
+        <div class="concept-title">🏥 Healthcare</div>
+        <ul class="regular-list">
+            <li>Fitness trackers analyzing your activity</li>
+            <li>Medical image analysis</li>
+            <li>Symptom checkers</li>
+            <li>Drug discovery research</li>
+            <li>Appointment scheduling systems</li>
+        </ul>
+    </div>
+    
+    <h3>The Impact of AI</h3>
+    <p>AI is transforming how we work, learn, and live. It's making some tasks easier and more efficient, but it also raises important questions about privacy, jobs, and fairness. As you continue learning about AI, you'll be better equipped to understand both its benefits and challenges.</p>
+    
+    <div class="key-takeaways">
+        <h4>🔑 Important Considerations</h4>
+        <ul>
+            <li><strong>Privacy:</strong> AI systems often need personal data to work—it's important to understand what data you're sharing</li>
+            <li><strong>Bias:</strong> AI can reflect biases present in training data, which can lead to unfair outcomes</li>
+            <li><strong>Jobs:</strong> AI is changing the job market, automating some tasks while creating new opportunities</li>
+            <li><strong>Ethics:</strong> We need to think carefully about how AI should be used in society</li>
+        </ul>
+    </div>
+</div>
+
+<div class="completion-section">
+    <div class="badge">🎓</div>
+    <h2>Congratulations!</h2>
+    <p style="font-size: 1.2em;">You've completed the Introduction to AI module!</p>
+</div>
+
+<div class="content-section">
+    <h2>What You've Learned</h2>
+    <div class="checklist">
+        <ul>
+            <li>The definition and purpose of Artificial Intelligence</li>
+            <li>The historical journey of AI from the 1950s to today</li>
+            <li>Key concepts like Machine Learning, Neural Networks, NLP, and Computer Vision</li>
+            <li>How AI appears in your everyday life</li>
+            <li>Important considerations about AI's impact on society</li>
+        </ul>
+    </div>
+    
+    <h3>Next Steps</h3>
+    <p>Now that you understand the basics of AI, you're ready to explore more advanced topics! Consider learning about:</p>
+    
+    <div class="concept-card">
+        <div class="concept-title">• How to use AI tools effectively</div>
+        <div class="concept-title">• Ethics and responsible AI</div>
+        <div class="concept-title">• Career opportunities in AI</div>
+        <div class="concept-title">• Hands-on AI projects for beginners</div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 40px;">
+        <p style="font-size: 1.3em; color: #667eea;"><strong>Keep learning and stay curious! 🚀</strong></p>
+    </div>
+</div>
+
+</body>
+</html>

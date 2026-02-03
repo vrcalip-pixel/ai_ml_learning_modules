@@ -1,0 +1,2708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Data: The Fuel of AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            position: relative;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: #f5576c;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #f5576c;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            color: #d63384;
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        h4 {
+            color: #f093fb;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .definition-box {
+            background: #fff0f6;
+            border-left: 5px solid #f5576c;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .definition-box strong {
+            color: #f5576c;
+            font-size: 1.2em;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .key-concept {
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe5ec 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.2);
+        }
+        
+        .concept-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+        
+        .data-type-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .data-type-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .data-type-card {
+            background: white;
+            border: 3px solid #f093fb;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(240, 147, 251, 0.2);
+            transition: transform 0.3s;
+        }
+        
+        .data-type-card h4 {
+            color: #f5576c;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .data-type-card.clickable {
+            cursor: pointer;
+        }
+        
+        .data-type-card.clickable:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(240, 147, 251, 0.4);
+        }
+        
+        .data-type-card.clickable::after {
+            content: "Click for details →";
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 0.85em;
+            color: #f5576c;
+            font-weight: bold;
+            opacity: 0.7;
+        }
+        
+        .data-type-card {
+            position: relative;
+        }
+        
+        .example-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .example-box::before {
+            content: "💼 Business Example: ";
+            font-weight: bold;
+            color: #f57c00;
+        }
+        
+        .visual-comparison {
+            background: white;
+            border: 3px solid #f5576c;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .good-data {
+            background: #d4edda;
+            border: 3px solid #28a745;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .good-data h4 {
+            color: #155724;
+        }
+        
+        .bad-data {
+            background: #f8d7da;
+            border: 3px solid #dc3545;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .bad-data h4 {
+            color: #721c24;
+        }
+        
+        .data-sample {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+        
+        .interactive-checker {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .checker-input {
+            background: white;
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .dataset-option {
+            background: #f5f5f5;
+            border: 3px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .dataset-option:hover {
+            background: #e8e8ff;
+            transform: translateX(5px);
+        }
+        
+        .dataset-option.selected {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .checker-result {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .checker-result.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        .issue-badge {
+            display: inline-block;
+            background: #dc3545;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.9em;
+        }
+        
+        .quality-badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.9em;
+        }
+        
+        .key-takeaways {
+            background: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .key-takeaways h4 {
+            color: #1565c0;
+            margin-bottom: 10px;
+        }
+        
+        .quiz-section {
+            background: #e8f5e9;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .quiz-question {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #4caf50;
+        }
+        
+        .quiz-options {
+            margin-top: 15px;
+        }
+        
+        .quiz-option {
+            background: #f5f5f5;
+            border: 2px solid #4caf50;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quiz-option:hover {
+            background: #c8e6c9;
+            transform: translateX(5px);
+        }
+        
+        .quiz-option.correct {
+            background: #4caf50;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .quiz-option.incorrect {
+            background: #f44336;
+            color: white;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+        }
+        
+        .feedback.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+            border: 2px solid #4caf50;
+        }
+        
+        .feedback.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+            border: 2px solid #f44336;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .warning-box::before {
+            content: "⚠️ Important: ";
+            font-weight: bold;
+            color: #856404;
+        }
+        
+        /* SIDE PANEL STYLES */
+        .side-panel {
+            position: fixed;
+            top: 0;
+            right: -550px;
+            width: 500px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.3);
+            transition: right 0.4s ease;
+            z-index: 1001;
+            overflow-y: auto;
+            padding: 40px 30px;
+        }
+        
+        .side-panel.active {
+            right: 0;
+        }
+        
+        .panel-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+        
+        .panel-overlay.active {
+            display: block;
+        }
+        
+        .panel-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #f44336;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+        
+        .panel-close:hover {
+            background: #d32f2f;
+            transform: rotate(90deg);
+        }
+        
+        .side-panel h3 {
+            color: #f5576c;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-right: 50px;
+            border-bottom: 3px solid #f5576c;
+            padding-bottom: 10px;
+        }
+        
+        .panel-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .detail-section {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #f5576c;
+        }
+        
+        .detail-section h4 {
+            color: #f5576c;
+            margin-bottom: 12px;
+            font-size: 1.3em;
+        }
+        
+        .stat-highlight {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .tip-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .tip-box::before {
+            content: "💡 Pro Tip: ";
+            font-weight: bold;
+            color: #2e7d32;
+        }
+        
+        .challenge-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .challenge-box::before {
+            content: "⚠️ Common Challenge: ";
+            font-weight: bold;
+            color: #856404;
+        }
+        
+        @media (max-width: 768px) {
+            .side-panel {
+                width: 90%;
+                right: -90%;
+            }
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .completion-badge {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .badge {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th {
+            background: #f5576c;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        td {
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+        
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .clickable-hint {
+            background: #e8eaf6;
+            color: #3f51b5;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 0.95em;
+            border: 2px dashed #3f51b5;
+        }
+        
+        .quality-dimension {
+            background: #f8f9fa;
+            border: 2px solid #f093fb;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .quality-dimension h4 {
+            color: #f5576c;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        
+        .dimension-examples {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .dimension-examples {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .good-example {
+            background: #d4edda;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #28a745;
+        }
+        
+        .good-example::before {
+            content: "✓ Good: ";
+            font-weight: bold;
+            color: #155724;
+        }
+        
+        .bad-example {
+            background: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #dc3545;
+        }
+        
+        .bad-example::before {
+            content: "✗ Bad: ";
+            font-weight: bold;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Understanding Data: The Fuel of AI</h1>
+            <p>How Data Powers Intelligent Systems</p>
+        </header>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+        
+        <div class="content">
+            <!-- Section 1: Why Data Matters -->
+            <div class="section active" id="section1">
+                <h2>Why Data is the Foundation of AI</h2>
+                <p>Welcome to Module 3! You've learned what AI is and the different types of AI and machine learning. But here's the crucial question: <strong>What makes AI actually work?</strong></p>
+                
+                <div class="definition-box">
+                    <strong>The Simple Truth:</strong>
+                    AI is only as good as the data it learns from. Think of data as the "experience" that teaches AI systems. Just like you need to study examples to learn math, AI needs data to learn patterns.
+                </div>
+                
+                <h3>The Data-AI Connection</h3>
+                <div class="key-concept">
+                    <div class="concept-header">🔗 Without Data, AI Cannot Function</div>
+                    <p>Imagine trying to teach someone to recognize spam emails, but you never show them any examples. Impossible, right? AI faces the same challenge. It needs:</p>
+                    <ul>
+                        <li><strong>Volume:</strong> Enough examples to learn patterns (typically thousands to millions)</li>
+                        <li><strong>Quality:</strong> Accurate, relevant information that reflects reality</li>
+                        <li><strong>Variety:</strong> Diverse examples covering different scenarios and edge cases</li>
+                        <li><strong>Labels:</strong> (For supervised learning) Correct answers to learn from</li>
+                    </ul>
+                </div>
+                
+                <div class="example-box">
+                    <strong>Netflix Recommendations:</strong> Netflix doesn't magically know what you'll like. It analyzes data from millions of users—what they watched, when they paused, what they rated, what they searched for—and uses that data to predict what you might enjoy next.
+                </div>
+                
+                <div class="example-box">
+                    <strong>Credit Card Fraud Detection:</strong> Banks train AI on millions of transaction records (both legitimate and fraudulent). When you swipe your card in an unusual location, the AI recognizes this doesn't match your typical spending pattern and flags it for review.
+                </div>
+                
+                <h3>What You'll Learn in This Module</h3>
+                <div class="data-type-grid">
+                    <div class="data-type-card">
+                        <h4>📋 Types of Data</h4>
+                        <p>Structured vs. Unstructured data and why it matters</p>
+                    </div>
+                    <div class="data-type-card">
+                        <h4>✨ Data Quality</h4>
+                        <p>What makes data good or bad for AI</p>
+                    </div>
+                    <div class="data-type-card">
+                        <h4>🔧 Data Cleaning</h4>
+                        <p>How to prepare data for AI systems</p>
+                    </div>
+                    <div class="data-type-card">
+                        <h4>⚖️ Bias & Ethics</h4>
+                        <p>Recognizing and managing bias in datasets</p>
+                    </div>
+                </div>
+                
+                <div class="key-takeaways">
+                    <h4>🔑 Key Insight</h4>
+                    <p>The phrase "Garbage In, Garbage Out" is especially true for AI. Poor quality data leads to poor AI performance—no matter how sophisticated the algorithm is!</p>
+                </div>
+            </div>
+            
+            <!-- Section 2: Types of Data -->
+            <div class="section" id="section2">
+                <h2>Types of Data: Structured vs. Unstructured</h2>
+                <p>Not all data is created equal. Understanding the different types helps you know what AI can and can't do with your data.</p>
+                
+                <div class="key-concept">
+                    <div class="concept-header">📊 Structured Data</div>
+                    
+                    <div class="definition-box">
+                        <strong>Structured Data</strong>
+                        Organized information that fits neatly into rows and columns—like a spreadsheet or database table. It has a clear format and is easy for computers to search and analyze.
+                    </div>
+                    
+                    <h3>Characteristics:</h3>
+                    <ul>
+                        <li><strong>Highly organized</strong> with predefined format (schema)</li>
+                        <li><strong>Easy to search, sort, and analyze</strong> using traditional queries</li>
+                        <li><strong>Stored in databases or spreadsheets</strong> (SQL databases, Excel, CSV files)</li>
+                        <li><strong>Each field has a specific data type</strong> (number, date, text, boolean)</li>
+                        <li><strong>Consistent format</strong> across all records</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <strong>E-commerce Customer Database:</strong> A table with columns like Customer ID, Name, Email, Purchase Date, Order Total, Product Category. Each row is one customer or transaction. Perfect for predicting buying behavior!
+                    </div>
+                    
+                    <div class="data-sample">
+                        <strong>Example Structured Data:</strong><br><br>
+                        | CustomerID | Name | Email | Age | Purchase_Total | Date |<br>
+                        | 1001 | Jane Smith | jane@email.com | 34 | $127.50 | 2024-01-15 |<br>
+                        | 1002 | Bob Jones | bob@email.com | 28 | $89.99 | 2024-01-16 |
+                    </div>
+                    
+                    <h3>Common Uses in Business:</h3>
+                    <div class="clickable-hint">
+                        👆 Click each tile to explore detailed business applications and real-world examples!
+                    </div>
+                    <div class="data-type-grid">
+                        <div class="data-type-card clickable" onclick="openPanel('panel-sales-analytics')">
+                            <h4>📈 Sales Analytics</h4>
+                            <p>Tracking revenue, units sold, customer demographics</p>
+                        </div>
+                        <div class="data-type-card clickable" onclick="openPanel('panel-financial-records')">
+                            <h4>📊 Financial Records</h4>
+                            <p>Transaction logs, invoices, payroll data</p>
+                        </div>
+                        <div class="data-type-card clickable" onclick="openPanel('panel-crm-systems')">
+                            <h4>👥 CRM Systems</h4>
+                            <p>Customer contact info, interaction history, preferences</p>
+                        </div>
+                        <div class="data-type-card clickable" onclick="openPanel('panel-inventory')">
+                            <h4>📦 Inventory Management</h4>
+                            <p>Stock levels, SKUs, supplier info, reorder points</p>
+                        </div>
+                    </div>
+                    
+                    <h3>Why Structured Data is Valuable</h3>
+                    <p>Structured data is the backbone of traditional business intelligence and simpler AI applications. Because it's organized and consistent, it's:</p>
+                    <ul>
+                        <li><strong>Fast to process:</strong> Queries run in seconds, even on millions of records</li>
+                        <li><strong>Easy to validate:</strong> You can check if data follows expected formats</li>
+                        <li><strong>Simple to visualize:</strong> Charts, graphs, and dashboards are straightforward</li>
+                        <li><strong>Cost-effective:</strong> Traditional algorithms work well, no need for expensive deep learning</li>
+                    </ul>
+                </div>
+                
+                <div class="key-concept" style="margin-top: 40px;">
+                    <div class="concept-header">📝 Unstructured Data</div>
+                    
+                    <div class="definition-box">
+                        <strong>Unstructured Data</strong>
+                        Information that doesn't fit into neat rows and columns. It's "messy" and comes in various formats like text, images, audio, and video. Most of the world's data is unstructured!
+                    </div>
+                    
+                    <h3>Characteristics:</h3>
+                    <ul>
+                        <li><strong>No predefined format or organization</strong></li>
+                        <li><strong>Harder to search and analyze</strong> (requires AI techniques like NLP and computer vision)</li>
+                        <li><strong>Makes up 80-90% of all data generated</strong> by businesses</li>
+                        <li><strong>Requires special techniques to process</strong> (deep learning, neural networks)</li>
+                        <li><strong>Often contains rich insights</strong> that structured data misses</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <strong>Customer Service Emails:</strong> Your support team receives thousands of emails. Each one is different—different lengths, topics, tones, languages. AI can analyze this unstructured text to categorize issues, detect sentiment, and route emails to the right department.
+                    </div>
+                    
+                    <div class="data-sample">
+                        <strong>Example Unstructured Data:</strong><br><br>
+                        "Hi there! I ordered a blue sweater last week (order #5623) but received a red one instead. Can you help me exchange it? Also, do you have any promotions running? Thanks! - Sarah"
+                    </div>
+                    
+                    <h3>Common Types in Business:</h3>
+                    <div class="clickable-hint">
+                        👆 Click to explore how AI processes each type of unstructured data!
+                    </div>
+                    <div class="data-type-grid">
+                        <div class="data-type-card clickable" onclick="openPanel('panel-text-data')">
+                            <h4>💬 Text</h4>
+                            <p>Emails, social media posts, customer reviews, chat logs, documents</p>
+                        </div>
+                        <div class="data-type-card clickable" onclick="openPanel('panel-video-data')">
+                            <h4>🎥 Video</h4>
+                            <p>Security footage, product demos, webinar recordings</p>
+                        </div>
+                        <div class="data-type-card clickable" onclick="openPanel('panel-audio-data')">
+                            <h4>🎵 Audio</h4>
+                            <p>Customer service calls, voice memos, podcasts</p>
+                        </div>
+                        <div class="data-type-card clickable" onclick="openPanel('panel-image-data')">
+                            <h4>📸 Images</h4>
+                            <p>Product photos, receipts, social media content, medical scans</p>
+                        </div>
+                    </div>
+                    
+                    <h3>Why Unstructured Data Matters</h3>
+                    <p>While harder to work with, unstructured data often contains the most valuable insights:</p>
+                    <ul>
+                        <li><strong>Customer sentiment:</strong> Reviews and social media reveal how people really feel</li>
+                        <li><strong>Detailed context:</strong> Support tickets explain problems in customer's own words</li>
+                        <li><strong>Visual information:</strong> Images show what descriptions can't capture</li>
+                        <li><strong>Behavioral patterns:</strong> Video reveals how customers actually use products</li>
+                    </ul>
+                </div>
+                
+                <h3>Why the Distinction Matters for AI</h3>
+                <div class="key-takeaways">
+                    <h4>🎯 Technical Classification Impact</h4>
+                    <ul>
+                        <li><strong>Processing Methods:</strong> Structured data uses traditional algorithms (decision trees, regression); unstructured needs deep learning and neural networks</li>
+                        <li><strong>Storage Requirements:</strong> Structured fits in traditional databases (PostgreSQL, MySQL); unstructured needs specialized storage (Amazon S3, data lakes)</li>
+                        <li><strong>Analysis Speed:</strong> Structured is faster to query and analyze; unstructured requires more computing power</li>
+                        <li><strong>Business Value:</strong> Both are valuable! Structured for quick insights and reporting, unstructured for deeper understanding of customers and operations</li>
+                        <li><strong>Tool Selection:</strong> Different AI tools work better with different data types—this becomes crucial in Module 5 when you use no-code AI tools!</li>
+                        <li><strong>Cost Implications:</strong> Processing unstructured data typically costs more due to compute requirements</li>
+                    </ul>
+                </div>
+                
+                <div class="example-box">
+                    <strong>Real Business Scenario:</strong> A retail company wants to improve customer satisfaction. They use BOTH types: <strong>Structured data</strong> (purchase history, demographics, return rates) tells them WHAT customers buy and when. <strong>Unstructured data</strong> (product reviews, support tickets, social media comments) tells them WHY customers are happy or frustrated. Together, they get the complete picture and can make better decisions!
+                </div>
+            </div>
+            
+            <!-- Section 3: Data Quality -->
+            <div class="section" id="section3">
+                <h2>What Makes Data "Good" or "Bad"?</h2>
+                <p>Having lots of data isn't enough—you need <strong>quality</strong> data. Let's explore what separates high-quality data from problematic data.</p>
+                
+                <h3>The 6 Dimensions of Data Quality</h3>
+                <p>Data quality professionals evaluate datasets across six key dimensions. Understanding these helps you spot problems before they sabotage your AI project.</p>
+                
+                <div class="quality-dimension">
+                    <h4>✅ 1. Accuracy</h4>
+                    <p><strong>Question:</strong> Does the data correctly reflect reality?</p>
+                    <p>Accuracy means your data matches the real world. If customer ages, product prices, or transaction amounts are wrong, your AI will learn incorrect patterns.</p>
+                    
+                    <div class="dimension-examples">
+                        <div class="good-example">Customer age is 34 years (matches driver's license)</div>
+                        <div class="bad-example">Customer age is 340 years (obvious typo)</div>
+                        <div class="good-example">Product price: $25.99 (matches website)</div>
+                        <div class="bad-example">Product price: $25990 (missing decimal point)</div>
+                    </div>
+                    
+                    <p style="margin-top: 15px;"><strong>How to improve accuracy:</strong></p>
+                    <ul>
+                        <li>Validate data at entry point (age between 18-120, prices must be positive)</li>
+                        <li>Cross-reference with trusted sources</li>
+                        <li>Regular audits comparing data to reality</li>
+                        <li>User confirmation for critical fields</li>
+                    </ul>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>✅ 2. Completeness</h4>
+                    <p><strong>Question:</strong> Is all necessary information present?</p>
+                    <p>Complete data means you have all the fields needed for your AI to work. Missing critical information forces AI to either ignore those records or make guesses.</p>
+                    
+                    <div class="dimension-examples">
+                        <div class="good-example">Customer record has name, email, phone, address, purchase history</div>
+                        <div class="bad-example">Customer record missing email and phone (can't contact them!)</div>
+                        <div class="good-example">Transaction includes: date, amount, merchant, category, payment method</div>
+                        <div class="bad-example">Transaction missing merchant name (can't categorize spending)</div>
+                    </div>
+                    
+                    <p style="margin-top: 15px;"><strong>How to improve completeness:</strong></p>
+                    <ul>
+                        <li>Make critical fields required in data entry forms</li>
+                        <li>Set up alerts when key information is missing</li>
+                        <li>Offer incentives for users to complete profiles</li>
+                        <li>Use progressive disclosure (collect data over time, not all at once)</li>
+                    </ul>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>✅ 3. Consistency</h4>
+                    <p><strong>Question:</strong> Is the data uniform across all sources and records?</p>
+                    <p>Consistent data uses the same formats, units, and conventions throughout. Inconsistency confuses AI—it might think "NY" and "New York" are different places!</p>
+                    
+                    <div class="dimension-examples">
+                        <div class="good-example">All dates formatted as YYYY-MM-DD (2024-01-15)</div>
+                        <div class="bad-example">Mixed formats: 01/15/2024, 15-Jan-24, January 15th</div>
+                        <div class="good-example">All product names in Title Case (Wireless Mouse)</div>
+                        <div class="bad-example">Mixed: "wireless mouse", "WIRELESS MOUSE", "Wireless Mouse"</div>
+                    </div>
+                    
+                    <p style="margin-top: 15px;"><strong>How to improve consistency:</strong></p>
+                    <ul>
+                        <li>Establish data standards company-wide</li>
+                        <li>Use dropdown menus instead of free text where possible</li>
+                        <li>Implement automatic formatting (capitalize names, format phone numbers)</li>
+                        <li>Create data dictionaries defining how each field should look</li>
+                    </ul>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>✅ 4. Timeliness</h4>
+                    <p><strong>Question:</strong> Is the data current and up-to-date?</p>
+                    <p>Timely data reflects the present or recent past. Using outdated data to train AI is like studying from a 10-year-old textbook—the world has changed!</p>
+                    
+                    <div class="dimension-examples">
+                        <div class="good-example">Customer preferences updated last month (recent)</div>
+                        <div class="bad-example">Customer preferences from 2018 (likely changed since then)</div>
+                        <div class="good-example">Inventory levels updated in real-time</div>
+                        <div class="bad-example">Inventory data from last quarter (out of stock items showing available)</div>
+                    </div>
+                    
+                    <p style="margin-top: 15px;"><strong>How to improve timeliness:</strong></p>
+                    <ul>
+                        <li>Set up automatic data refresh schedules</li>
+                        <li>Timestamp all data so you know when it was collected</li>
+                        <li>Archive old data but don't mix it with current data</li>
+                        <li>Real-time integration where possible (APIs, webhooks)</li>
+                    </ul>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>✅ 5. Validity</h4>
+                    <p><strong>Question:</strong> Does the data follow the correct format and business rules?</p>
+                    <p>Valid data conforms to expected patterns and rules. Email addresses should have @, phone numbers should have correct digit counts, dates shouldn't be in the future (usually).</p>
+                    
+                    <div class="dimension-examples">
+                        <div class="good-example">Email: john@company.com (valid format with @)</div>
+                        <div class="bad-example">Email: "notanemail" (missing @ and domain)</div>
+                        <div class="good-example">Phone: (555) 123-4567 (correct format, right number of digits)</div>
+                        <div class="bad-example">Phone: 12345 (too few digits, wrong format)</div>
+                    </div>
+                    
+                    <p style="margin-top: 15px;"><strong>How to improve validity:</strong></p>
+                    <ul>
+                        <li>Use format validation at data entry (email validation, phone masks)</li>
+                        <li>Define business rules (order amount must be positive)</li>
+                        <li>Regular expression patterns to check formats</li>
+                        <li>Automated validation checks that flag rule violations</li>
+                    </ul>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>✅ 6. Uniqueness</h4>
+                    <p><strong>Question:</strong> Are there unnecessary duplicate records?</p>
+                    <p>Unique data means each record appears only once (unless duplicates are intentional). Duplicate records skew AI training—one customer appearing 5 times looks like 5 different customers!</p>
+                    
+                    <div class="dimension-examples">
+                        <div class="good-example">Each customer ID appears once in database</div>
+                        <div class="bad-example">Same customer listed 5 times with slight variations in name</div>
+                        <div class="good-example">Product SKU uniquely identifies each item</div>
+                        <div class="bad-example">Same product entered multiple times with different SKUs</div>
+                    </div>
+                    
+                    <p style="margin-top: 15px;"><strong>How to improve uniqueness:</strong></p>
+                    <ul>
+                        <li>Use unique identifiers (IDs, SKUs, serial numbers)</li>
+                        <li>Implement duplicate detection before adding records</li>
+                        <li>Merge duplicate records when found</li>
+                        <li>Master data management systems that prevent duplication</li>
+                    </ul>
+                </div>
+                
+                <h3>Visual Example: Good vs. Bad Training Data</h3>
+                <div class="visual-comparison">
+                    <h3 style="text-align: center; color: #f5576c; margin-bottom: 30px;">Scenario: Training AI to Predict Customer Churn</h3>
+                    
+                    <div class="comparison-row">
+                        <div class="good-data">
+                            <h4>✅ High-Quality Dataset</h4>
+                            <div class="data-sample">
+                                <strong>Sample Records:</strong><br><br>
+                                CustomerID: 5001<br>
+                                Age: 34<br>
+                                Account_Years: 3<br>
+                                Monthly_Spend: $127.50<br>
+                                Support_Tickets: 2<br>
+                                Last_Login: 2024-02-01<br>
+                                Churned: No<br><br>
+                                
+                                CustomerID: 5002<br>
+                                Age: 28<br>
+                                Account_Years: 1<br>
+                                Monthly_Spend: $45.00<br>
+                                Support_Tickets: 8<br>
+                                Last_Login: 2023-12-15<br>
+                                Churned: Yes
+                            </div>
+                            <p><strong>Why it's good:</strong></p>
+                            <ul>
+                                <li>✓ Complete information (all fields filled)</li>
+                                <li>✓ Consistent formats (dates, currency)</li>
+                                <li>✓ Realistic values (age, spending)</li>
+                                <li>✓ Clear labels (Yes/No for churn)</li>
+                                <li>✓ Recent, relevant data (2023-2024)</li>
+                                <li>✓ Unique customer IDs</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bad-data">
+                            <h4>❌ Poor-Quality Dataset</h4>
+                            <div class="data-sample">
+                                <strong>Sample Records:</strong><br><br>
+                                CustomerID: 5001<br>
+                                Age: <span style="color: red;">unknown</span><br>
+                                Account_Years: 3<br>
+                                Monthly_Spend: <span style="color: red;">-$50</span><br>
+                                Support_Tickets: <span style="color: red;">(missing)</span><br>
+                                Last_Login: <span style="color: red;">01/15</span><br>
+                                Churned: <span style="color: red;">Maybe</span><br><br>
+                                
+                                CustomerID: 5001<br>
+                                Age: 28<br>
+                                Account_Years: <span style="color: red;">100</span><br>
+                                Monthly_Spend: $45.00<br>
+                                Support_Tickets: 8<br>
+                                Last_Login: <span style="color: red;">15-12-2020</span><br>
+                                Churned: <span style="color: red;">1</span>
+                            </div>
+                            <p><strong>Problems:</strong></p>
+                            <ul>
+                                <li>✗ Missing values (age, support tickets)</li>
+                                <li>✗ Impossible numbers (negative spend, 100 year account)</li>
+                                <li>✗ Inconsistent formats (dates, churn labels)</li>
+                                <li>✗ Duplicate IDs (5001 appears twice)</li>
+                                <li>✗ Outdated information (2020 data)</li>
+                                <li>✗ Invalid data (negative amounts, "Maybe")</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="warning-box">
+                    If you train AI on bad data, it will learn the wrong patterns! For example, if your dataset has mostly errors for "Churned = Yes" customers, the AI might learn that "data errors = customer will leave" instead of learning the real factors that cause churn like high support tickets or declining engagement.
+                </div>
+                
+                <h3>Real Business Impact</h3>
+                <div class="example-box">
+                    <strong>Marketing Campaign Gone Wrong:</strong> A company used an old customer database (2 years outdated) to target a promotional email. Result: 30% bounced emails (customers changed addresses), wasted $50,000 budget, and frustrated customers who had already unsubscribed receiving unwanted messages. Quality, timely data would have prevented this!
+                </div>
+                
+                <div class="example-box">
+                    <strong>Success Story:</strong> A retail chain invested 3 months cleaning their product data—fixing typos in product names, standardizing categories, removing 15,000 duplicate entries, and updating prices. Before training their recommendation AI, this cleanup resulted in 25% increase in recommendation accuracy and $2M additional revenue in 6 months!
+                </div>
+                
+                <div class="key-takeaways">
+                    <h4>🔑 The Bottom Line on Data Quality</h4>
+                    <ul>
+                        <li>Quality matters more than quantity—1,000 high-quality records beat 10,000 messy ones</li>
+                        <li>Poor data quality is expensive—it costs U.S. businesses $3.1 trillion annually</li>
+                        <li>Prevention is easier than cure—implement quality checks at data collection</li>
+                        <li>Regular audits are essential—data quality degrades over time without maintenance</li>
+                        <li>All six dimensions matter—focusing on just one or two isn't enough</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Section 4: Data Cleaning & Preparation -->
+            <div class="section" id="section4">
+                <h2>Data Cleaning & Preparation Process</h2>
+                <p>Raw data is rarely ready for AI. It needs to be cleaned, transformed, and prepared. Let's walk through the process that data scientists use!</p>
+                
+                <div class="definition-box">
+                    <strong>Data Cleaning (Data Preprocessing)</strong>
+                    The process of detecting and correcting (or removing) corrupt, inaccurate, or irrelevant data from datasets. This typically takes 50-80% of a data scientist's time—it's the most time-consuming but also most critical step!
+                </div>
+                
+                <h3>The 8-Step Data Cleaning Pipeline</h3>
+                <p>Here's the systematic process professionals follow to prepare data for AI:</p>
+                
+                <div class="quality-dimension">
+                    <h4>Step 1: Data Collection</h4>
+                    <p>Gather data from various sources—databases, CSV files, APIs, web scraping, sensors, surveys, etc.</p>
+                    
+                    <p><strong>What to consider:</strong></p>
+                    <ul>
+                        <li>Where is the data coming from? (databases, files, APIs)</li>
+                        <li>What format is it in? (JSON, CSV, Excel, SQL)</li>
+                        <li>How frequently is it updated?</li>
+                        <li>What's the data volume? (thousands, millions, billions of records)</li>
+                    </ul>
+                    
+                    <p><strong>Common challenges:</strong> Different sources use different formats, missing documentation, outdated APIs, access restrictions.</p>
+                    
+                    <div class="example-box">
+                        <strong>E-commerce Example:</strong> Collecting customer data from website database, order data from payment processor API, product reviews from review platform, and customer service tickets from helpdesk software—four different sources, four different formats!
+                    </div>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>Step 2: Initial Inspection</h4>
+                    <p>Examine the data to understand what you're working with. This is like opening a new box of puzzle pieces—you need to see what's there before you can put it together!</p>
+                    
+                    <p><strong>What to look for:</strong></p>
+                    <ul>
+                        <li>How many records? How many fields?</li>
+                        <li>What data types are present? (numbers, text, dates, etc.)</li>
+                        <li>Are there obvious errors or anomalies?</li>
+                        <li>What percentage of data is missing?</li>
+                        <li>What's the date range of the data?</li>
+                    </ul>
+                    
+                    <p><strong>Tools used:</strong> Summary statistics (mean, median, min, max), data profiling reports, sample data reviews.</p>
+                    
+                    <div class="tip-box">
+                        Always look at sample records manually before automating anything. Automated tools might miss context that humans spot immediately.
+                    </div>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>Step 3: Handle Missing Values</h4>
+                    <p>Decide what to do with records that have blank or missing fields. This is one of the most common and important decisions in data cleaning.</p>
+                    
+                    <p><strong>Four main strategies:</strong></p>
+                    
+                    <ol>
+                        <li><strong>Delete the entire record</strong> (if many fields are missing or if you have plenty of other data)</li>
+                        <li><strong>Delete just that field</strong> (remove the column if it's mostly empty)</li>
+                        <li><strong>Fill with a calculated value</strong> (use average, median, or mode)</li>
+                        <li><strong>Predict the missing value</strong> (use other fields to guess what it should be)</li>
+                    </ol>
+                    
+                    <div class="example-box">
+                        <strong>Customer Age Missing:</strong> If you're predicting buying behavior and have 10,000 customers but 200 are missing ages, you could fill those 200 with the average age of customers in the same zip code with similar purchase patterns.
+                    </div>
+                    
+                    <div class="warning-box">
+                        Never randomly guess values! Filling missing data with random numbers destroys real patterns and teaches AI incorrect relationships.
+                    </div>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>Step 4: Remove Duplicates</h4>
+                    <p>Find and eliminate repeated records. Duplicates inflate the importance of certain patterns and give AI a false view of your data.</p>
+                    
+                    <p><strong>Types of duplicates:</strong></p>
+                    <ul>
+                        <li><strong>Exact duplicates:</strong> Every field matches (easiest to find)</li>
+                        <li><strong>Near duplicates:</strong> Most fields match but slight differences (harder to detect)</li>
+                        <li><strong>Logical duplicates:</strong> Different records referring to same entity ("Bob Smith" vs "Robert Smith")</li>
+                    </ul>
+                    
+                    <p><strong>How to detect:</strong></p>
+                    <ul>
+                        <li>Compare unique identifiers (ID numbers, email addresses)</li>
+                        <li>Use fuzzy matching for names (accounts for typos)</li>
+                        <li>Check combinations of fields (same name + address + phone = probably duplicate)</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <strong>CRM Database:</strong> You discover the same customer appears 3 times: once as "John M. Smith", once as "J. Smith", and once as "John Smith". All have the same email. These should be merged into one record!
+                    </div>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>Step 5: Fix Inconsistencies</h4>
+                    <p>Standardize formats, fix capitalization, unify units of measurement, and create consistent naming conventions.</p>
+                    
+                    <p><strong>Common inconsistency types:</strong></p>
+                    
+                    <table>
+                        <tr>
+                            <th>Type</th>
+                            <th>Problem</th>
+                            <th>Solution</th>
+                        </tr>
+                        <tr>
+                            <td>Capitalization</td>
+                            <td>"iPhone 15", "iphone 15", "IPHONE 15"</td>
+                            <td>Standardize to "iPhone 15"</td>
+                        </tr>
+                        <tr>
+                            <td>Date formats</td>
+                            <td>01/15/2024, 15-Jan-24, 2024-01-15</td>
+                            <td>Convert all to YYYY-MM-DD</td>
+                        </tr>
+                        <tr>
+                            <td>Units</td>
+                            <td>Weight in kg, lbs, and grams</td>
+                            <td>Convert all to kilograms</td>
+                        </tr>
+                        <tr>
+                            <td>Categories</td>
+                            <td>"Tech Support", "Technical", "Tech Issue"</td>
+                            <td>Merge to "Technical Support"</td>
+                        </tr>
+                    </table>
+                    
+                    <div class="tip-box">
+                        Create a data dictionary that defines exactly how each field should be formatted. Share it with everyone who enters data!
+                    </div>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>Step 6: Handle Outliers</h4>
+                    <p>Identify extreme values and decide if they're errors or legitimate unusual cases. This requires both statistical analysis and business judgment!</p>
+                    
+                    <p><strong>Types of outliers:</strong></p>
+                    <ul>
+                        <li><strong>Errors:</strong> Customer age = 150 years (impossible) → Delete or correct</li>
+                        <li><strong>Legitimate extremes:</strong> One customer spent $10,000 while average is $100 → Keep it! (might be a VIP)</li>
+                        <li><strong>Data entry mistakes:</strong> Product price = $25990 instead of $25.99 → Correct it</li>
+                    </ul>
+                    
+                    <p><strong>Detection methods:</strong></p>
+                    <ul>
+                        <li>Statistical rules (values beyond 3 standard deviations from mean)</li>
+                        <li>Visualization (box plots, scatter plots reveal outliers)</li>
+                        <li>Domain knowledge (business experts know what's realistic)</li>
+                    </ul>
+                    
+                    <div class="warning-box">
+                        Never automatically delete all outliers! Sometimes they're the most important data points. A fraud detection system NEEDS to see unusual transactions—those are exactly what it's looking for! Always investigate before removing.
+                    </div>
+                    
+                    <div class="example-box">
+                        <strong>Fraud Detection:</strong> Most transactions are $5-$500. A $15,000 transaction is an outlier—but it could be legitimate (buying a car) or fraud. Don't delete it! It's valuable training data for the AI to learn what fraud looks like.
+                    </div>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>Step 7: Validate & Test</h4>
+                    <p>Check that your cleaned data meets quality standards and makes logical sense. This is your quality assurance checkpoint!</p>
+                    
+                    <p><strong>Validation checks:</strong></p>
+                    <ul>
+                        <li><strong>Range checks:</strong> Are ages between 0-120? Are percentages between 0-100?</li>
+                        <li><strong>Logic checks:</strong> Is end date after start date? Is shipping cost less than product price?</li>
+                        <li><strong>Format checks:</strong> Do emails have @? Do phone numbers have correct digit count?</li>
+                        <li><strong>Completeness checks:</strong> Are required fields filled? No unexpected nulls?</li>
+                        <li><strong>Consistency checks:</strong> Do totals add up? Do related fields match?</li>
+                    </ul>
+                    
+                    <p><strong>Testing methods:</strong></p>
+                    <ul>
+                        <li>Statistical summaries (check min, max, mean make sense)</li>
+                        <li>Visual inspection of sample records</li>
+                        <li>Compare before/after counts (did you accidentally delete too much?)</li>
+                        <li>Business user review (does it look right to domain experts?)</li>
+                    </ul>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>Step 8: Transform & Prepare</h4>
+                    <p>Format the data in the specific way your AI model needs. Different AI techniques require different data formats.</p>
+                    
+                    <p><strong>Common transformations:</strong></p>
+                    <ul>
+                        <li><strong>Normalization:</strong> Scale numbers to 0-1 range (helps AI train faster)</li>
+                        <li><strong>Encoding categories:</strong> Convert "Red", "Blue", "Green" to numbers (1, 2, 3)</li>
+                        <li><strong>Feature engineering:</strong> Create new useful fields (age → age_group, date → day_of_week)</li>
+                        <li><strong>Splitting data:</strong> Separate into training set (80%) and test set (20%)</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <strong>E-commerce Recommendation AI:</strong> Transform customer purchase dates into features like "days_since_last_purchase", "total_lifetime_purchases", "average_order_value". These derived features help AI make better predictions than raw dates alone!
+                    </div>
+                </div>
+                
+                <h3>Time Investment Reality Check</h3>
+                <div class="stat-highlight" style="background: #f5576c;">
+                    ⏰ Data scientists spend 50-80% of their time on data cleaning. For every week spent building AI models, expect 2-3 weeks cleaning data!
+                </div>
+                
+                <div class="key-takeaways">
+                    <h4>🔑 Why This Matters for Module 5</h4>
+                    <ul>
+                        <li>When you use no-code tools like Teachable Machine, YOU become the data cleaner</li>
+                        <li>The quality of images/data you upload directly impacts model accuracy</li>
+                        <li>Even simple AI projects need clean, consistent training data</li>
+                        <li>Understanding this process helps you spot why AI sometimes fails (usually the data!)</li>
+                        <li>Good data preparation is the difference between 60% accuracy and 95% accuracy</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Section 5: Bias in Data -->
+            <div class="section" id="section5">
+                <h2>Understanding & Managing Bias in Data</h2>
+                <p>Even clean, complete data can have a serious problem: <strong>bias</strong>. This is one of the most important issues in modern AI! Bias in data leads to unfair, inaccurate, and sometimes harmful AI systems.</p>
+                
+                <div class="definition-box">
+                    <strong>Data Bias</strong>
+                    When a dataset systematically misrepresents certain groups, scenarios, or outcomes, leading AI to make unfair or inaccurate predictions. The AI learns the bias from the data and perpetuates it—often amplifying it.
+                </div>
+                
+                <h3>Why Bias Matters</h3>
+                <p>Biased AI has real-world consequences:</p>
+                <ul>
+                    <li><strong>Hiring AI:</strong> Discriminates against qualified candidates based on gender or race</li>
+                    <li><strong>Loan AI:</strong> Unfairly denies mortgages to certain neighborhoods</li>
+                    <li><strong>Healthcare AI:</strong> Provides worse care recommendations for some demographic groups</li>
+                    <li><strong>Criminal Justice AI:</strong> Incorrectly predicts higher recidivism rates for certain races</li>
+                </ul>
+                
+                <h3>Types of Bias in Data</h3>
+                <div class="clickable-hint">
+                    👆 Click each bias type to explore detection methods and mitigation strategies!
+                </div>
+                
+                <div class="data-type-grid">
+                    <div class="data-type-card clickable" onclick="openPanel('panel-selection-bias')">
+                        <h4>1. Selection Bias</h4>
+                        <p>Your data doesn't represent the full population you're trying to serve</p>
+                    </div>
+                    
+                    <div class="data-type-card clickable" onclick="openPanel('panel-measurement-bias')">
+                        <h4>2. Measurement Bias</h4>
+                        <p>The way data is collected or measured favors certain outcomes</p>
+                    </div>
+                    
+                    <div class="data-type-card clickable" onclick="openPanel('panel-historical-bias')">
+                        <h4>3. Historical Bias</h4>
+                        <p>Past discrimination or inequality is baked into the data</p>
+                    </div>
+                    
+                    <div class="data-type-card clickable" onclick="openPanel('panel-confirmation-bias')">
+                        <h4>4. Confirmation Bias</h4>
+                        <p>Labeling or collecting data in ways that confirm existing beliefs</p>
+                    </div>
+                </div>
+                
+                <h3>How to Detect & Reduce Bias</h3>
+                <p>You can't eliminate all bias completely, but you can work to minimize it. Here's a practical framework:</p>
+                
+                <div class="quality-dimension">
+                    <h4>✓ Step 1: Audit Your Data Sources</h4>
+                    <p><strong>Questions to ask:</strong></p>
+                    <ul>
+                        <li>Where does this data come from?</li>
+                        <li>Who is included in the dataset? Who is missing?</li>
+                        <li>What demographic groups are represented?</li>
+                        <li>Is any group over-represented or under-represented?</li>
+                        <li>What biases might the original data collectors have had?</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <strong>Medical AI Example:</strong> Training data comes primarily from one hospital in a wealthy neighborhood. Result: AI works well for that demographic but performs poorly for patients from different backgrounds, income levels, or regions.
+                    </div>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>✓ Step 2: Check Representation</h4>
+                    <p>Ensure all relevant groups are represented fairly. "Fairly" usually means proportionally to the real-world population you'll serve.</p>
+                    
+                    <p><strong>What to measure:</strong></p>
+                    <ul>
+                        <li>Gender distribution in dataset vs. real population</li>
+                        <li>Age distribution (are young and old people both included?)</li>
+                        <li>Geographic representation (urban, suburban, rural)</li>
+                        <li>Socioeconomic diversity</li>
+                        <li>Representation of edge cases and rare scenarios</li>
+                    </ul>
+                    
+                    <div class="tip-box">
+                        Create a "demographic dashboard" showing who's in your dataset. Update it monthly. Make representation metrics as important as accuracy metrics!
+                    </div>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>✓ Step 3: Test for Disparate Impact</h4>
+                    <p>After training AI, test whether it performs differently for different groups. This is called "fairness testing."</p>
+                    
+                    <p><strong>Questions to test:</strong></p>
+                    <ul>
+                        <li>Does the AI have the same accuracy across all demographic groups?</li>
+                        <li>Does it make more false positives for some groups than others?</li>
+                        <li>Are approval rates (loans, job offers) similar for equally qualified people?</li>
+                        <li>Do error rates differ significantly across groups?</li>
+                    </ul>
+                    
+                    <div class="example-box">
+                        <strong>Resume Screening AI:</strong> Test if it accepts male and female candidates at similar rates when qualifications are identical. If it accepts 40% of male resumes but only 20% of equally qualified female resumes, you've found bias!
+                    </div>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>✓ Step 4: Collect More Diverse Data</h4>
+                    <p>Actively seek data from underrepresented groups. Don't wait for it to come to you organically—that perpetuates existing bias!</p>
+                    
+                    <p><strong>Strategies:</strong></p>
+                    <ul>
+                        <li>Partner with organizations serving underrepresented communities</li>
+                        <li>Conduct targeted data collection campaigns</li>
+                        <li>Offer incentives for participation from missing groups</li>
+                        <li>Use synthetic data generation to balance representation (advanced technique)</li>
+                    </ul>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>✓ Step 5: Use Bias Detection Tools</h4>
+                    <p>Software tools can help identify statistical bias in datasets:</p>
+                    <ul>
+                        <li><strong>AI Fairness 360 (IBM):</strong> Open-source toolkit for detecting bias</li>
+                        <li><strong>Fairlearn (Microsoft):</strong> Python library for fairness assessment</li>
+                        <li><strong>What-If Tool (Google):</strong> Visualize model performance across groups</li>
+                        <li><strong>Aequitas:</strong> Bias audit toolkit for machine learning</li>
+                    </ul>
+                </div>
+                
+                <div class="quality-dimension">
+                    <h4>✓ Step 6: Diverse Teams</h4>
+                    <p>Teams from varied backgrounds spot bias that homogeneous teams miss. Diversity isn't just good ethics—it's good engineering!</p>
+                    
+                    <ul>
+                        <li>Include people from different demographics in data review</li>
+                        <li>Involve domain experts who understand the communities being served</li>
+                        <li>Get external audits from people outside your organization</li>
+                        <li>Listen when someone raises concerns about bias</li>
+                    </ul>
+                </div>
+                
+                <h3>Documentation & Transparency</h3>
+                <p>Always document:</p>
+                <ul>
+                    <li>Known limitations and biases in your data</li>
+                    <li>Which groups are underrepresented</li>
+                    <li>Steps taken to address bias</li>
+                    <li>Ongoing monitoring plans</li>
+                </ul>
+                
+                <div class="warning-box">
+                    Be honest about limitations! It's better to say "Our AI works well for ages 25-65 but has limited data on seniors" than to deploy it everywhere and cause harm.
+                </div>
+                
+                <div class="key-takeaways">
+                    <h4>🔑 Critical Takeaways on Bias</h4>
+                    <ul>
+                        <li><strong>AI doesn't create bias—it learns it from data:</strong> Biased data = biased AI</li>
+                        <li><strong>Bias causes real harm:</strong> Unfair hiring, discriminatory lending, unequal healthcare, unjust criminal justice outcomes</li>
+                        <li><strong>Technical solutions exist but aren't enough:</strong> Tools help detect bias, but human judgment and ethics are essential</li>
+                        <li><strong>Ongoing monitoring required:</strong> Bias can creep in over time as populations and contexts change</li>
+                        <li><strong>Your responsibility:</strong> As AI practitioners, recognizing and addressing bias is part of your job</li>
+                        <li><strong>We'll go deeper in Module 9:</strong> Ethics and Bias module explores societal implications and governance</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Section 6: Interactive Data Quality Checker -->
+            <div class="section" id="section6">
+                <h2>Interactive: Data Quality Checker</h2>
+                <p>Let's practice! Below are three datasets for training an AI to predict which products will be popular. Examine each and identify quality issues.</p>
+                
+                <div class="interactive-checker">
+                    <h3 style="margin-bottom: 20px;">Scenario: E-commerce Product Recommendation AI</h3>
+                    <p>You need to train AI to recommend products. Which dataset should you use?</p>
+                    
+                    <div class="checker-input">
+                        <div class="dataset-option" onclick="checkDataset(1)">
+                            <strong>Dataset A</strong>
+                            <div class="data-sample" style="margin-top: 10px;">
+                                ProductID | Name | Category | Price | Rating | Stock<br>
+                                P001 | Wireless Mouse | Electronics | $25.99 | 4.5 | 150<br>
+                                P002 | USB Cable | Electronics | $8.99 | 4.2 | 200<br>
+                                P003 | Desk Lamp | Home | $34.99 | 4.7 | 75<br>
+                                P004 | Notebook | Office | $5.99 | 4.3 | 500<br>
+                                P005 | Water Bottle | Sports | $15.99 | 4.6 | 120
+                            </div>
+                        </div>
+                        
+                        <div class="dataset-option" onclick="checkDataset(2)">
+                            <strong>Dataset B</strong>
+                            <div class="data-sample" style="margin-top: 10px;">
+                                ProductID | Name | Category | Price | Rating | Stock<br>
+                                P001 | wireless mouse | Electronics | $25.99 | 4.5 | 150<br>
+                                P002 | USB Cable | <span style="color: red;">(missing)</span> | $8.99 | <span style="color: red;">unknown</span> | 200<br>
+                                P003 | DESK LAMP | home | $34.99 | 4.7 | <span style="color: red;">-10</span><br>
+                                P001 | Wireless Mouse | Electronics | $25.99 | 4.5 | 150<br>
+                                P004 | Notebook | office | <span style="color: red;">five dollars</span> | 4.3 | 500
+                            </div>
+                        </div>
+                        
+                        <div class="dataset-option" onclick="checkDataset(3)">
+                            <strong>Dataset C</strong>
+                            <div class="data-sample" style="margin-top: 10px;">
+                                ProductID | Name | Category | Price | Rating | Stock<br>
+                                P001 | Wireless Mouse | Electronics | $25.99 | 4.5 | 150<br>
+                                P002 | Wireless Mouse | Electronics | $25.99 | 4.5 | 150<br>
+                                P003 | Wireless Mouse | Electronics | $25.99 | 4.5 | 150<br>
+                                P004 | Wireless Mouse | Electronics | $25.99 | 4.5 | 150<br>
+                                P005 | Wireless Mouse | Electronics | $25.99 | 4.5 | 150
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="checker-result" id="result1">
+                        <h3>✅ Dataset A: Excellent Quality!</h3>
+                        <div class="quality-badge">Complete</div>
+                        <div class="quality-badge">Consistent</div>
+                        <div class="quality-badge">Valid</div>
+                        <div class="quality-badge">Unique</div>
+                        <div class="quality-badge">Diverse</div>
+                        <p style="margin-top: 15px;"><strong>Why it's good:</strong></p>
+                        <ul>
+                            <li>✓ All fields complete—no missing values</li>
+                            <li>✓ Consistent formatting (proper capitalization, standard price format)</li>
+                            <li>✓ Valid data (positive numbers, realistic values)</li>
+                            <li>✓ No duplicates—each product appears once</li>
+                            <li>✓ Diverse product categories for better AI learning</li>
+                            <li>✓ Accurate data that reflects real inventory</li>
+                        </ul>
+                        <p><strong>This is the dataset you want for training AI!</strong> It meets all 6 quality dimensions.</p>
+                    </div>
+                    
+                    <div class="checker-result" id="result2">
+                        <h3>❌ Dataset B: Poor Quality - Multiple Issues</h3>
+                        <div class="issue-badge">Incomplete</div>
+                        <div class="issue-badge">Inconsistent</div>
+                        <div class="issue-badge">Invalid</div>
+                        <div class="issue-badge">Duplicates</div>
+                        <p style="margin-top: 15px;"><strong>Problems identified:</strong></p>
+                        <ul>
+                            <li>✗ <strong>Completeness:</strong> Missing category for P002</li>
+                            <li>✗ <strong>Validity:</strong> Missing rating ("unknown" isn't a number)</li>
+                            <li>✗ <strong>Consistency:</strong> Inconsistent capitalization (wireless mouse, DESK LAMP, home vs Home)</li>
+                            <li>✗ <strong>Validity:</strong> Invalid stock value (-10 is impossible)</li>
+                            <li>✗ <strong>Uniqueness:</strong> Duplicate entry (P001 appears twice)</li>
+                            <li>✗ <strong>Validity:</strong> Price in wrong format ("five dollars" instead of $5.00)</li>
+                        </ul>
+                        <p><strong>This data needs significant cleaning before AI can use it!</strong> You'd need to complete steps 3-6 of the data cleaning pipeline.</p>
+                    </div>
+                    
+                    <div class="checker-result" id="result3">
+                        <h3>⚠️ Dataset C: Clean But Biased!</h3>
+                        <div class="issue-badge">No Diversity</div>
+                        <div class="issue-badge">Selection Bias</div>
+                        <div class="issue-badge">Not Representative</div>
+                        <p style="margin-top: 15px;"><strong>The hidden problem:</strong></p>
+                        <ul>
+                            <li>✗ Only ONE product type (wireless mouse)</li>
+                            <li>✗ AI would only learn about electronics</li>
+                            <li>✗ Can't make good recommendations for other categories</li>
+                            <li>✗ Severe selection bias—not representative of real inventory</li>
+                            <li>✗ Would fail completely when asked to recommend home goods, office supplies, or sports equipment</li>
+                        </ul>
+                        <p><strong>Important Lesson:</strong> Quality isn't just about clean data—you need DIVERSE, REPRESENTATIVE data! This dataset is technically "clean" (meets accuracy, completeness, consistency, validity, uniqueness) but practically useless for training a general recommendation system. This is an example of bias making apparently good data actually bad!</p>
+                    </div>
+                </div>
+                
+                <div class="key-takeaways" style="margin-top: 30px;">
+                    <h4>🎓 What You Learned</h4>
+                    <p>Good data quality requires ALL of these:</p>
+                    <ul>
+                        <li><strong>Complete:</strong> No missing critical information</li>
+                        <li><strong>Consistent:</strong> Standardized formats throughout</li>
+                        <li><strong>Valid:</strong> Realistic, properly formatted values</li>
+                        <li><strong>Unique:</strong> No unnecessary duplicates</li>
+                        <li><strong>Diverse:</strong> Represents the full range of scenarios</li>
+                        <li><strong>Accurate:</strong> Reflects reality correctly</li>
+                    </ul>
+                    <p style="margin-top: 15px;">Missing even ONE dimension can sabotage your AI project!</p>
+                </div>
+            </div>
+            
+            <!-- Section 7: Quiz -->
+            <div class="section" id="section7">
+                <h2>Knowledge Check</h2>
+                <div class="quiz-section">
+                    <div class="quiz-question">
+                        <strong>Question 1: Which type of data fits neatly into rows and columns?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 1)">Structured Data</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 1)">Unstructured Data</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 1)">Semi-structured Data</div>
+                        </div>
+                        <div class="feedback" id="feedback1"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Question 2: Customer service emails, product reviews, and social media posts are examples of:</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 2)">Structured Data</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 2)">Unstructured Data</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 2)">Clean Data</div>
+                        </div>
+                        <div class="feedback" id="feedback2"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Question 3: What is the MOST time-consuming part of a data scientist's job?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 3)">Building AI models</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 3)">Cleaning and preparing data</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 3)">Presenting results</div>
+                        </div>
+                        <div class="feedback" id="feedback3"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Question 4: A hiring AI was trained on past employees who were 80% male. What type of bias is this?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 4)">Selection Bias</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 4)">Measurement Bias</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 4)">Confirmation Bias</div>
+                        </div>
+                        <div class="feedback" id="feedback4"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Question 5: Which is TRUE about data quality?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 5)">More data is always better, regardless of quality</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 5)">High-quality data leads to more accurate AI predictions</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 5)">Data cleaning is optional for most AI projects</div>
+                        </div>
+                        <div class="feedback" id="feedback5"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Question 6: What should you do with outliers in your data?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 6)">Always delete them immediately</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 6)">Always keep them</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 6)">Investigate whether they're errors or legitimate unusual cases</div>
+                        </div>
+                        <div class="feedback" id="feedback6"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 8: Completion -->
+            <div class="section" id="section8">
+                <div class="completion-badge">
+                    <div class="badge">📊</div>
+                    <h2>Data Mastery Achieved!</h2>
+                    <p>You now understand the foundation of AI systems!</p>
+                </div>
+                
+                <h2>What You've Learned</h2>
+                <div class="key-takeaways">
+                    <ul>
+                        <li>✅ Why data is the "fuel" that powers AI systems</li>
+                        <li>✅ Structured data (organized, database-ready) vs. Unstructured data (text, images, video)</li>
+                        <li>✅ The 6 dimensions of data quality and why each matters</li>
+                        <li>✅ The complete 8-step data cleaning process</li>
+                        <li>✅ Four types of bias and how to detect and reduce them</li>
+                        <li>✅ How to evaluate data quality for AI applications</li>
+                        <li>✅ Why data preparation takes 50-80% of project time</li>
+                    </ul>
+                </div>
+                
+                <h3>Real-World Application</h3>
+                <div class="key-concept">
+                    <p><strong>You're now prepared to:</strong></p>
+                    <ul>
+                        <li>🎯 Evaluate whether your organization's data is ready for AI</li>
+                        <li>🎯 Identify data quality issues before they cause problems</li>
+                        <li>🎯 Understand why AI projects fail (usually it's the data!)</li>
+                        <li>🎯 Communicate effectively with data teams about requirements</li>
+                        <li>🎯 Recognize bias in datasets and advocate for fairness</li>
+                        <li>🎯 Prepare your own training data for no-code AI tools</li>
+                    </ul>
+                </div>
+                
+                <h3>Looking Ahead: Module 4</h3>
+                <div class="example-box">
+                    <strong>Next Up: Machine Learning Basics</strong><br>
+                    Now that you understand data—the input to AI—you'll learn about the algorithms and models that process that data. We'll explore neural networks, decision trees, and how AI actually "learns" from the data you provide!
+                </div>
+                
+                <h3>Connection to Module 5</h3>
+                <div class="example-box">
+                    <strong>Preview: Hands-On Tools</strong><br>
+                    In Module 5, you'll use no-code tools like Teachable Machine. The quality of YOUR training data will directly impact how well your model performs. You now have the knowledge to prepare good training data—that's a huge advantage!
+                </div>
+                
+                <div style="text-align: center; margin-top: 40px;">
+                    <p style="font-size: 1.3em; color: #f5576c;"><strong>Data is power—use it wisely! 🚀</strong></p>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="nav-buttons">
+                <button id="prevBtn" onclick="changeSection(-1)">← Previous</button>
+                <button id="nextBtn" onclick="changeSection(1)">Next →</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Side Panel Overlay -->
+    <div class="panel-overlay" id="panelOverlay" onclick="closeAllPanels()"></div>
+    
+    <!-- BUSINESS USE CASE SIDE PANELS -->
+    
+    <!-- Sales Analytics Panel -->
+    <div class="side-panel" id="panel-sales-analytics">
+        <button class="panel-close" onclick="closeAllPanels()">×</button>
+        <span class="panel-icon">📈</span>
+        <h3>Sales Analytics with AI</h3>
+        
+        <div class="detail-section">
+            <h4>What Sales Analytics Involves</h4>
+            <p>Sales analytics uses historical sales data to identify patterns, forecast future performance, and optimize business strategies. With AI, this becomes automated and predictive rather than just descriptive.</p>
+        </div>
+        
+        <div class="stat-highlight">
+            📊 Companies using AI for sales analytics see 10-20% revenue increases on average
+        </div>
+        
+        <div class="detail-section">
+            <h4>Real-World Example: Target's Predictive Power</h4>
+            <p>Target famously uses AI to predict customer needs before they know them:</p>
+            <ul>
+                <li>Analyzes 200+ data points per customer</li>
+                <li>Predicts major life events (moving, having a baby, etc.)</li>
+                <li>Sends personalized coupons at exactly the right time</li>
+                <li>Increased sales of predicted items by 30%</li>
+            </ul>
+            <p>The AI identified patterns like customers buying unscented lotion, vitamins, and cotton balls often indicated pregnancy—allowing Target to send relevant offers months before the baby arrived!</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Common Applications</h4>
+            <ul>
+                <li><strong>Demand Forecasting:</strong> Predict which products will sell when and where</li>
+                <li><strong>Dynamic Pricing:</strong> Adjust prices based on demand, competition, inventory</li>
+                <li><strong>Customer Segmentation:</strong> Group customers by buying behavior for targeted marketing</li>
+                <li><strong>Churn Prediction:</strong> Identify customers likely to stop buying and intervene</li>
+                <li><strong>Product Recommendations:</strong> Suggest items customers will want next</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            Start small: focus on one high-value prediction (like "which customers will buy again this month") before building complex forecasting systems.
+        </div>
+        
+        <div class="challenge-box">
+            Sales teams sometimes distrust AI predictions, especially when they contradict "gut feeling." Build trust by showing AI accuracy over time and involving sales teams in validation.
+        </div>
+        
+        <div class="detail-section">
+            <h4>Best Practices</h4>
+            <ul>
+                <li>Update models regularly (monthly or quarterly) as market conditions change</li>
+                <li>Combine AI predictions with human expertise—AI finds patterns, humans understand context</li>
+                <li>Test predictions against actual outcomes to measure accuracy</li>
+                <li>Start with historical validation: can the model predict last year's sales correctly?</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Financial Records Panel -->
+    <div class="side-panel" id="panel-financial-records">
+        <button class="panel-close" onclick="closeAllPanels()">×</button>
+        <span class="panel-icon">💰</span>
+        <h3>AI in Financial Records</h3>
+        
+        <div class="detail-section">
+            <h4>Why Financial Data is Perfect for AI</h4>
+            <p>Financial data is highly structured, precise, and timestamped—ideal for machine learning. Every transaction has clear attributes: amount, date, merchant, category, location, etc.</p>
+        </div>
+        
+        <div class="stat-highlight">
+            💳 AI fraud detection prevents $25 billion in losses annually for financial institutions
+        </div>
+        
+        <div class="detail-section">
+            <h4>Deep Dive: JPMorgan's Fraud Detection</h4>
+            <p>JPMorgan Chase processes 5 billion transactions yearly. Their AI system:</p>
+            <ul>
+                <li>Analyzes each transaction in under 0.5 seconds</li>
+                <li>Compares to customer's typical behavior patterns</li>
+                <li>Checks against global fraud patterns in real-time</li>
+                <li>Detects 80% more fraud than rule-based systems</li>
+                <li>Reduces false positives by 50% (fewer cards wrongly declined)</li>
+            </ul>
+            <p><strong>How it works:</strong> When you buy coffee in Paris but you live in New York, the AI considers: Do you have flight bookings? Is your phone location in Paris? Have you used your card for hotel/airport charges? It makes smart decisions in milliseconds.</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Beyond Fraud: Other Applications</h4>
+            <ul>
+                <li><strong>Expense Automation:</strong> AI categorizes expenses automatically</li>
+                <li><strong>Invoice Processing:</strong> Extract data from invoices, match to purchase orders, flag discrepancies</li>
+                <li><strong>Cash Flow Forecasting:</strong> Predict when money comes in/goes out for better planning</li>
+                <li><strong>Anomaly Detection:</strong> Spot unusual spending patterns that might indicate problems</li>
+                <li><strong>Credit Risk Assessment:</strong> Evaluate loan applications more accurately</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            Financial AI models need regular retraining. Fraud patterns change every few months as criminals adapt, so models trained 6 months ago may miss new tactics.
+        </div>
+        
+        <div class="challenge-box">
+            False positives in fraud detection frustrate customers—imagine your card being declined at dinner! Balance security with customer experience by tuning thresholds carefully.
+        </div>
+        
+        <div class="detail-section">
+            <h4>Getting Started</h4>
+            <p>Small businesses can start with:</p>
+            <ul>
+                <li>Automated expense categorization tools (many are free or low-cost)</li>
+                <li>Cash flow forecasting apps with AI features</li>
+                <li>Invoice processing automation</li>
+                <li>Fraud alerts from your payment processor</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- CRM Systems Panel -->
+    <div class="side-panel" id="panel-crm-systems">
+        <button class="panel-close" onclick="closeAllPanels()">×</button>
+        <span class="panel-icon">👥</span>
+        <h3>AI-Powered CRM Systems</h3>
+        
+        <div class="detail-section">
+            <h4>What Makes CRM Data Valuable</h4>
+            <p>Customer Relationship Management systems track every interaction: emails, calls, meetings, purchases, support tickets, website visits. This creates a rich history that AI can analyze to predict future behavior.</p>
+        </div>
+        
+        <div class="stat-highlight">
+            🎯 Sales teams using AI-powered CRM close 30% more deals and save 15 hours/week on admin tasks
+        </div>
+        
+        <div class="detail-section">
+            <h4>Case Study: Salesforce Einstein</h4>
+            <p>Salesforce Einstein is embedded AI in the world's leading CRM. It helps sales teams by:</p>
+            <ul>
+                <li><strong>Lead Scoring:</strong> Ranks prospects by likelihood to buy (saves 40% of qualification time)</li>
+                <li><strong>Next Best Action:</strong> Suggests what to do next with each customer</li>
+                <li><strong>Opportunity Insights:</strong> Predicts which deals will close and which need attention</li>
+                <li><strong>Email Insights:</strong> Analyzes email tone and suggests best times to send</li>
+                <li><strong>Auto-capture:</strong> Logs activities automatically from email/calendar</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Real Example: How a Rep Uses AI</h4>
+            <p><strong>Monday morning:</strong> Sarah, a sales rep, opens her CRM. Einstein shows her:</p>
+            <ol>
+                <li>Top 5 leads to call today (AI ranked them by engagement signals)</li>
+                <li>Alert: Deal with Acme Corp is at risk (fewer emails, postponed meeting)</li>
+                <li>Suggestion: Send case study to TechCorp prospect (similar companies found this helpful)</li>
+                <li>Reminder: Follow up with 3 leads who opened her email yesterday</li>
+            </ol>
+            <p>Sarah focuses on high-value activities instead of guessing where to spend time!</p>
+        </div>
+        
+        <div class="tip-box">
+            AI CRM works best when sales teams actually use it! Poor data entry means poor predictions. Make data entry easy (mobile apps, voice input) to ensure quality.
+        </div>
+        
+        <div class="challenge-box">
+            Sales reps sometimes game the system—entering fake data to make numbers look good. This poisons AI models. Build culture of data honesty through training and accountability.
+        </div>
+        
+        <div class="detail-section">
+            <h4>ROI Metrics to Track</h4>
+            <ul>
+                <li>Lead conversion rate improvement</li>
+                <li>Time saved on administrative tasks</li>
+                <li>Deal size increases from better targeting</li>
+                <li>Customer retention improvements</li>
+                <li>Sales cycle length reduction</li>
+            </ul>
+            <p>Most companies see ROI within 6-9 months of implementing AI-powered CRM.</p>
+        </div>
+    </div>
+    
+    <!-- Inventory Management Panel -->
+    <div class="side-panel" id="panel-inventory">
+        <button class="panel-close" onclick="closeAllPanels()">×</button>
+        <span class="panel-icon">📦</span>
+        <h3>AI in Inventory Management</h3>
+        
+        <div class="detail-section">
+            <h4>The Inventory Challenge</h4>
+            <p>Every business faces the same dilemma: too much inventory ties up cash and risks waste; too little means lost sales and unhappy customers. AI finds the "Goldilocks zone."</p>
+        </div>
+        
+        <div class="stat-highlight">
+            📊 AI inventory optimization reduces holding costs by 20-30% while improving product availability by 15-25%
+        </div>
+        
+        <div class="detail-section">
+            <h4>Amazon's Predictive Inventory</h4>
+            <p>Amazon's inventory AI is considered the best in the world. Here's what makes it special:</p>
+            <ul>
+                <li><strong>Anticipatory Shipping:</strong> Moves products to warehouses near customers BEFORE they order</li>
+                <li><strong>Hyper-local Predictions:</strong> Predicts demand by zip code, not just city</li>
+                <li><strong>Real-time Adjustment:</strong> Responds to weather, events, trends in minutes</li>
+                <li><strong>Multi-factor Analysis:</strong> Considers 400+ variables per product</li>
+            </ul>
+            <p><strong>The result:</strong> Amazon offers 1-day or same-day delivery on millions of items because inventory is already positioned near you!</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>How Inventory AI Works</h4>
+            <p>The system analyzes:</p>
+            <ul>
+                <li><strong>Historical sales:</strong> What sold last week/month/year at this time?</li>
+                <li><strong>Seasonality:</strong> Holiday patterns, back-to-school, summer trends</li>
+                <li><strong>External factors:</strong> Weather (snow → boots, heat → fans)</li>
+                <li><strong>Marketing activities:</strong> Promotions, ads, email campaigns</li>
+                <li><strong>Supplier reliability:</strong> Lead times, delay patterns</li>
+                <li><strong>Product lifecycle:</strong> New launches, declining products</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            Start with your top 20% of products (usually responsible for 80% of revenue). Get AI working well for these before expanding to your full catalog.
+        </div>
+        
+        <div class="challenge-box">
+            Inventory AI can't predict truly unexpected events (pandemic, natural disasters, viral trends). Always maintain some buffer stock for high-priority items.
+        </div>
+        
+        <div class="detail-section">
+            <h4>Real-World Applications</h4>
+            <ul>
+                <li><strong>Retail:</strong> Walmart uses AI to stock 4,700+ stores, each with 120,000+ items</li>
+                <li><strong>Restaurants:</strong> Domino's predicts pizza ingredient needs by location/day/time</li>
+                <li><strong>Manufacturing:</strong> Auto makers optimize parts inventory across supply chains</li>
+                <li><strong>Healthcare:</strong> Hospitals predict medical supply needs by season/patient flow</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Getting Started</h4>
+            <p>Small to medium businesses can use:</p>
+            <ul>
+                <li>Cloud-based inventory management with built-in AI (Cin7, Fishbowl, NetSuite)</li>
+                <li>Start with demand forecasting for top products</li>
+                <li>Integrate with POS and accounting systems for accurate data</li>
+                <li>Measure results: stockout rate, inventory turnover, holding costs</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- UNSTRUCTURED DATA TYPE PANELS -->
+    
+    <!-- Text Data Panel -->
+    <div class="side-panel" id="panel-text-data">
+        <button class="panel-close" onclick="closeAllPanels()">×</button>
+        <span class="panel-icon">💬</span>
+        <h3>Text Data & Natural Language Processing</h3>
+        
+        <div class="detail-section">
+            <h4>Why Text is Challenging for AI</h4>
+            <p>Unlike structured data, text has no standard format. It's full of nuance, context, sarcasm, slang, multiple languages, typos, and cultural references. Teaching AI to understand text requires sophisticated Natural Language Processing (NLP) techniques.</p>
+        </div>
+        
+        <div class="stat-highlight">
+            📝 80% of business data is text, but most companies only analyze their structured data
+        </div>
+        
+        <div class="detail-section">
+            <h4>What AI Can Do With Text</h4>
+            <ul>
+                <li><strong>Sentiment Analysis:</strong> Determine if text is positive, negative, or neutral</li>
+                <li><strong>Topic Classification:</strong> Automatically categorize documents or messages</li>
+                <li><strong>Named Entity Recognition:</strong> Extract names, dates, locations, companies</li>
+                <li><strong>Language Translation:</strong> Convert between languages (Google Translate)</li>
+                <li><strong>Text Summarization:</strong> Create short summaries of long documents</li>
+                <li><strong>Question Answering:</strong> Find answers to questions in large text collections</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Business Applications</h4>
+            <p><strong>Customer Service:</strong> Airlines like Delta use AI to read support emails and:</p>
+            <ul>
+                <li>Detect urgency (angry vs. curious)</li>
+                <li>Route to right department automatically</li>
+                <li>Suggest responses to agents</li>
+                <li>Flag customers at risk of churning</li>
+            </ul>
+            <p>Result: 40% faster response times, 25% higher customer satisfaction.</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Real Example: Social Media Monitoring</h4>
+            <p>Brands like Starbucks use text AI to analyze thousands of social media mentions daily:</p>
+            <ul>
+                <li>Track brand sentiment in real-time</li>
+                <li>Identify emerging issues before they become crises</li>
+                <li>Spot product feedback and feature requests</li>
+                <li>Understand customer preferences by region</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            Start with sentiment analysis on customer reviews—it's the easiest text AI to implement and provides immediate value by highlighting what customers love and hate.
+        </div>
+        
+        <div class="challenge-box">
+            Text AI struggles with sarcasm, idioms, and cultural context. "That's sick!" means "amazing" in some contexts but "terrible" in others. Always have humans review critical decisions.
+        </div>
+        
+        <div class="detail-section">
+            <h4>Common Text Data Sources</h4>
+            <ul>
+                <li>Customer reviews and ratings</li>
+                <li>Support tickets and emails</li>
+                <li>Social media posts and comments</li>
+                <li>Survey responses (open-ended questions)</li>
+                <li>Chat transcripts</li>
+                <li>Internal documents and reports</li>
+                <li>Product descriptions</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Video Data Panel -->
+    <div class="side-panel" id="panel-video-data">
+        <button class="panel-close" onclick="closeAllPanels()">×</button>
+        <span class="panel-icon">🎥</span>
+        <h3>Video Data & Computer Vision</h3>
+        
+        <div class="detail-section">
+            <h4>The Richness of Video Data</h4>
+            <p>Video combines visual information, motion, audio, and temporal patterns. It's incredibly information-dense but also challenging to process—a single minute of video contains roughly 1,800 individual frames!</p>
+        </div>
+        
+        <div class="stat-highlight">
+            🎬 By 2024, video accounts for 82% of all internet traffic
+        </div>
+        
+        <div class="detail-section">
+            <h4>What AI Can Extract From Video</h4>
+            <ul>
+                <li><strong>Object Detection:</strong> Identify what objects appear in each frame</li>
+                <li><strong>Action Recognition:</strong> Understand what activities are happening</li>
+                <li><strong>Face Recognition:</strong> Identify individuals in footage</li>
+                <li><strong>Scene Understanding:</strong> Determine the setting and context</li>
+                <li><strong>Motion Tracking:</strong> Follow how objects move over time</li>
+                <li><strong>Anomaly Detection:</strong> Spot unusual events or behaviors</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Business Application: Retail Analytics</h4>
+            <p>Stores like Walmart use video AI to:</p>
+            <ul>
+                <li><strong>Count customers:</strong> Track foot traffic patterns by hour/day</li>
+                <li><strong>Analyze behavior:</strong> Which aisles get most attention? Where do customers pause?</li>
+                <li><strong>Optimize layouts:</strong> Adjust product placement based on shopper paths</li>
+                <li><strong>Reduce shrinkage:</strong> Detect potential theft at checkout</li>
+                <li><strong>Monitor queues:</strong> Alert staff when checkout lines get too long</li>
+            </ul>
+            <p>Result: 15% increase in sales through better store layout, 60% reduction in checkout wait times.</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Security & Safety Applications</h4>
+            <ul>
+                <li><strong>Workplace Safety:</strong> Construction sites use AI to detect when workers aren't wearing hard hats or enter dangerous zones</li>
+                <li><strong>Quality Control:</strong> Manufacturing lines spot defective products automatically</li>
+                <li><strong>Traffic Management:</strong> Cities optimize traffic light timing based on real-time congestion</li>
+                <li><strong>Crowd Management:</strong> Events detect dangerous crowding situations</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            Video analysis is computationally expensive. Start by analyzing key moments (every 10th frame) rather than every single frame, or use lower resolution for faster processing.
+        </div>
+        
+        <div class="challenge-box">
+            Privacy concerns are significant with video AI. Always comply with privacy laws, inform people they're being recorded, and use video data only for stated purposes. Anonymize when possible.
+        </div>
+        
+        <div class="detail-section">
+            <h4>Emerging Applications</h4>
+            <ul>
+                <li><strong>Autonomous vehicles:</strong> Understanding road conditions and obstacles</li>
+                <li><strong>Sports analytics:</strong> Tracking player performance and strategy</li>
+                <li><strong>Healthcare:</strong> Analyzing surgical videos for training and quality assurance</li>
+                <li><strong>Content moderation:</strong> Automatically flagging inappropriate video content</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Audio Data Panel -->
+    <div class="side-panel" id="panel-audio-data">
+        <button class="panel-close" onclick="closeAllPanels()">×</button>
+        <span class="panel-icon">🎵</span>
+        <h3>Audio Data & Speech Recognition</h3>
+        
+        <div class="detail-section">
+            <h4>Beyond Speech-to-Text</h4>
+            <p>Audio AI does more than just transcribe words. It can detect emotions, identify speakers, recognize background sounds, and understand context from tone and pacing.</p>
+        </div>
+        
+        <div class="stat-highlight">
+            🎧 Voice search and voice shopping will generate $40 billion in revenue by 2024
+        </div>
+        
+        <div class="detail-section">
+            <h4>What AI Can Do With Audio</h4>
+            <ul>
+                <li><strong>Speech Recognition:</strong> Convert spoken words to text (Siri, Alexa)</li>
+                <li><strong>Speaker Identification:</strong> Recognize who is speaking</li>
+                <li><strong>Emotion Detection:</strong> Identify anger, happiness, frustration in voice</li>
+                <li><strong>Language Detection:</strong> Determine what language is being spoken</li>
+                <li><strong>Sound Classification:</strong> Identify non-speech sounds (alarms, breaking glass, music)</li>
+                <li><strong>Voice Authentication:</strong> Verify identity through voice patterns</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Business Application: Call Center Intelligence</h4>
+            <p>Companies like American Express use audio AI on customer service calls to:</p>
+            <ul>
+                <li><strong>Real-time transcription:</strong> Convert calls to searchable text</li>
+                <li><strong>Sentiment analysis:</strong> Alert supervisors when customers get upset</li>
+                <li><strong>Compliance monitoring:</strong> Ensure agents follow required scripts</li>
+                <li><strong>Quality scoring:</strong> Automatically rate call quality</li>
+                <li><strong>Training insights:</strong> Identify coaching opportunities for agents</li>
+            </ul>
+            <p>Result: 30% improvement in first-call resolution, 20% reduction in average call time.</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Healthcare Application: Voice Diagnostics</h4>
+            <p>Medical AI can analyze voice patterns to detect:</p>
+            <ul>
+                <li>Parkinson's disease (changes in voice control)</li>
+                <li>Depression (tone, pacing, word choice)</li>
+                <li>Respiratory conditions (breathing patterns while speaking)</li>
+                <li>Cognitive decline (word finding difficulties)</li>
+            </ul>
+            <p>Voice analysis provides early warning signs before traditional symptoms appear.</p>
+        </div>
+        
+        <div class="tip-box">
+            Audio quality matters enormously. Background noise, poor microphones, and overlapping speakers dramatically reduce accuracy. Invest in good recording equipment if audio AI is critical to your business.
+        </div>
+        
+        <div class="challenge-box">
+            Accents, dialects, and speaking styles affect accuracy. AI trained primarily on American English may struggle with British, Australian, or non-native speakers. Test with your actual user population!
+        </div>
+        
+        <div class="detail-section">
+            <h4>Consumer Applications</h4>
+            <ul>
+                <li><strong>Voice Assistants:</strong> Siri, Alexa, Google Assistant for smart homes</li>
+                <li><strong>Voice Shopping:</strong> Order products hands-free</li>
+                <li><strong>Accessibility:</strong> Voice control for people with disabilities</li>
+                <li><strong>Language Learning:</strong> Apps that correct pronunciation</li>
+                <li><strong>Music Recognition:</strong> Shazam identifying songs</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Image Data Panel -->
+    <div class="side-panel" id="panel-image-data">
+        <button class="panel-close" onclick="closeAllPanels()">×</button>
+        <span class="panel-icon">📸</span>
+        <h3>Image Data & Computer Vision</h3>
+        
+        <div class="detail-section">
+            <h4>The Power of Visual Data</h4>
+            <p>Humans process images 60,000 times faster than text. Similarly, AI can extract enormous amounts of information from images—from simple object recognition to complex scene understanding.</p>
+        </div>
+        
+        <div class="stat-highlight">
+            📷 3.2 billion images are shared online every day
+        </div>
+        
+        <div class="detail-section">
+            <h4>What AI Can Do With Images</h4>
+            <ul>
+                <li><strong>Object Detection:</strong> Identify and locate objects in images</li>
+                <li><strong>Image Classification:</strong> Categorize entire images (outdoor vs indoor, product type)</li>
+                <li><strong>Face Recognition:</strong> Identify individuals or detect facial features</li>
+                <li><strong>Optical Character Recognition (OCR):</strong> Read text in images</li>
+                <li><strong>Image Segmentation:</strong> Separate image into meaningful regions</li>
+                <li><strong>Style Transfer:</strong> Apply artistic styles to images</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Business Application: Visual Search</h4>
+            <p>Pinterest Lens lets users take photos of items and find similar products:</p>
+            <ul>
+                <li>See a dress you like? Snap a photo, find where to buy it</li>
+                <li>Processes 600 million searches per month</li>
+                <li>Increases purchase intent by 40%</li>
+                <li>Helps users discover products they couldn't describe in words</li>
+            </ul>
+            <p>Retailers using visual search see 30% higher conversion rates.</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Healthcare: Medical Image Analysis</h4>
+            <p>AI analyzing X-rays, MRIs, and CT scans can:</p>
+            <ul>
+                <li><strong>Detect cancers:</strong> Find tumors earlier than human radiologists (in some cases)</li>
+                <li><strong>Diagnose conditions:</strong> Identify pneumonia, fractures, abnormalities</li>
+                <li><strong>Prioritize urgent cases:</strong> Flag critical findings for immediate attention</li>
+                <li><strong>Reduce errors:</strong> Provide second opinions to prevent misdiagnosis</li>
+            </ul>
+            <p>FDA has approved 75+ AI medical imaging tools since 2018.</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Agriculture: Crop Monitoring</h4>
+            <p>Farmers use drone images analyzed by AI to:</p>
+            <ul>
+                <li>Detect plant diseases early (before visible to human eye)</li>
+                <li>Identify areas needing water or fertilizer</li>
+                <li>Estimate crop yields before harvest</li>
+                <li>Optimize irrigation and reduce water waste by 30%</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            For Module 5 (Teachable Machine): Image quality is crucial! Use consistent lighting, similar angles, and clear backgrounds. Blur or poor quality images teach AI the wrong patterns.
+        </div>
+        
+        <div class="challenge-box">
+            AI can be fooled by adversarial images—pictures with tiny, invisible changes that make AI misclassify dramatically (seeing a cat as a dog). This is a security concern for critical applications.
+        </div>
+        
+        <div class="detail-section">
+            <h4>Everyday Applications</h4>
+            <ul>
+                <li><strong>Social Media:</strong> Auto-tagging friends, content moderation</li>
+                <li><strong>Smartphones:</strong> Camera features (portrait mode, scene detection)</li>
+                <li><strong>E-commerce:</strong> Visual product search, virtual try-on</li>
+                <li><strong>Autonomous Vehicles:</strong> Understanding road conditions</li>
+                <li><strong>Manufacturing:</strong> Quality control, defect detection</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- BIAS TYPE PANELS -->
+    
+    <!-- Selection Bias Panel -->
+    <div class="side-panel" id="panel-selection-bias">
+        <button class="panel-close" onclick="closeAllPanels()">×</button>
+        <span class="panel-icon">⚖️</span>
+        <h3>Selection Bias Deep Dive</h3>
+        
+        <div class="detail-section">
+            <h4>What Is Selection Bias?</h4>
+            <p>Selection bias occurs when your training data doesn't represent the full population you want to serve. It's like learning about "all Americans" by only talking to people in one city—you miss critical diversity.</p>
+        </div>
+        
+        <div class="stat-highlight">
+            ⚠️ Selection bias is the #1 cause of AI discrimination lawsuits
+        </div>
+        
+        <div class="detail-section">
+            <h4>Famous Example: Amazon's Hiring AI</h4>
+            <p>In 2018, Amazon scrapped a hiring AI they'd spent years developing. The problem:</p>
+            <ul>
+                <li>Trained on 10 years of resumes from past hires</li>
+                <li>Tech industry historically male-dominated</li>
+                <li>Training data was 80% male applicants</li>
+                <li>AI learned "successful candidate = looks like past hires = male"</li>
+                <li>Result: Penalized resumes mentioning "women's" (women's chess club, women's college)</li>
+            </ul>
+            <p>The AI wasn't inherently sexist—it learned bias from biased historical data.</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>How Selection Bias Happens</h4>
+            <ul>
+                <li><strong>Historical underrepresentation:</strong> Past discrimination means some groups are missing from data</li>
+                <li><strong>Convenience sampling:</strong> Only collecting data from easily accessible sources</li>
+                <li><strong>Self-selection:</strong> Only certain types of people volunteer data</li>
+                <li><strong>Geographic limitations:</strong> Data only from certain regions or demographics</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Detection Methods</h4>
+            <p><strong>Ask these questions:</strong></p>
+            <ul>
+                <li>What percentage of my data represents each demographic group?</li>
+                <li>How does this compare to the real-world population I'm serving?</li>
+                <li>Are there groups completely missing from my data?</li>
+                <li>Where did this data come from, and who was included/excluded?</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            Create a "demographic snapshot" document showing exactly who's in your dataset. Compare it to census data or your actual customer base to spot gaps immediately.
+        </div>
+        
+        <div class="detail-section">
+            <h4>Mitigation Strategies</h4>
+            <ol>
+                <li><strong>Stratified sampling:</strong> Ensure each group is proportionally represented</li>
+                <li><strong>Targeted data collection:</strong> Actively recruit data from underrepresented groups</li>
+                <li><strong>Synthetic data:</strong> Generate artificial examples for missing groups (advanced technique)</li>
+                <li><strong>Reweighting:</strong> Give more importance to underrepresented examples during training</li>
+                <li><strong>Partnerships:</strong> Work with community organizations serving underrepresented populations</li>
+            </ol>
+        </div>
+        
+        <div class="challenge-box">
+            Sometimes representative data is hard to get. If you can't fix the dataset, document the limitation clearly and restrict where the AI is used. Don't deploy everywhere if it only works for some groups!
+        </div>
+    </div>
+    
+    <!-- Measurement Bias Panel -->
+    <div class="side-panel" id="panel-measurement-bias">
+        <button class="panel-close" onclick="closeAllPanels()">×</button>
+        <span class="panel-icon">📏</span>
+        <h3>Measurement Bias Deep Dive</h3>
+        
+        <div class="detail-section">
+            <h4>What Is Measurement Bias?</h4>
+            <p>Measurement bias occurs when the way data is collected or measured systematically favors certain outcomes. The measuring instrument itself is flawed or inconsistent across groups.</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Real-World Example: Pulse Oximeters</h4>
+            <p>Pulse oximeters (devices measuring blood oxygen) were found to be less accurate on people with darker skin tones:</p>
+            <ul>
+                <li>Devices calibrated primarily on lighter skin</li>
+                <li>Gave falsely high readings for Black patients</li>
+                <li>Led to delayed treatment during COVID-19 pandemic</li>
+                <li>Healthcare AI using this data inherited the measurement error</li>
+            </ul>
+            <p>This is measurement bias—the tool itself measures differently for different groups.</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Business Example: Survey Bias</h4>
+            <p>A retail company wanted to measure customer satisfaction:</p>
+            <ul>
+                <li><strong>Problem:</strong> Only sent email surveys</li>
+                <li><strong>Who responded:</strong> Younger, tech-savvy customers with email habits</li>
+                <li><strong>Who was missed:</strong> Older customers who prefer phone/in-person</li>
+                <li><strong>Result:</strong> AI thought satisfaction was higher than reality</li>
+                <li><strong>The fix:</strong> Added phone surveys and in-store feedback tablets</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Common Causes</h4>
+            <ul>
+                <li><strong>Tool limitations:</strong> Measurement devices work differently for different people</li>
+                <li><strong>Access barriers:</strong> Some groups can't participate in data collection</li>
+                <li><strong>Language barriers:</strong> Surveys only in one language miss non-speakers</li>
+                <li><strong>Digital divide:</strong> Online-only data collection misses people without internet</li>
+                <li><strong>Cultural differences:</strong> Survey questions interpreted differently across cultures</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            Pilot test your data collection method with diverse groups before full deployment. Ask: "Does this work equally well for everyone?"
+        </div>
+        
+        <div class="detail-section">
+            <h4>How to Detect Measurement Bias</h4>
+            <ul>
+                <li>Compare results across demographic groups—do measurements differ systematically?</li>
+                <li>Test measurement tools on diverse populations before deployment</li>
+                <li>Look for patterns: one group always scores higher/lower?</li>
+                <li>Interview people from different backgrounds about the measurement process</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Solutions</h4>
+            <ol>
+                <li><strong>Multiple measurement methods:</strong> Use surveys, interviews, observations together</li>
+                <li><strong>Universal design:</strong> Create measurement tools that work for everyone</li>
+                <li><strong>Calibration testing:</strong> Test instruments on diverse populations</li>
+                <li><strong>Accessibility:</strong> Offer data collection in multiple formats/languages</li>
+                <li><strong>Statistical adjustment:</strong> Correct for known measurement differences (advanced)</li>
+            </ol>
+        </div>
+        
+        <div class="challenge-box">
+            Measurement bias is insidious because the numbers look accurate—you don't realize the measuring stick itself is biased. Always question HOW data was collected, not just what was collected.
+        </div>
+    </div>
+    
+    <!-- Historical Bias Panel -->
+    <div class="side-panel" id="panel-historical-bias">
+        <button class="panel-close" onclick="closeAllPanels()">×</button>
+        <span class="panel-icon">📜</span>
+        <h3>Historical Bias Deep Dive</h3>
+        
+        <div class="detail-section">
+            <h4>What Is Historical Bias?</h4>
+            <p>Historical bias exists when past discrimination, inequality, or unfair treatment is embedded in historical data. Even perfectly collected data can reflect societal biases that existed when it was created.</p>
+        </div>
+        
+        <div class="stat-highlight">
+            📊 Using historical data without adjustment perpetuates past discrimination into the future
+        </div>
+        
+        <div class="detail-section">
+            <h4>Critical Example: Criminal Justice AI</h4>
+            <p>COMPAS is an AI system used to predict criminal recidivism (re-offending risk):</p>
+            <ul>
+                <li>Trained on historical arrest and conviction data</li>
+                <li>Historical data reflected biased policing practices</li>
+                <li>Black defendants arrested more often for same crimes as white defendants</li>
+                <li>AI learned from this biased history</li>
+                <li><strong>Result:</strong> ProPublica investigation found COMPAS flagged Black defendants as "high risk" at twice the rate of white defendants with similar backgrounds</li>
+            </ul>
+            <p>The AI accurately learned the pattern in historical data—but that pattern itself was unjust.</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Lending Example: Redlining</h4>
+            <p>Banks historically denied mortgages to certain neighborhoods based on race (illegal practice called "redlining"):</p>
+            <ul>
+                <li>Historical data shows lower loan approval rates in these neighborhoods</li>
+                <li>AI trained on this data learns: "people from these zip codes = higher risk"</li>
+                <li>AI perpetuates discrimination even though current law prohibits it</li>
+                <li>Creates cycle: denied loans → less wealth → appears "riskier" → more denials</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Why This Is Tricky</h4>
+            <p>Historical bias is hard to fix because:</p>
+            <ul>
+                <li>The data is technically accurate (it really happened)</li>
+                <li>Patterns are real—but reflect unjust systems, not individual merit</li>
+                <li>Simply removing race/gender from data doesn't help (AI finds proxies like zip code, name)</li>
+                <li>You can't just delete history, but you can't use it uncritically either</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            When using historical data, always ask: "Were the conditions that created this data fair?" If not, you need special techniques to avoid perpetuating injustice.
+        </div>
+        
+        <div class="detail-section">
+            <h4>Detection Methods</h4>
+            <ul>
+                <li>Research the history of your data domain—were there discriminatory practices?</li>
+                <li>Compare outcomes across demographic groups in historical data</li>
+                <li>Look for systemic patterns (one group always disadvantaged)</li>
+                <li>Consult with historians, social scientists, and affected communities</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Mitigation Approaches</h4>
+            <ol>
+                <li><strong>Fairness constraints:</strong> Require AI to have similar accuracy/approval rates across groups</li>
+                <li><strong>Reweighting:</strong> Give less weight to decisions from known-biased periods</li>
+                <li><strong>Counterfactual fairness:</strong> Ask "what would the decision be if this person were in a different demographic group?"</li>
+                <li><strong>Human oversight:</strong> Require human review, especially for high-stakes decisions</li>
+                <li><strong>Alternative data:</strong> Use newer, fairer data sources when possible</li>
+            </ol>
+        </div>
+        
+        <div class="challenge-box">
+            There's no perfect technical solution to historical bias. It requires combining technical tools with policy changes, human judgment, and ongoing monitoring for fairness.
+        </div>
+    </div>
+    
+    <!-- Confirmation Bias Panel -->
+    <div class="side-panel" id="panel-confirmation-bias">
+        <button class="panel-close" onclick="closeAllPanels()">×</button>
+        <span class="panel-icon">✓</span>
+        <h3>Confirmation Bias Deep Dive</h3>
+        
+        <div class="detail-section">
+            <h4>What Is Confirmation Bias?</h4>
+            <p>Confirmation bias happens when data is labeled or collected in ways that confirm pre-existing beliefs or expectations. People unconsciously look for evidence that supports what they already think.</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Example: Content Moderation</h4>
+            <p>Social media platform hiring human moderators to label "offensive" content for AI training:</p>
+            <ul>
+                <li>Moderators have unconscious biases about what's offensive</li>
+                <li>May label content from certain groups more harshly</li>
+                <li>Personal values affect judgment calls on borderline content</li>
+                <li>AI learns these biased labels as "ground truth"</li>
+                <li>Result: AI over-moderates some groups, under-moderates others</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Research Example: Facial Recognition</h4>
+            <p>Early facial recognition datasets had confirmation bias:</p>
+            <ul>
+                <li>Researchers mainly used photos of themselves and colleagues</li>
+                <li>Most were white, young, male academics</li>
+                <li>They believed their dataset was "universal"</li>
+                <li>Didn't question the lack of diversity (confirmation of their worldview)</li>
+                <li><strong>Result:</strong> AI worked great on people like them, terrible on others</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>How Confirmation Bias Manifests</h4>
+            <ul>
+                <li><strong>Labeling:</strong> Humans label data to match expectations</li>
+                <li><strong>Data selection:</strong> Choosing data that supports your hypothesis</li>
+                <li><strong>Stopping rules:</strong> Stopping data collection once you see expected pattern</li>
+                <li><strong>Interpretation:</strong> Viewing ambiguous cases through lens of prior belief</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            Use multiple independent labelers from diverse backgrounds. If they disagree, that disagreement is valuable information about ambiguous cases!
+        </div>
+        
+        <div class="detail-section">
+            <h4>Detection Strategies</h4>
+            <ul>
+                <li><strong>Inter-rater reliability:</strong> Measure how much labelers agree</li>
+                <li><strong>Blind labeling:</strong> Labelers don't know what the "expected" answer is</li>
+                <li><strong>Challenge assumptions:</strong> Actively seek data that contradicts beliefs</li>
+                <li><strong>Diverse teams:</strong> People with different backgrounds catch each other's biases</li>
+                <li><strong>Regular audits:</strong> Periodically review labels for systematic patterns</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Prevention Methods</h4>
+            <ol>
+                <li><strong>Clear guidelines:</strong> Written criteria for labeling decisions</li>
+                <li><strong>Training:</strong> Teach labelers about unconscious bias</li>
+                <li><strong>Multiple perspectives:</strong> Require 3+ labelers per item</li>
+                <li><strong>Diverse labeling teams:</strong> Include people from affected communities</li>
+                <li><strong>Pre-registration:</strong> Document expectations BEFORE seeing data</li>
+                <li><strong>Devil's advocate:</strong> Assign someone to argue against assumptions</li>
+            </ol>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Business Application</h4>
+            <p><strong>Resume Screening:</strong> HR teams labeling resumes for AI training might unconsciously:</p>
+            <ul>
+                <li>Rate candidates from prestigious schools higher</li>
+                <li>Value certain types of experience more</li>
+                <li>Have assumptions about what "good" looks like</li>
+            </ul>
+            <p><strong>Solution:</strong> Blind resume review (hide names, schools initially), diverse review panels, and regular bias audits.</p>
+        </div>
+        
+        <div class="challenge-box">
+            We all have confirmation bias—it's human nature. The key is building systems that catch and correct it rather than amplifying it through AI.
+        </div>
+    </div>
+    
+    <script>
+        let currentSection = 1;
+        const totalSections = 8;
+        
+        function updateProgress() {
+            const progress = (currentSection / totalSections) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        function showSection(n) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            if (n > totalSections) { currentSection = totalSections; }
+            if (n < 1) { currentSection = 1; }
+            
+            sections[currentSection - 1].classList.add('active');
+            
+            document.getElementById('prevBtn').disabled = currentSection === 1;
+            document.getElementById('nextBtn').textContent = currentSection === totalSections ? 'Finish ✓' : 'Next →';
+            
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function changeSection(n) {
+            currentSection += n;
+            showSection(currentSection);
+        }
+        
+        function openPanel(panelId) {
+            closeAllPanels();
+            document.getElementById(panelId).classList.add('active');
+            document.getElementById('panelOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeAllPanels() {
+            document.querySelectorAll('.side-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            document.getElementById('panelOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function checkDataset(datasetNum) {
+            document.querySelectorAll('.dataset-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            document.querySelectorAll('.checker-result').forEach(result => {
+                result.classList.remove('show');
+            });
+            event.currentTarget.classList.add('selected');
+            document.getElementById('result' + datasetNum).classList.add('show');
+        }
+        
+        function checkAnswer(element, isCorrect, questionNum) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById('feedback' + questionNum);
+            
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedback.classList.add('show', 'correct');
+                feedback.textContent = '✓ Excellent! That\'s correct!';
+            } else {
+                element.classList.add('incorrect');
+                options.forEach(opt => {
+                    if (opt.onclick.toString().includes('true')) {
+                        opt.classList.add('correct');
+                    }
+                });
+                feedback.classList.add('show', 'incorrect');
+                feedback.textContent = '✗ Not quite. The correct answer is highlighted in green. Review the material!';
+            }
+        }
+        
+        showSection(currentSection);
+    </script>
+</body>
+</html>
