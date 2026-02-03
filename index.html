@@ -8,7 +8,8 @@
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 50px;
+            min-height: 100vh;
+            padding: 50px 20px;
             margin: 0;
         }
         .container {
@@ -17,48 +18,74 @@
             background: white;
             padding: 40px;
             border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
         h1 {
             color: #667eea;
             text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
         }
         .module {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 20px;
-            margin: 15px 0;
-            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 15px;
             text-decoration: none;
             display: block;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
         .module:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
         }
         .module h2 {
             margin: 0 0 10px 0;
+            font-size: 1.5em;
+        }
+        .module p {
+            margin: 0;
+            opacity: 0.95;
+        }
+        footer {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+            text-align: center;
+            color: #666;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🤖 AI Learning Modules</h1>
-        <p style="text-align: center; color: #666;">Click any module to start learning</p>
+        <p class="subtitle">Interactive AI Course for Community College Students</p>
         
-        <a href="intro_to_ai_canvas.html" class="module">
+        <a href="module1.html" class="module">
             <h2>Module 1: Introduction to AI</h2>
-            <p>Learn the basics of AI, its history, and key concepts</p>
+            <p>Definitions, history, and key concepts of Artificial Intelligence</p>
         </a>
         
-        <a href="Types_of_AI_ML.html" class="module">
+        <a href="module2.html" class="module">
             <h2>Module 2: Types of AI & Machine Learning</h2>
-            <p>Explore different types of AI and ML approaches</p>
+            <p>Narrow vs General AI, Supervised, Unsupervised, and Reinforcement Learning</p>
         </a>
         
         <a href="module3_data_v3.html" class="module">
-            <h2>Module 3: Understanding Data</h2>
-            <p>Discover how data powers AI with 8 interactive panels</p>
+            <h2>Module 3: Understanding Data - The Fuel of AI</h2>
+            <p>Data types, quality, cleaning, and bias (with 8 interactive deep-dive panels)</p>
         </a>
+        
+        <footer>
+            <p><strong>For Canvas LMS:</strong> Use these direct links or the module URLs</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">Created for community college education</p>
+        </footer>
     </div>
 </body>
 </html>
