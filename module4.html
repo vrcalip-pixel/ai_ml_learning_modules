@@ -1,0 +1,2506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Learning Basics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            position: relative;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: #00a8e8;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #00a8e8;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            color: #0077b6;
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        h4 {
+            color: #4facfe;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .definition-box {
+            background: #e3f5ff;
+            border-left: 5px solid #00a8e8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .definition-box strong {
+            color: #00a8e8;
+            font-size: 1.2em;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .key-concept {
+            background: linear-gradient(135deg, #e3f5ff 0%, #d4f1ff 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.2);
+        }
+        
+        .concept-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+        
+        .analogy-box {
+            background: #fff9e6;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .analogy-box::before {
+            content: "💡 Think of it this way: ";
+            font-weight: bold;
+            color: #f57c00;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .example-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .example-box::before {
+            content: "💼 Real-World Example: ";
+            font-weight: bold;
+            color: #f57c00;
+        }
+        
+        /* Interactive Algorithm Demo */
+        .algorithm-demo {
+            background: white;
+            border: 3px solid #4facfe;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .demo-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .demo-button {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+        
+        .demo-output {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            min-height: 150px;
+        }
+        
+        /* Clickable Visual Diagram */
+        .visual-diagram {
+            background: white;
+            border: 3px solid #4facfe;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .diagram-container {
+            position: relative;
+            max-width: 600px;
+            margin: 30px auto;
+        }
+        
+        .diagram-node {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 10px;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .diagram-node:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(79, 172, 254, 0.5);
+        }
+        
+        .diagram-node.active {
+            background: linear-gradient(135deg, #00a8e8 0%, #0077b6 100%);
+            box-shadow: 0 5px 20px rgba(0, 168, 232, 0.6);
+        }
+        
+        .node-info {
+            background: #e3f5ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+            text-align: left;
+        }
+        
+        .node-info.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        /* Comparison Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        thead {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+        
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        td {
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+        
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        tr:hover {
+            background: #e3f5ff;
+        }
+        
+        /* Algorithm Cards */
+        .algorithm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .algorithm-card {
+            background: white;
+            border: 3px solid #4facfe;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.2);
+            position: relative;
+        }
+        
+        .algorithm-card[onclick] {
+            cursor: pointer;
+        }
+        
+        .algorithm-card[onclick]:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(79, 172, 254, 0.4);
+        }
+        
+        .algorithm-card[onclick]::after {
+            content: "Click to learn more →";
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 0.8em;
+            color: #0077b6;
+            font-weight: bold;
+            opacity: 0.7;
+        }
+        
+        .algorithm-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        /* Modal Popup System */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #f44336;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+        
+        .modal-close:hover {
+            background: #d32f2f;
+            transform: rotate(90deg);
+        }
+        
+        .modal-content h3 {
+            color: #00a8e8;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-right: 50px;
+            border-bottom: 3px solid #00a8e8;
+            padding-bottom: 10px;
+        }
+        
+        .modal-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        /* Side Panels */
+        .side-panel {
+            position: fixed;
+            top: 0;
+            right: -550px;
+            width: 500px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.3);
+            transition: right 0.4s ease;
+            z-index: 1001;
+            overflow-y: auto;
+            padding: 40px 30px;
+        }
+        
+        .side-panel.active {
+            right: 0;
+        }
+        
+        .panel-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+        }
+        
+        .panel-overlay.active {
+            display: block;
+        }
+        
+        .panel-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #f44336;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+        
+        .panel-close:hover {
+            background: #d32f2f;
+            transform: rotate(90deg);
+        }
+        
+        .side-panel h3 {
+            color: #00a8e8;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-right: 50px;
+            border-bottom: 3px solid #00a8e8;
+            padding-bottom: 10px;
+        }
+        
+        .panel-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .detail-section {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #4facfe;
+        }
+        
+        .detail-section h4 {
+            color: #00a8e8;
+            margin-bottom: 12px;
+            font-size: 1.3em;
+        }
+        
+        .stat-highlight {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .tip-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .tip-box::before {
+            content: "💡 Pro Tip: ";
+            font-weight: bold;
+            color: #2e7d32;
+        }
+        
+        /* Flowchart */
+        .flowchart {
+            background: #f5f5f5;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .flow-step {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            position: relative;
+            text-align: center;
+        }
+        
+        .flow-arrow {
+            text-align: center;
+            font-size: 2em;
+            color: #00a8e8;
+            margin: 10px 0;
+        }
+        
+        /* Quiz Styles */
+        .quiz-section {
+            background: #e8f5e9;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+        
+        .quiz-question {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #4caf50;
+        }
+        
+        .quiz-options {
+            margin-top: 15px;
+        }
+        
+        .quiz-option {
+            background: #f5f5f5;
+            border: 2px solid #4facfe;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quiz-option:hover {
+            background: #d4f1ff;
+            transform: translateX(5px);
+        }
+        
+        .quiz-option.correct {
+            background: #4caf50;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .quiz-option.incorrect {
+            background: #f44336;
+            color: white;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+        }
+        
+        .feedback.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+            border: 2px solid #4caf50;
+        }
+        
+        .feedback.incorrect {
+            background: #ffcdd2;
+            color: #c62828;
+            border: 2px solid #f44336;
+        }
+        
+        .key-takeaways {
+            background: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .key-takeaways h4 {
+            color: #1565c0;
+            margin-bottom: 10px;
+        }
+        
+        .clickable-hint {
+            background: #e8eaf6;
+            color: #3f51b5;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 0.95em;
+            border: 2px dashed #3f51b5;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .completion-badge {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .badge {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+        }
+        
+        .glossary {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .glossary-term {
+            margin: 15px 0;
+            padding: 10px;
+            border-left: 3px solid #4facfe;
+        }
+        
+        .glossary-term strong {
+            color: #00a8e8;
+        }
+        
+        @media (max-width: 768px) {
+            .side-panel {
+                width: 90%;
+                right: -90%;
+            }
+            
+            .algorithm-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Machine Learning Basics</h1>
+            <p>Understanding the Algorithms That Power AI</p>
+        </header>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+        
+        <div class="content">
+            <!-- Section 1: Introduction -->
+            <div class="section active" id="section1">
+                <h2>Welcome to Machine Learning!</h2>
+                <p>You've learned what AI is, the different types, and how data fuels it all. Now it's time to peek under the hood and understand <strong>how AI actually learns</strong>!</p>
+                
+                <div class="definition-box">
+                    <strong>Machine Learning (ML)</strong>
+                    The process by which computers learn patterns from data without being explicitly programmed for every scenario. Instead of writing rules, we feed examples to algorithms that discover patterns on their own.
+                </div>
+                
+                <div class="analogy-box">
+                    Learning to ride a bike. Your parents didn't program every muscle movement into your brain. Instead, you practiced (training), fell down a few times (errors), adjusted your balance (learning), and eventually mastered it. Machine learning works the same way—through examples and feedback!
+                </div>
+                
+                <h3>What You'll Learn in This Module</h3>
+                <div class="algorithm-grid">
+                    <div class="algorithm-card">
+                        <div class="algorithm-icon">🌳</div>
+                        <h4>Decision Trees</h4>
+                        <p>How AI asks questions to make decisions</p>
+                    </div>
+                    <div class="algorithm-card">
+                        <div class="algorithm-icon">📈</div>
+                        <h4>Regression</h4>
+                        <p>Predicting numbers like prices and sales</p>
+                    </div>
+                    <div class="algorithm-card">
+                        <div class="algorithm-icon">👥</div>
+                        <h4>K-Nearest Neighbors</h4>
+                        <p>Learning from similar examples</p>
+                    </div>
+                    <div class="algorithm-card">
+                        <div class="algorithm-icon">🧠</div>
+                        <h4>Neural Networks</h4>
+                        <p>Brain-inspired learning systems</p>
+                    </div>
+                </div>
+                
+                <div class="key-concept">
+                    <div class="concept-header">🎯 The Big Picture</div>
+                    <p>All machine learning algorithms do the same basic thing:</p>
+                    <ol>
+                        <li><strong>Look at examples</strong> (training data)</li>
+                        <li><strong>Find patterns</strong> (what features matter?)</li>
+                        <li><strong>Make predictions</strong> (apply patterns to new data)</li>
+                        <li><strong>Improve over time</strong> (learn from mistakes)</li>
+                    </ol>
+                </div>
+                
+                <div class="example-box">
+                    <strong>Email Spam Filter:</strong> Instead of programming every possible spam word, ML algorithms look at thousands of emails you've marked as spam vs. not spam, find patterns (words like "FREE!" and "Click here!" appear often in spam), and use those patterns to predict if new emails are spam.
+                </div>
+            </div>
+            
+            <!-- Section 2: Decision Trees -->
+            <div class="section" id="section2">
+                <h2>Decision Trees: Questions Lead to Answers</h2>
+                
+                <div class="definition-box">
+                    <strong>Decision Tree</strong>
+                    An algorithm that makes decisions by asking a series of yes/no questions, like playing "20 Questions." Each question splits the data until reaching a conclusion.
+                </div>
+                
+                <div class="analogy-box">
+                    A flowchart at a doctor's office. "Do you have a fever?" → Yes → "Is it above 101°F?" → Yes → "Do you have a cough?" → Each answer leads to the next question until you reach a diagnosis.
+                </div>
+                
+                <h3>Interactive Decision Tree Demo</h3>
+                <div class="algorithm-demo">
+                    <h4 style="text-align: center; color: #00a8e8;">Should You Watch This Movie?</h4>
+                    <p style="text-align: center;">Let's build a simple decision tree together! Answer the questions:</p>
+                    
+                    <div class="demo-controls">
+                        <button class="demo-button" onclick="startDemo()">Start Demo</button>
+                        <button class="demo-button" onclick="resetDemo()">Reset</button>
+                    </div>
+                    
+                    <div class="demo-output" id="treeDemo">
+                        <p style="text-align: center; color: #666;">Click "Start Demo" to begin!</p>
+                    </div>
+                </div>
+                
+                <h3>How Decision Trees Work</h3>
+                <div class="visual-diagram">
+                    <h4>Click Each Part to Learn More</h4>
+                    <div class="diagram-container">
+                        <div class="diagram-node" onclick="showNodeInfo('root')">
+                            Root Node<br>
+                            <small>First Question</small>
+                        </div>
+                        <div style="margin: 20px 0;">⬇</div>
+                        <div style="display: flex; justify-content: space-around;">
+                            <div class="diagram-node" onclick="showNodeInfo('branch')">
+                                Branch Node<br>
+                                <small>Next Question</small>
+                            </div>
+                            <div class="diagram-node" onclick="showNodeInfo('leaf')">
+                                Leaf Node<br>
+                                <small>Final Answer</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="node-info" id="rootInfo">
+                        <h4>🌳 Root Node</h4>
+                        <p><strong>What it is:</strong> The first question the tree asks. This should be the question that best splits your data into meaningful groups.</p>
+                        <p><strong>Example:</strong> "Is the customer's purchase history > $500?" This splits customers into high-spenders and low-spenders.</p>
+                        <p><strong>How it's chosen:</strong> The algorithm tests every possible question and picks the one that creates the clearest separation.</p>
+                    </div>
+                    
+                    <div class="node-info" id="branchInfo">
+                        <h4>🔀 Branch Node</h4>
+                        <p><strong>What it is:</strong> Follow-up questions that further refine the decision. Each branch leads to more questions or a final answer.</p>
+                        <p><strong>Example:</strong> After the root asks about purchase history, a branch might ask "Did they click on our last email?"</p>
+                        <p><strong>Depth matters:</strong> Too many questions = overly complex (overfitting). Too few = too simple (underfitting).</p>
+                    </div>
+                    
+                    <div class="node-info" id="leafInfo">
+                        <h4>🍃 Leaf Node</h4>
+                        <p><strong>What it is:</strong> The final decision or prediction. No more questions—this is the answer!</p>
+                        <p><strong>Example:</strong> "YES, this customer will likely make a purchase" or "NO, they probably won't buy."</p>
+                        <p><strong>In classification:</strong> Assigns a category (spam/not spam). <strong>In regression:</strong> Predicts a number ($125 expected purchase).</p>
+                    </div>
+                </div>
+                
+                <div class="clickable-hint">
+                    👆 Click the "Decision Trees" card below for a deep dive with business examples!
+                </div>
+                
+                <div class="algorithm-grid">
+                    <div class="algorithm-card" onclick="openPanel('panel-decision-trees')">
+                        <div class="algorithm-icon">🌳</div>
+                        <h4>Deep Dive: Decision Trees in Business</h4>
+                        <p>Real-world applications and advanced concepts</p>
+                    </div>
+                </div>
+                
+                <h3>Pros & Cons</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>✅ Advantages</th>
+                            <th>❌ Limitations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Easy to understand and visualize</td>
+                            <td>Can become overly complex with lots of questions</td>
+                        </tr>
+                        <tr>
+                            <td>Works with both numbers and categories</td>
+                            <td>Small data changes can create very different trees</td>
+                        </tr>
+                        <tr>
+                            <td>No need to normalize data</td>
+                            <td>Can overfit (memorize training data too well)</td>
+                        </tr>
+                        <tr>
+                            <td>Shows which questions matter most</td>
+                            <td>Struggles with continuous relationships</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="example-box">
+                    <strong>Netflix Content Recommendation:</strong> Decision trees help decide what to show you. "Did user watch sci-fi movies?" → Yes → "Do they prefer series or films?" → Series → "Have they finished shows they started?" → Yes → Recommend "Stranger Things."
+                </div>
+            </div>
+            
+            <!-- Section 3: Linear Regression -->
+            <div class="section" id="section3">
+                <h2>Linear Regression: Predicting Numbers</h2>
+                
+                <div class="definition-box">
+                    <strong>Linear Regression</strong>
+                    An algorithm that finds the best straight line through your data points to predict a continuous number. Think of it as finding the trend and extending it into the future.
+                </div>
+                
+                <div class="analogy-box">
+                    Drawing a "line of best fit" through scattered points on a graph (like you did in math class!). If you know someone's hours studied and their test scores, you can draw a line to predict what score someone will get based on study hours.
+                </div>
+                
+                <h3>Interactive Regression Demo</h3>
+                <div class="algorithm-demo">
+                    <h4 style="text-align: center; color: #00a8e8;">Predict House Prices</h4>
+                    <p style="text-align: center;">See how linear regression finds patterns!</p>
+                    
+                    <div class="demo-controls">
+                        <button class="demo-button" onclick="runRegression()">Run Prediction</button>
+                    </div>
+                    
+                    <div class="demo-output" id="regressionDemo">
+                        <p><strong>Given Data:</strong></p>
+                        <ul>
+                            <li>1000 sq ft house sold for $200,000</li>
+                            <li>1500 sq ft house sold for $280,000</li>
+                            <li>2000 sq ft house sold for $360,000</li>
+                            <li>2500 sq ft house sold for $440,000</li>
+                        </ul>
+                        <p><strong>Question:</strong> What will a 1800 sq ft house sell for?</p>
+                        <p id="regressionResult" style="margin-top: 15px; font-weight: bold; color: #00a8e8;"></p>
+                    </div>
+                </div>
+                
+                <h3>How It Works (Simply Explained)</h3>
+                <div class="key-concept">
+                    <div class="concept-header">📊 The Mathematics (Simplified)</div>
+                    <ol>
+                        <li><strong>Plot your data:</strong> Put all your examples on a graph (x-axis = input, y-axis = output)</li>
+                        <li><strong>Draw a line:</strong> The algorithm finds the line that comes closest to all points</li>
+                        <li><strong>Make predictions:</strong> For any new input, follow the line to find the predicted output</li>
+                        <li><strong>Measure error:</strong> Check how far off predictions are and adjust the line</li>
+                    </ol>
+                    
+                    <p style="margin-top: 15px;"><strong>The Magic Formula:</strong> y = mx + b</p>
+                    <ul>
+                        <li><strong>y</strong> = what you're predicting (house price)</li>
+                        <li><strong>x</strong> = what you know (house size)</li>
+                        <li><strong>m</strong> = slope (how much y changes when x changes)</li>
+                        <li><strong>b</strong> = starting point (y-intercept)</li>
+                    </ul>
+                    
+                    <p style="margin-top: 10px;">The algorithm's job is to find the best values for <strong>m</strong> and <strong>b</strong>!</p>
+                </div>
+                
+                <div class="clickable-hint">
+                    👆 Click below for real business applications!
+                </div>
+                
+                <div class="algorithm-grid">
+                    <div class="algorithm-card" onclick="openPanel('panel-regression')">
+                        <div class="algorithm-icon">📈</div>
+                        <h4>Deep Dive: Regression in Business</h4>
+                        <p>Sales forecasting, pricing strategies, and more</p>
+                    </div>
+                </div>
+                
+                <h3>When to Use Linear Regression</h3>
+                <div class="key-takeaways">
+                    <h4>✅ Perfect For:</h4>
+                    <ul>
+                        <li>Predicting sales based on advertising spend</li>
+                        <li>Estimating delivery times based on distance</li>
+                        <li>Forecasting demand based on season/weather</li>
+                        <li>Calculating expected revenue from customer visits</li>
+                    </ul>
+                    
+                    <h4>❌ Not Good For:</h4>
+                    <ul>
+                        <li>Classification problems (spam vs. not spam)</li>
+                        <li>Data with complex curved relationships</li>
+                        <li>When relationship isn't linear</li>
+                    </ul>
+                </div>
+                
+                <div class="example-box">
+                    <strong>Amazon Shipping Cost Calculator:</strong> Linear regression predicts shipping costs based on package weight. More weight = higher cost, and the relationship is roughly linear. "This 5 lb package will cost $8.50 to ship."
+                </div>
+            </div>
+            
+            <!-- Section 4: K-Nearest Neighbors -->
+            <div class="section" id="section4">
+                <h2>K-Nearest Neighbors: Birds of a Feather</h2>
+                
+                <div class="definition-box">
+                    <strong>K-Nearest Neighbors (KNN)</strong>
+                    An algorithm that makes predictions by looking at the "K" most similar examples. It assumes that similar things exist close together—you are like your neighbors!
+                </div>
+                
+                <div class="analogy-box">
+                    Moving to a new neighborhood. To guess if you'll like it, you look at your closest neighbors (the "K" nearest). If 7 out of 10 neighbors love the area, you'll probably like it too. KNN does the same with data!
+                </div>
+                
+                <h3>Interactive KNN Demo</h3>
+                <div class="algorithm-demo">
+                    <h4 style="text-align: center; color: #00a8e8;">Movie Recommendation System</h4>
+                    <p style="text-align: center;">Should we recommend "Inception" to Alex?</p>
+                    
+                    <div class="demo-output">
+                        <p><strong>Scenario:</strong> Alex likes sci-fi and action. Let's check their 3 nearest neighbors (K=3):</p>
+                        <ul style="margin: 15px 0;">
+                            <li><strong>Sarah:</strong> Likes sci-fi & action → Loved "Inception" ✓</li>
+                            <li><strong>Mike:</strong> Likes sci-fi & action → Loved "Inception" ✓</li>
+                            <li><strong>Emma:</strong> Likes sci-fi & action → Didn't like "Inception" ✗</li>
+                        </ul>
+                        <p><strong>KNN Prediction:</strong> 2 out of 3 neighbors loved it = <span style="color: #4caf50;">Recommend!</span></p>
+                    </div>
+                    
+                    <div class="demo-controls">
+                        <button class="demo-button" onclick="changeK(1)">K=1 (1 neighbor)</button>
+                        <button class="demo-button" onclick="changeK(3)">K=3 (3 neighbors)</button>
+                        <button class="demo-button" onclick="changeK(5)">K=5 (5 neighbors)</button>
+                    </div>
+                    
+                    <div id="knnResult" style="margin-top: 15px; padding: 15px; background: #e3f5ff; border-radius: 8px; display: none;"></div>
+                </div>
+                
+                <h3>How KNN Works: Step by Step</h3>
+                <div class="flowchart">
+                    <div class="flow-step">
+                        <strong>Step 1:</strong> New data point arrives (e.g., new customer)
+                    </div>
+                    <div class="flow-arrow">⬇</div>
+                    <div class="flow-step">
+                        <strong>Step 2:</strong> Calculate distance to ALL existing data points
+                    </div>
+                    <div class="flow-arrow">⬇</div>
+                    <div class="flow-step">
+                        <strong>Step 3:</strong> Find the K closest neighbors
+                    </div>
+                    <div class="flow-arrow">⬇</div>
+                    <div class="flow-step">
+                        <strong>Step 4:</strong> Look at those neighbors' labels/values
+                    </div>
+                    <div class="flow-arrow">⬇</div>
+                    <div class="flow-step">
+                        <strong>Step 5:</strong> Make prediction (majority vote for classification, average for regression)
+                    </div>
+                </div>
+                
+                <div class="key-concept">
+                    <div class="concept-header">🤔 Choosing the Right K</div>
+                    <ul>
+                        <li><strong>K=1:</strong> Look at only the single closest neighbor
+                            <ul>
+                                <li>Pro: Very sensitive to local patterns</li>
+                                <li>Con: Can be thrown off by outliers/noise</li>
+                            </ul>
+                        </li>
+                        <li><strong>K=3 or K=5:</strong> Most common choices
+                            <ul>
+                                <li>Pro: Balanced—not too sensitive, not too broad</li>
+                                <li>Con: Still somewhat influenced by local variations</li>
+                            </ul>
+                        </li>
+                        <li><strong>Large K (like K=20):</strong> Look at many neighbors
+                            <ul>
+                                <li>Pro: Smoother predictions, less affected by noise</li>
+                                <li>Con: Might miss important local patterns</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <div class="tip-box" style="margin-top: 15px;">
+                        Rule of thumb: Try K = √(number of data points). For 100 data points, start with K=10. Then test a few values nearby to see what works best!
+                    </div>
+                </div>
+                
+                <div class="clickable-hint">
+                    👆 Click for real-world KNN applications!
+                </div>
+                
+                <div class="algorithm-grid">
+                    <div class="algorithm-card" onclick="openPanel('panel-knn')">
+                        <div class="algorithm-icon">👥</div>
+                        <h4>Deep Dive: KNN in Action</h4>
+                        <p>E-commerce, healthcare, and recommendation systems</p>
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <strong>Spotify's "Fans Also Like" Feature:</strong> When you like an artist, Spotify uses KNN to find similar artists. It looks at users who like the same music as you (your neighbors) and recommends artists they enjoy that you haven't discovered yet.
+                </div>
+            </div>
+            
+            <!-- Section 5: Neural Networks (Simplified) -->
+            <div class="section" id="section5">
+                <h2>Neural Networks: Inspired by the Brain</h2>
+                
+                <div class="definition-box">
+                    <strong>Neural Network</strong>
+                    A machine learning system loosely inspired by the human brain, made of interconnected "neurons" that work together to recognize patterns. These are the foundation of deep learning and modern AI breakthroughs.
+                </div>
+                
+                <div class="analogy-box">
+                    Your brain recognizing your friend's face. Your eyes (input layer) see shapes and colors. Your brain processes this through multiple steps (hidden layers)—detecting edges, then features like nose and eyes, then combining those into "face recognition" (output layer). Neural networks work similarly!
+                </div>
+                
+                <h3>Visual: How a Neural Network is Structured</h3>
+                <div class="visual-diagram">
+                    <h4>Click Each Layer to Learn More</h4>
+                    <div class="diagram-container">
+                        <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap;">
+                            <div>
+                                <div class="diagram-node" onclick="showNodeInfo('input-layer')">
+                                    Input Layer<br>
+                                    <small>Receives Data</small>
+                                </div>
+                            </div>
+                            <div style="font-size: 2em; color: #00a8e8;">→</div>
+                            <div>
+                                <div class="diagram-node" onclick="showNodeInfo('hidden-layer')">
+                                    Hidden Layer(s)<br>
+                                    <small>Processes Patterns</small>
+                                </div>
+                            </div>
+                            <div style="font-size: 2em; color: #00a8e8;">→</div>
+                            <div>
+                                <div class="diagram-node" onclick="showNodeInfo('output-layer')">
+                                    Output Layer<br>
+                                    <small>Makes Prediction</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="node-info" id="input-layerInfo">
+                        <h4>📥 Input Layer</h4>
+                        <p><strong>What it is:</strong> The entrance to the network where raw data comes in. Each "neuron" in this layer represents one feature of your data.</p>
+                        <p><strong>Example (House Price Prediction):</strong></p>
+                        <ul>
+                            <li>Neuron 1: Square footage</li>
+                            <li>Neuron 2: Number of bedrooms</li>
+                            <li>Neuron 3: Age of house</li>
+                            <li>Neuron 4: Neighborhood rating</li>
+                        </ul>
+                        <p><strong>What happens:</strong> Each input gets a number (the feature value), which then flows through connections to the next layer.</p>
+                    </div>
+                    
+                    <div class="node-info" id="hidden-layerInfo">
+                        <h4>🧠 Hidden Layer(s)</h4>
+                        <p><strong>What it is:</strong> The "thinking" layers where patterns are detected and combined. Deep networks have many hidden layers (that's why it's called "deep" learning!).</p>
+                        <p><strong>What they do:</strong> Each neuron looks at inputs, applies weights (importance), and decides whether to "fire" (activate) based on what it sees.</p>
+                        <p><strong>Example:</strong></p>
+                        <ul>
+                            <li><strong>First hidden layer:</strong> Detects simple patterns ("large house", "many bedrooms", "old property")</li>
+                            <li><strong>Second hidden layer:</strong> Combines simple patterns into complex ones ("luxury home", "fixer-upper", "family-friendly")</li>
+                        </ul>
+                        <p><strong>The magic:</strong> The network learns which patterns matter through training! You don't program these—it discovers them from data.</p>
+                    </div>
+                    
+                    <div class="node-info" id="output-layerInfo">
+                        <h4>📤 Output Layer</h4>
+                        <p><strong>What it is:</strong> The final layer that produces the prediction or classification.</p>
+                        <p><strong>For classification (categories):</strong> Each neuron represents one possible category. The one with the highest activation "wins."</p>
+                        <ul>
+                            <li>Example: [Cat: 0.9, Dog: 0.05, Bird: 0.05] → It's a cat!</li>
+                        </ul>
+                        <p><strong>For regression (numbers):</strong> Usually one neuron that outputs a predicted value.</p>
+                        <ul>
+                            <li>Example: Output = $325,000 (predicted house price)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>How Neural Networks Learn</h3>
+                <div class="key-concept">
+                    <div class="concept-header">🎓 The Learning Process</div>
+                    <ol>
+                        <li><strong>Forward Pass:</strong> Data flows through the network, layer by layer, to make a prediction</li>
+                        <li><strong>Compare to Reality:</strong> Check how wrong the prediction was (the "error" or "loss")</li>
+                        <li><strong>Backward Pass (Backpropagation):</strong> Work backwards through the network, adjusting the connections (weights) to reduce error</li>
+                        <li><strong>Repeat:</strong> Do this thousands or millions of times with different examples</li>
+                        <li><strong>Result:</strong> The network gets better and better at making accurate predictions!</li>
+                    </ol>
+                    
+                    <div class="analogy-box" style="margin-top: 20px; background: #fff9e6;">
+                        Learning to throw darts. Your first throw misses badly (high error). Your brain adjusts your aim (weight adjustment). Next throw is closer. Your brain keeps adjusting until you consistently hit the bullseye. Neural networks do the same thing—just with math instead of muscle memory!
+                    </div>
+                </div>
+                
+                <h3>Types of Neural Networks</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Best For</th>
+                            <th>Example Use</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Feedforward Networks</strong></td>
+                            <td>Basic predictions and classifications</td>
+                            <td>Predicting customer churn, credit scores</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Convolutional Networks (CNNs)</strong></td>
+                            <td>Images and visual data</td>
+                            <td>Face recognition, medical imaging, self-driving cars</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Recurrent Networks (RNNs)</strong></td>
+                            <td>Sequential data (time series, text)</td>
+                            <td>Speech recognition, language translation, stock prediction</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Transformers</strong></td>
+                            <td>Language understanding (modern NLP)</td>
+                            <td>ChatGPT, language translation, text generation</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="clickable-hint">
+                    👆 Click below for deep dives on each type of neural network!
+                </div>
+                
+                <div class="algorithm-grid">
+                    <div class="algorithm-card" onclick="openPanel('panel-neural-networks')">
+                        <div class="algorithm-icon">🧠</div>
+                        <h4>Deep Dive: Neural Networks</h4>
+                        <p>Architecture, training, and business applications</p>
+                    </div>
+                    <div class="algorithm-card" onclick="openPanel('panel-deep-learning')">
+                        <div class="algorithm-icon">🔬</div>
+                        <h4>Deep Learning Revolution</h4>
+                        <p>CNNs, RNNs, and Transformers explained</p>
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <strong>Healthcare: Skin Cancer Detection:</strong> A CNN neural network analyzes images of skin lesions. The first layers detect edges and colors. Middle layers recognize patterns like asymmetry and irregular borders. Final layers classify: benign or malignant. Accuracy matches or exceeds dermatologists!
+                </div>
+                
+                <div class="key-takeaways">
+                    <h4>🔑 Why Neural Networks Are Powerful</h4>
+                    <ul>
+                        <li><strong>Automatic feature detection:</strong> You don't tell it what patterns to look for—it discovers them!</li>
+                        <li><strong>Handles complexity:</strong> Can learn incredibly complex relationships between inputs and outputs</li>
+                        <li><strong>Scales with data:</strong> Generally improves with more training data</li>
+                        <li><strong>Versatile:</strong> Works for images, text, audio, video, and tabular data</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Section 6: More Algorithms (Brief Overview) -->
+            <div class="section" id="section6">
+                <h2>Other Important Algorithms</h2>
+                <p>You've learned the most beginner-friendly algorithms. Let's quickly introduce a few more that you'll encounter in the wild!</p>
+                
+                <div class="algorithm-grid">
+                    <div class="algorithm-card" onclick="openPanel('panel-random-forest')">
+                        <div class="algorithm-icon">🌲</div>
+                        <h4>Random Forest</h4>
+                        <p><strong>What it is:</strong> Many decision trees working together (a "forest"), each voting on the answer</p>
+                        <p><strong>Analogy:</strong> Asking 100 experts instead of one—the majority opinion is usually better!</p>
+                        <p><strong>Use case:</strong> Credit card fraud detection, medical diagnosis</p>
+                    </div>
+                    
+                    <div class="algorithm-card" onclick="openPanel('panel-svm')">
+                        <div class="algorithm-icon">📏</div>
+                        <h4>Support Vector Machines</h4>
+                        <p><strong>What it is:</strong> Finds the best boundary line to separate different categories</p>
+                        <p><strong>Analogy:</strong> Drawing a line to separate apples from oranges with the widest possible margin</p>
+                        <p><strong>Use case:</strong> Text classification, image recognition</p>
+                    </div>
+                    
+                    <div class="algorithm-card" onclick="openPanel('panel-naive-bayes')">
+                        <div class="algorithm-icon">🎲</div>
+                        <h4>Naive Bayes</h4>
+                        <p><strong>What it is:</strong> Uses probability to make predictions based on past occurrences</p>
+                        <p><strong>Analogy:</strong> "80% of spam emails contain the word FREE, this email has FREE, so probably spam"</p>
+                        <p><strong>Use case:</strong> Email spam filtering, sentiment analysis</p>
+                    </div>
+                    
+                    <div class="algorithm-card" onclick="openPanel('panel-clustering')">
+                        <div class="algorithm-icon">🎯</div>
+                        <h4>K-Means Clustering</h4>
+                        <p><strong>What it is:</strong> Groups similar items together without being told what the groups should be</p>
+                        <p><strong>Analogy:</strong> Organizing your closet by color without planning—things naturally group together</p>
+                        <p><strong>Use case:</strong> Customer segmentation, market research</p>
+                    </div>
+                </div>
+                
+                <div class="key-concept" style="margin-top: 30px;">
+                    <div class="concept-header">🗺️ Algorithm Selection Guide</div>
+                    <p><strong>How do you know which algorithm to use?</strong> It depends on your problem and data:</p>
+                    
+                    <table style="margin-top: 20px;">
+                        <thead>
+                            <tr>
+                                <th>Your Goal</th>
+                                <th>Best Algorithm(s)</th>
+                                <th>Why</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Predict a number (price, sales, temperature)</td>
+                                <td>Linear Regression, Neural Networks</td>
+                                <td>Good at finding numerical relationships</td>
+                            </tr>
+                            <tr>
+                                <td>Classify into categories (spam/not, fraud/legit)</td>
+                                <td>Decision Trees, Random Forest, Neural Networks</td>
+                                <td>Excellent at decision boundaries</td>
+                            </tr>
+                            <tr>
+                                <td>Group similar things (customer segments)</td>
+                                <td>K-Means, Hierarchical Clustering</td>
+                                <td>Finds natural groupings in data</td>
+                            </tr>
+                            <tr>
+                                <td>Recommend products/content</td>
+                                <td>K-Nearest Neighbors, Neural Networks</td>
+                                <td>Good at similarity matching</td>
+                            </tr>
+                            <tr>
+                                <td>Process images</td>
+                                <td>Convolutional Neural Networks (CNNs)</td>
+                                <td>Specialized for visual patterns</td>
+                            </tr>
+                            <tr>
+                                <td>Understand text/language</td>
+                                <td>Transformers, RNNs, Naive Bayes</td>
+                                <td>Handle sequential word patterns</td>
+                            </tr>
+                            <tr>
+                                <td>Need explainable results</td>
+                                <td>Decision Trees, Linear Regression</td>
+                                <td>Easy to understand the "why"</td>
+                            </tr>
+                            <tr>
+                                <td>Have limited data</td>
+                                <td>K-Nearest Neighbors, Naive Bayes</td>
+                                <td>Work well with smaller datasets</td>
+                            </tr>
+                            <tr>
+                                <td>Have massive datasets</td>
+                                <td>Neural Networks, Random Forest</td>
+                                <td>Scale well and improve with more data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="tip-box">
+                    In practice, data scientists often try several algorithms and pick the one that performs best for their specific data. There's no single "best" algorithm for everything—it depends on the problem, data quality, and business needs!
+                </div>
+            </div>
+            
+            <!-- Section 7: Connection to Module 5 -->
+            <div class="section" id="section7">
+                <h2>Putting It Into Practice</h2>
+                <p>You now understand the major machine learning algorithms! But reading about them is one thing—<strong>actually using them</strong> is where the real learning happens.</p>
+                
+                <div class="key-concept">
+                    <div class="concept-header">🚀 Preview: Module 5 - Hands-On with No-Code Tools</div>
+                    <p>In the next module, you'll actually BUILD and train your own machine learning models using beginner-friendly tools—no coding required!</p>
+                    
+                    <h4 style="color: #00a8e8; margin-top: 20px;">Here's what you'll do:</h4>
+                    <ul>
+                        <li><strong>Google's Teachable Machine:</strong> Train an image classifier to recognize objects (uses CNN neural networks behind the scenes!)</li>
+                        <li><strong>IBM Watson Studio:</strong> Build a decision tree to predict business outcomes</li>
+                        <li><strong>Microsoft Azure ML:</strong> Create a regression model to forecast sales</li>
+                        <li><strong>No code needed:</strong> Click, drag, and drop your way to working AI models!</li>
+                    </ul>
+                    
+                    <h4 style="color: #00a8e8; margin-top: 20px;">You'll see these algorithms in action:</h4>
+                    <ul>
+                        <li>✓ <strong>Decision Trees:</strong> Watch one being built step-by-step</li>
+                        <li>✓ <strong>Neural Networks:</strong> Train one to recognize your own images</li>
+                        <li>✓ <strong>Regression:</strong> Build a price prediction model with your own data</li>
+                        <li>✓ <strong>Classification:</strong> Create a spam detector</li>
+                    </ul>
+                    
+                    <div class="example-box" style="margin-top: 20px;">
+                        <strong>Sneak Peek:</strong> In one exercise, you'll use Teachable Machine to train a neural network to recognize hand gestures (rock, paper, scissors). You'll provide 20-30 examples of each, hit "Train," and within minutes have a working AI model. Then you'll test it in real-time with your webcam. It's like magic—but now you understand the science behind it!
+                    </div>
+                </div>
+                
+                <div class="key-takeaways">
+                    <h4>🔗 How Module 4 Connects to Module 5</h4>
+                    <ul>
+                        <li><strong>Module 4 (this one):</strong> You learned the CONCEPTS—what algorithms do and how they work</li>
+                        <li><strong>Module 5 (next):</strong> You'll APPLY those concepts—actually building models and seeing results</li>
+                        <li><strong>Together:</strong> You'll have both theoretical understanding AND practical experience</li>
+                    </ul>
+                    <p style="margin-top: 15px;">Think of Module 4 as learning to drive by reading the driver's manual. Module 5 is getting behind the wheel!</p>
+                </div>
+                
+                <div class="definition-box">
+                    <strong>Important Note on Data Preparation</strong>
+                    Remember Module 3 (Understanding Data)? All those lessons about data quality, cleaning, and bias are CRITICAL for Module 5. The no-code tools will work with whatever data you give them—but garbage data means garbage models. You now have the knowledge to prepare quality training data!
+                </div>
+            </div>
+            
+            <!-- Section 8: Quiz -->
+            <div class="section" id="section8">
+                <h2>Knowledge Check</h2>
+                <div class="quiz-section">
+                    <div class="quiz-question">
+                        <strong>Question 1: Which algorithm makes decisions by asking a series of yes/no questions?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 1)">Decision Tree</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 1)">Linear Regression</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 1)">K-Nearest Neighbors</div>
+                        </div>
+                        <div class="feedback" id="feedback1"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Question 2: You want to predict house prices based on size, bedrooms, and location. Which algorithm is BEST suited?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 2)">K-Means Clustering</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 2)">Linear Regression</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 2)">Naive Bayes</div>
+                        </div>
+                        <div class="feedback" id="feedback2"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Question 3: Netflix recommends movies by finding users with similar taste to yours and suggesting what they liked. This is most similar to which algorithm?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 3)">Decision Tree</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 3)">Linear Regression</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 3)">K-Nearest Neighbors</div>
+                        </div>
+                        <div class="feedback" id="feedback3"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Question 4: What are the three main layers in a basic neural network?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 4)">Input layer, Hidden layer(s), Output layer</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 4)">Data layer, Processing layer, Result layer</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 4)">Collection layer, Analysis layer, Prediction layer</div>
+                        </div>
+                        <div class="feedback" id="feedback4"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Question 5 (Scenario): Your company wants to automatically categorize customer emails into "complaints," "questions," and "praise." Which algorithm would you recommend?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 5)">Linear Regression (predicts numbers)</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 5)">Decision Tree or Neural Network (classifies categories)</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 5)">K-Means (groups without labels)</div>
+                        </div>
+                        <div class="feedback" id="feedback5"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Question 6 (Matching): Which type of neural network is specialized for processing images?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 6)">Recurrent Neural Network (RNN)</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 6)">Convolutional Neural Network (CNN)</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 6)">Feedforward Neural Network</div>
+                        </div>
+                        <div class="feedback" id="feedback6"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Question 7: True or False: In K-Nearest Neighbors, choosing K=1 means looking at only the single closest example.</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 7)">True</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 7)">False</div>
+                        </div>
+                        <div class="feedback" id="feedback7"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Question 8 (Conceptual): What is the main advantage of using Random Forest instead of a single Decision Tree?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 8)">It's faster</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 8)">It's more accurate by combining multiple trees</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 8)">It uses less data</div>
+                        </div>
+                        <div class="feedback" id="feedback8"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 9: Glossary -->
+            <div class="section" id="section9">
+                <h2>Machine Learning Glossary</h2>
+                <p>Quick reference for all the terms you learned in this module:</p>
+                
+                <div class="glossary">
+                    <div class="glossary-term">
+                        <strong>Algorithm:</strong> A step-by-step procedure for solving a problem or making predictions from data.
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>Backpropagation:</strong> The process neural networks use to learn—working backwards to adjust connections based on errors.
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>Classification:</strong> Predicting which category something belongs to (spam/not spam, cat/dog/bird).
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>Clustering:</strong> Grouping similar items together without predefined categories.
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>CNN (Convolutional Neural Network):</strong> A type of neural network specialized for processing images and visual data.
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>Deep Learning:</strong> Machine learning using neural networks with many hidden layers (hence "deep").
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>Features:</strong> The input variables or characteristics used to make predictions (e.g., house size, age, location).
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>Hidden Layer:</strong> Layers between input and output in a neural network where pattern detection happens.
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>K:</strong> In K-Nearest Neighbors, the number of closest neighbors to consider when making a prediction.
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>Label:</strong> The correct answer in training data (what you're trying to predict).
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>Loss/Error:</strong> How wrong the model's predictions are; learning aims to minimize this.
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>Neuron:</strong> A basic unit in a neural network that receives inputs, processes them, and passes output to the next layer.
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>Overfitting:</strong> When a model learns the training data TOO well and performs poorly on new data (memorizes instead of learns).
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>Regression:</strong> Predicting a continuous number (price, temperature, sales).
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>RNN (Recurrent Neural Network):</strong> A neural network type for sequential data like text or time series.
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>Training:</strong> The process of feeding data to an algorithm so it can learn patterns and improve predictions.
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>Transformer:</strong> A modern neural network architecture that powers language models like ChatGPT.
+                    </div>
+                    
+                    <div class="glossary-term">
+                        <strong>Weights:</strong> Numbers that determine the strength of connections between neurons; these get adjusted during learning.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 10: Completion -->
+            <div class="section" id="section10">
+                <div class="completion-badge">
+                    <div class="badge">🧠</div>
+                    <h2>Machine Learning Mastery!</h2>
+                    <p>You now understand how AI learns!</p>
+                </div>
+                
+                <h2>What You've Accomplished</h2>
+                <div class="key-takeaways">
+                    <ul>
+                        <li>✅ Understand how machine learning algorithms work (conceptually and mathematically)</li>
+                        <li>✅ Know when to use Decision Trees, Linear Regression, K-Nearest Neighbors, and Neural Networks</li>
+                        <li>✅ Grasp how neural networks are structured and how they learn</li>
+                        <li>✅ Recognize different types of neural networks (CNNs, RNNs, Transformers) and their applications</li>
+                        <li>✅ Can match business problems to appropriate algorithms</li>
+                        <li>✅ Understand key ML terminology and concepts</li>
+                    </ul>
+                </div>
+                
+                <h3>Your ML Journey So Far</h3>
+                <div class="flowchart">
+                    <div class="flow-step">
+                        <strong>Module 1:</strong> Learned what AI is and its history
+                    </div>
+                    <div class="flow-arrow">⬇</div>
+                    <div class="flow-step">
+                        <strong>Module 2:</strong> Understood different types of AI and ML
+                    </div>
+                    <div class="flow-arrow">⬇</div>
+                    <div class="flow-step">
+                        <strong>Module 3:</strong> Discovered why data is crucial and how to prepare it
+                    </div>
+                    <div class="flow-arrow">⬇</div>
+                    <div class="flow-step">
+                        <strong>Module 4 (This Module):</strong> Learned how algorithms process data to make predictions
+                    </div>
+                    <div class="flow-arrow">⬇</div>
+                    <div class="flow-step" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <strong>Module 5 (Next):</strong> Build your own ML models with no-code tools!
+                    </div>
+                </div>
+                
+                <h3>Ready for Hands-On Practice?</h3>
+                <div class="key-concept">
+                    <p style="font-size: 1.2em;">You've built a strong foundation! Now it's time to put theory into practice.</p>
+                    <p>In Module 5, you'll train your own models and see these algorithms in action. You'll understand not just WHAT happens, but WHY—because you learned the fundamentals here in Module 4.</p>
+                    
+                    <div class="example-box" style="margin-top: 20px;">
+                        <strong>What You're Prepared For:</strong> When you train a model in Teachable Machine and it says "Training: 78% accuracy," you'll understand what that means. When it asks you to provide more diverse training examples, you'll know why (Module 3's lessons on data quality!). When you see the neural network diagram, you'll recognize input layers, hidden layers, and output layers. You're ready!
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 40px;">
+                    <p style="font-size: 1.3em; color: #00a8e8;"><strong>You're now an informed AI practitioner—let's build something! 🚀</strong></p>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <div class="nav-buttons">
+                <button id="prevBtn" onclick="changeSection(-1)">← Previous</button>
+                <button id="nextBtn" onclick="changeSection(1)">Next →</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="panelOverlay" onclick="closeAllPanels()"></div>
+    
+    <!-- Hidden Modal Content Templates -->
+    <div style="display: none;">
+    
+    <!-- Decision Trees Panel -->
+    <div id="panel-decision-trees">
+        <button class="modal-close" onclick="closeAllPanels()">×</button>
+        <span class="modal-icon">🌳</span>
+        <h3>Decision Trees in Business</h3>
+        
+        <div class="detail-section">
+            <h4>Why Businesses Love Decision Trees</h4>
+            <p>Decision trees are among the most popular algorithms in business because they're easy to explain to non-technical stakeholders. When your boss asks "Why did the model make that decision?", you can literally show them the tree!</p>
+        </div>
+        
+        <div class="stat-highlight">
+            📊 73% of Fortune 500 companies use decision trees in at least one business process
+        </div>
+        
+        <div class="detail-section">
+            <h4>Real Business Application: Customer Churn Prediction</h4>
+            <p><strong>Telecom Company Case Study:</strong></p>
+            <p>A major cell phone carrier wanted to predict which customers would cancel their service. They built a decision tree that asked:</p>
+            <ol>
+                <li><strong>Root Question:</strong> "Has customer called support more than 3 times this month?"
+                    <ul>
+                        <li>Yes → High churn risk (proceed to next question)</li>
+                        <li>No → Low churn risk (keep monitoring)</li>
+                    </ul>
+                </li>
+                <li><strong>Second Question:</strong> "Is their monthly bill above $80?"
+                    <ul>
+                        <li>Yes → Very high risk → <strong>Action: Offer retention discount</strong></li>
+                        <li>No → Medium risk → <strong>Action: Send satisfaction survey</strong></li>
+                    </ul>
+                </li>
+            </ol>
+            <p><strong>Result:</strong> Reduced churn by 18% and saved $12M annually by targeting the right customers with the right offers.</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>More Business Applications</h4>
+            <ul>
+                <li><strong>Credit Approval:</strong> Banks use decision trees to approve/deny loans based on income, credit score, debt ratio, employment history</li>
+                <li><strong>Medical Diagnosis:</strong> Hospitals use them for triage—"Does patient have fever?" → "Above 102°F?" → "Difficulty breathing?" → Treatment path</li>
+                <li><strong>Marketing Segmentation:</strong> E-commerce sites classify customers into "deal seekers", "brand loyal", "impulse buyers" to target messaging</li>
+                <li><strong>Fraud Detection:</strong> Credit card companies identify suspicious transactions through decision tree patterns</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            When presenting to executives, show them the decision tree visually. They'll understand it immediately—much better than trying to explain neural network weights!
+        </div>
+        
+        <div class="detail-section">
+            <h4>Advanced Concept: Ensemble Methods</h4>
+            <p>Single decision trees can be unstable (small data changes = different tree). The solution? <strong>Random Forests</strong>—create hundreds of decision trees, each trained on slightly different data, then vote on the answer.</p>
+            <p><strong>Think of it as:</strong> Instead of asking one expert, you ask 100 experts and go with the majority opinion. Much more reliable!</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Common Pitfalls & Solutions</h4>
+            <ul>
+                <li><strong>Problem:</strong> Tree becomes too deep and complex (overfitting)
+                    <ul>
+                        <li><strong>Solution:</strong> Set maximum depth (e.g., no more than 5 levels of questions)</li>
+                    </ul>
+                </li>
+                <li><strong>Problem:</strong> Biased toward features with many possible values
+                    <ul>
+                        <li><strong>Solution:</strong> Use algorithms like C4.5 or CART that compensate for this</li>
+                    </ul>
+                </li>
+                <li><strong>Problem:</strong> Doesn't handle continuous relationships well (curves)
+                    <ul>
+                        <li><strong>Solution:</strong> Consider gradient boosted trees or neural networks for complex relationships</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Regression Panel -->
+    <div id="panel-regression">
+        <button class="modal-close" onclick="closeAllPanels()">×</button>
+        <span class="modal-icon">📈</span>
+        <h3>Regression in Business</h3>
+        
+        <div class="detail-section">
+            <h4>The Power of Prediction</h4>
+            <p>Every business needs to predict numbers: sales, costs, demand, prices. Linear regression is often the first algorithm data scientists try because it's fast, interpretable, and surprisingly effective for many problems.</p>
+        </div>
+        
+        <div class="stat-highlight">
+            💰 Companies using predictive analytics (like regression) are 2.9x more likely to report revenue growth above their industry average
+        </div>
+        
+        <div class="detail-section">
+            <h4>Real Application: Dynamic Pricing at Uber</h4>
+            <p>Uber uses regression models to predict demand and set "surge pricing":</p>
+            <ul>
+                <li><strong>Inputs:</strong> Time of day, day of week, weather, local events, historical demand</li>
+                <li><strong>Model:</strong> Multiple linear regression predicts expected ride requests per minute</li>
+                <li><strong>Output:</strong> If predicted demand > available drivers, increase prices to balance supply/demand</li>
+                <li><strong>Impact:</strong> Ensures riders can always get rides when they need them (drivers attracted by higher fares)</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Common Business Use Cases</h4>
+            <ul>
+                <li><strong>Sales Forecasting:</strong> Predict next quarter's revenue based on marketing spend, seasonality, economic indicators</li>
+                <li><strong>Inventory Planning:</strong> Forecast product demand to optimize stock levels (not too much, not too little)</li>
+                <li><strong>Real Estate Valuation:</strong> Zillow's "Zestimate" uses regression on square footage, beds, baths, location, recent sales</li>
+                <li><strong>Ad Spend Optimization:</strong> Predict ROI for each marketing channel to allocate budget effectively</li>
+                <li><strong>Employee Retention:</strong> Predict tenure based on salary, role, manager rating, career growth opportunities</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            Always visualize your regression! Plot actual values vs. predicted values. If points are all over the place, your model needs improvement. If they follow the diagonal line closely, you're doing well!
+        </div>
+        
+        <div class="detail-section">
+            <h4>Beyond Simple Linear Regression</h4>
+            <p><strong>Multiple Regression:</strong> More than one input variable (e.g., predict house price from size + bedrooms + age + location)</p>
+            <p><strong>Polynomial Regression:</strong> Captures curved relationships, not just straight lines</p>
+            <p><strong>Ridge/Lasso Regression:</strong> Prevents overfitting when you have lots of input features</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>When Regression Fails</h4>
+            <ul>
+                <li><strong>Non-linear relationships:</strong> If the true relationship is curved or complex, try polynomial regression or neural networks</li>
+                <li><strong>Outliers:</strong> A few extreme values can throw off the entire line—clean your data first!</li>
+                <li><strong>Categorical predictions:</strong> Regression predicts numbers; if you need categories (spam/not spam), use classification algorithms instead</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Measuring Success: R² Score</h4>
+            <p>R² (R-squared) tells you how well your line fits the data:</p>
+            <ul>
+                <li><strong>R² = 1.0:</strong> Perfect fit (every point on the line) — suspiciously good, probably overfit!</li>
+                <li><strong>R² = 0.7-0.9:</strong> Strong relationship, useful predictions</li>
+                <li><strong>R² = 0.4-0.6:</strong> Moderate relationship, some predictive value</li>
+                <li><strong>R² < 0.3:</strong> Weak relationship, predictions won't be very accurate</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- KNN Panel -->
+    <div id="panel-knn">
+        <button class="modal-close" onclick="closeAllPanels()">×</button>
+        <span class="modal-icon">👥</span>
+        <h3>K-Nearest Neighbors in Action</h3>
+        
+        <div class="detail-section">
+            <h4>The "Show Me Similar Examples" Algorithm</h4>
+            <p>KNN is powerful because it's intuitive: find similar past cases and predict based on what happened to them. No complex math—just similarity and voting!</p>
+        </div>
+        
+        <div class="stat-highlight">
+            🎯 KNN powers 40%+ of recommendation systems in e-commerce and streaming services
+        </div>
+        
+        <div class="detail-section">
+            <h4>E-commerce: Amazon's "Customers Also Bought"</h4>
+            <p>When you view a product, Amazon uses a variant of KNN:</p>
+            <ol>
+                <li>Finds customers similar to you (based on browsing/purchase history)</li>
+                <li>Looks at what those similar customers bought</li>
+                <li>Recommends the most popular items among your "neighbors"</li>
+            </ol>
+            <p><strong>Result:</strong> 35% of Amazon's revenue comes from recommendations—that's $160 billion annually!</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Healthcare: Personalized Treatment Recommendations</h4>
+            <p>Hospitals use KNN to recommend treatments:</p>
+            <ul>
+                <li><strong>Input:</strong> New patient with symptoms: age 45, diabetic, high blood pressure, chest pain</li>
+                <li><strong>KNN Process:</strong> Find 10 most similar past patients (same age range, conditions, symptoms)</li>
+                <li><strong>Output:</strong> 8 out of 10 similar patients responded well to Treatment A → Recommend Treatment A</li>
+                <li><strong>Benefit:</strong> Evidence-based recommendations from real patient outcomes, not just textbook guidelines</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>More Applications</h4>
+            <ul>
+                <li><strong>Content Recommendation:</strong> Netflix finds users with similar viewing patterns and recommends their favorites</li>
+                <li><strong>Real Estate Comparables:</strong> "Homes similar to this one sold for $X" uses KNN to find comparable properties</li>
+                <li><strong>Fraud Detection:</strong> Compare new transaction to similar past transactions—if neighbors were fraudulent, flag it!</li>
+                <li><strong>Image Recognition:</strong> "This new image looks like training images labeled 'cat'" → Predict cat</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            Feature scaling is critical for KNN! If one feature (income: 0-200,000) has much larger range than another (age: 0-100), it will dominate distance calculations. Always normalize your features to 0-1 range.
+        </div>
+        
+        <div class="detail-section">
+            <h4>Advantages & Disadvantages</h4>
+            <p><strong>✅ Advantages:</strong></p>
+            <ul>
+                <li>Simple to understand and implement</li>
+                <li>No training phase required (just store data)</li>
+                <li>Naturally handles multi-class problems</li>
+                <li>Adapts as new data arrives</li>
+            </ul>
+            <p><strong>❌ Disadvantages:</strong></p>
+            <ul>
+                <li>Slow for large datasets (must calculate distance to every point!)</li>
+                <li>Sensitive to irrelevant features (noise can mislead distance calculation)</li>
+                <li>Struggles with high-dimensional data (curse of dimensionality)</li>
+                <li>Memory intensive (must store all training data)</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Optimizing KNN Performance</h4>
+            <ul>
+                <li><strong>Choose K wisely:</strong> Try odd numbers (3, 5, 7, 9) to avoid ties in voting</li>
+                <li><strong>Use distance weighting:</strong> Closer neighbors get more votes than distant ones</li>
+                <li><strong>Feature selection:</strong> Remove irrelevant features that add noise</li>
+                <li><strong>Use approximate methods:</strong> For huge datasets, use algorithms like LSH (Locality-Sensitive Hashing) to find neighbors faster</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Neural Networks Panel -->
+    <div id="panel-neural-networks">
+        <button class="modal-close" onclick="closeAllPanels()">×</button>
+        <span class="modal-icon">🧠</span>
+        <h3>Neural Networks Deep Dive</h3>
+        
+        <div class="detail-section">
+            <h4>The Foundation of Modern AI</h4>
+            <p>Neural networks are behind the AI revolution: self-driving cars, facial recognition, language translation, ChatGPT, DALL-E. Understanding them is essential for any AI practitioner.</p>
+        </div>
+        
+        <div class="stat-highlight">
+            🚀 Investment in deep learning (neural networks) grew from $1B in 2015 to $50B+ in 2024
+        </div>
+        
+        <div class="detail-section">
+            <h4>How They Actually Work: Step-by-Step</h4>
+            <p><strong>1. Initialization:</strong> Network starts with random weights (connections between neurons)</p>
+            <p><strong>2. Forward Pass:</strong></p>
+            <ul>
+                <li>Input data enters the network (e.g., image pixels)</li>
+                <li>Each neuron: multiplies inputs by weights, adds them up, applies activation function</li>
+                <li>Data flows layer by layer until reaching output</li>
+                <li>Output is the prediction (e.g., "This is a cat")</li>
+            </ul>
+            <p><strong>3. Calculate Error:</strong> Compare prediction to correct answer (how wrong were we?)</p>
+            <p><strong>4. Backward Pass (Backpropagation):</strong></p>
+            <ul>
+                <li>Work backwards through network</li>
+                <li>Calculate how much each weight contributed to the error</li>
+                <li>Adjust weights to reduce error (learning!)</li>
+            </ul>
+            <p><strong>5. Repeat:</strong> Do this millions of times with different examples until error is minimized</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Activation Functions: The "On/Off Switch"</h4>
+            <p>Activation functions decide whether a neuron "fires" or not. Common ones:</p>
+            <ul>
+                <li><strong>ReLU (Rectified Linear Unit):</strong> Most popular. If input negative → output 0, else output = input. Simple and effective!</li>
+                <li><strong>Sigmoid:</strong> Squashes output to 0-1 range. Good for probabilities.</li>
+                <li><strong>Tanh:</strong> Similar to sigmoid but outputs -1 to 1</li>
+                <li><strong>Softmax:</strong> Used in output layer for multi-class classification (converts scores to probabilities that sum to 1)</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Business Application: Fraud Detection at PayPal</h4>
+            <p>PayPal processes 19 million transactions daily. Neural networks analyze:</p>
+            <ul>
+                <li>Transaction amount, location, device, time</li>
+                <li>User's typical behavior patterns</li>
+                <li>Merchant reputation and history</li>
+                <li>Hundreds of other features</li>
+            </ul>
+            <p>The network learned complex fraud patterns that simple rules miss:</p>
+            <ul>
+                <li>Catches 70% more fraud than rule-based systems</li>
+                <li>Reduces false positives (legitimate transactions wrongly blocked) by 50%</li>
+                <li>Saves $1B+ annually in fraud losses</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            Neural networks are "black boxes"—hard to explain WHY they made a decision. For regulated industries (finance, healthcare), this can be a problem. Always balance accuracy with explainability!
+        </div>
+        
+        <div class="detail-section">
+            <h4>Training Challenges & Solutions</h4>
+            <p><strong>Challenge: Vanishing Gradients</strong></p>
+            <ul>
+                <li>Problem: In deep networks, error signals get weaker as they propagate backward</li>
+                <li>Solution: Use ReLU activation, batch normalization, skip connections (ResNet architecture)</li>
+            </ul>
+            <p><strong>Challenge: Overfitting</strong></p>
+            <ul>
+                <li>Problem: Network memorizes training data instead of learning patterns</li>
+                <li>Solution: Dropout (randomly disable neurons during training), regularization, more data</li>
+            </ul>
+            <p><strong>Challenge: Slow Training</strong></p>
+            <ul>
+                <li>Problem: Training can take days or weeks on large datasets</li>
+                <li>Solution: Use GPUs (100x faster than CPUs), batch processing, transfer learning</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>When to Use Neural Networks</h4>
+            <p><strong>✅ Great For:</strong></p>
+            <ul>
+                <li>Large datasets (millions of examples)</li>
+                <li>Complex patterns that simpler algorithms miss</li>
+                <li>Images, audio, video, text (unstructured data)</li>
+                <li>When accuracy is paramount and explainability less important</li>
+            </ul>
+            <p><strong>❌ Not Ideal For:</strong></p>
+            <ul>
+                <li>Small datasets (thousands of examples) — will overfit</li>
+                <li>When you need to explain decisions to regulators/customers</li>
+                <li>Simple problems where linear regression or decision trees work fine</li>
+                <li>When training time/computational cost is limited</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Deep Learning Panel -->
+    <div id="panel-deep-learning">
+        <button class="modal-close" onclick="closeAllPanels()">×</button>
+        <span class="modal-icon">🔬</span>
+        <h3>Deep Learning Revolution</h3>
+        
+        <div class="detail-section">
+            <h4>What Makes it "Deep"?</h4>
+            <p>"Deep learning" simply means neural networks with many hidden layers (typically 10+, sometimes hundreds!). More layers = ability to learn more complex, abstract patterns.</p>
+        </div>
+        
+        <div class="stat-highlight">
+            📊 Deep learning now powers 90%+ of breakthrough AI applications (up from <10% in 2012)
+        </div>
+        
+        <div class="detail-section">
+            <h4>Convolutional Neural Networks (CNNs): Masters of Vision</h4>
+            <p><strong>Architecture:</strong></p>
+            <ul>
+                <li><strong>Convolutional Layers:</strong> Scan image with filters to detect features (edges, corners, textures)</li>
+                <li><strong>Pooling Layers:</strong> Reduce image size while keeping important features (makes processing faster)</li>
+                <li><strong>Fully Connected Layers:</strong> Make final decision based on detected features</li>
+            </ul>
+            
+            <p><strong>Real Application: Tesla Autopilot</strong></p>
+            <ul>
+                <li>8 cameras feed images to CNNs</li>
+                <li>First layers: Detect edges, lines, shapes</li>
+                <li>Middle layers: Recognize cars, pedestrians, lane markings, traffic signs</li>
+                <li>Final layers: Decide steering angle, acceleration, braking</li>
+                <li>Processes 2,000+ frames per second for real-time driving</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Recurrent Neural Networks (RNNs): Understanding Sequences</h4>
+            <p><strong>What's Special:</strong> RNNs have "memory"—they remember previous inputs in the sequence, making them perfect for time series and language.</p>
+            
+            <p><strong>Architecture:</strong></p>
+            <ul>
+                <li>Each neuron not only processes current input but also receives information from previous step</li>
+                <li>Allows network to understand context (the word "bank" means different things in "river bank" vs "bank account")</li>
+            </ul>
+            
+            <p><strong>Real Application: Google Translate</strong></p>
+            <ul>
+                <li>Reads sentence word-by-word, building understanding of meaning</li>
+                <li>Handles variable-length sentences (some sentences are short, some long)</li>
+                <li>Maintains context across entire sentence, not just individual words</li>
+                <li>Supports 133 languages with 90%+ accuracy for common pairs</li>
+            </ul>
+            
+            <p><strong>Improved Version: LSTM (Long Short-Term Memory)</strong></p>
+            <ul>
+                <li>Solves RNN problem of forgetting old information in long sequences</li>
+                <li>Has special "gates" that decide what to remember and what to forget</li>
+                <li>Used in voice assistants (Siri, Alexa) and predictive text</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Transformers: The Latest Revolution</h4>
+            <p><strong>What Changed:</strong> Transformers replaced RNNs for language tasks. They're faster, more accurate, and scale better.</p>
+            
+            <p><strong>Key Innovation: Attention Mechanism</strong></p>
+            <ul>
+                <li>Instead of processing words one-by-one, looks at entire sentence at once</li>
+                <li>"Pays attention" to relevant words (e.g., in "The cat sat on the mat", "cat" and "sat" are related)</li>
+                <li>Can process much longer sequences than RNNs (thousands of words vs hundreds)</li>
+            </ul>
+            
+            <p><strong>Real Application: ChatGPT (GPT = Generative Pre-trained Transformer)</strong></p>
+            <ul>
+                <li>Based on transformer architecture with 175 billion parameters</li>
+                <li>Trained on hundreds of billions of words from internet</li>
+                <li>Learned patterns in how humans write and reason</li>
+                <li>Can generate coherent, contextually relevant responses on any topic</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Why Deep Learning Exploded After 2012</h4>
+            <p><strong>Three Key Enablers:</strong></p>
+            <ol>
+                <li><strong>Big Data:</strong> Internet created massive labeled datasets (billions of images, text examples)</li>
+                <li><strong>GPUs:</strong> Graphics cards (originally for video games) turned out perfect for parallel neural network computations—100x faster than CPUs</li>
+                <li><strong>Algorithmic Improvements:</strong> Better activation functions (ReLU), normalization techniques, optimizers (Adam), architectures (ResNet, Transformers)</li>
+            </ol>
+            <p><strong>Breakthrough Moment:</strong> 2012 ImageNet competition—deep CNN (AlexNet) crushed traditional algorithms, reducing error rate from 26% to 16%</p>
+        </div>
+        
+        <div class="tip-box">
+            Transfer learning is a game-changer! Instead of training from scratch (takes weeks), start with a pre-trained network (like ResNet, BERT) and fine-tune it for your specific task. Reduces training time from weeks to hours!
+        </div>
+        
+        <div class="detail-section">
+            <h4>Business ROI of Deep Learning</h4>
+            <ul>
+                <li><strong>Healthcare:</strong> RadiologyAI detects cancer with 94% accuracy (vs 88% for human radiologists) → Earlier treatment, better outcomes</li>
+                <li><strong>Manufacturing:</strong> Computer vision inspects products 10x faster than humans with 99%+ accuracy → Fewer defects, lower costs</li>
+                <li><strong>Customer Service:</strong> Chatbots handle 60-80% of routine inquiries → Save $8B+ annually across industries</li>
+                <li><strong>Finance:</strong> Fraud detection with CNNs/RNNs prevents $25B+ in losses yearly</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Random Forest Panel -->
+    <div id="panel-random-forest">
+        <button class="modal-close" onclick="closeAllPanels()">×</button>
+        <span class="modal-icon">🌲</span>
+        <h3>Random Forest</h3>
+        
+        <div class="detail-section">
+            <h4>Wisdom of the Crowd</h4>
+            <p>Random Forest creates hundreds or thousands of decision trees, each trained on different random subsets of data. Then they all vote on the answer. It's like asking 100 experts instead of one!</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>How It Works</h4>
+            <ol>
+                <li><strong>Bootstrap:</strong> Create multiple datasets by randomly sampling from original data (with replacement)</li>
+                <li><strong>Train Trees:</strong> Build a decision tree on each dataset, using only random subset of features at each split</li>
+                <li><strong>Vote:</strong> For classification, each tree votes; majority wins. For regression, average all predictions.</li>
+            </ol>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Business Application: Credit Scoring at Lending Club</h4>
+            <p>Lending Club uses Random Forest to assess loan risk:</p>
+            <ul>
+                <li>Each tree looks at different aspects: some focus on income, others on credit history, others on loan purpose</li>
+                <li>Trees vote: "approve" vs "deny"</li>
+                <li>If 70%+ trees say "approve" → Loan approved</li>
+                <li><strong>Result:</strong> 15% better default prediction than single decision tree, $50M in prevented losses</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            Random Forests are the "Swiss Army knife" of machine learning. When you don't know which algorithm to try first, Random Forest is often a safe bet—works well on most problems without much tuning!
+        </div>
+        
+        <div class="detail-section">
+            <h4>Advantages</h4>
+            <ul>
+                <li>More accurate than single decision trees</li>
+                <li>Handles large datasets with many features</li>
+                <li>Automatically handles missing values</li>
+                <li>Provides feature importance rankings (which inputs matter most)</li>
+                <li>Resistant to overfitting</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- SVM Panel -->
+    <div id="panel-svm">
+        <button class="modal-close" onclick="closeAllPanels()">×</button>
+        <span class="modal-icon">📏</span>
+        <h3>Support Vector Machines</h3>
+        
+        <div class="detail-section">
+            <h4>Drawing the Best Boundary</h4>
+            <p>SVM finds the line (or hyperplane in higher dimensions) that best separates different categories, maximizing the distance to the nearest points from each class. Think of it as finding the "safest" boundary with the widest margin.</p>
+        </div>
+        
+        <div class="analogy-box">
+            Imagine separating red and blue marbles on a table. You could draw many lines to separate them. SVM finds the line with the most empty space on both sides—the "safest" separator that's least likely to misclassify points near the boundary.
+        </div>
+        
+        <div class="detail-section">
+            <h4>Business Application: Text Classification</h4>
+            <p><strong>Email Spam Filtering:</strong></p>
+            <ul>
+                <li>Each email represented as point in high-dimensional space (each word/phrase = dimension)</li>
+                <li>SVM finds boundary separating spam from legitimate emails</li>
+                <li>New email: Check which side of boundary it falls on</li>
+                <li><strong>Accuracy:</strong> 98%+ for well-trained systems</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>The Kernel Trick</h4>
+            <p>SVMs can handle non-linear boundaries using the "kernel trick":</p>
+            <ul>
+                <li>Project data into higher dimensions where linear separation is possible</li>
+                <li>Like lifting 2D data into 3D where you can slice through it with a plane</li>
+                <li>Common kernels: Linear, Polynomial, RBF (Radial Basis Function)</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>When to Use SVM</h4>
+            <p><strong>✅ Great for:</strong> Text classification, image recognition (before deep learning), small-to-medium datasets with many features</p>
+            <p><strong>❌ Avoid for:</strong> Very large datasets (slow to train), when probability estimates are needed (SVM gives classification only)</p>
+        </div>
+    </div>
+    
+    <!-- Naive Bayes Panel -->
+    <div id="panel-naive-bayes">
+        <button class="modal-close" onclick="closeAllPanels()">×</button>
+        <span class="modal-icon">🎲</span>
+        <h3>Naive Bayes</h3>
+        
+        <div class="detail-section">
+            <h4>Probability-Based Classification</h4>
+            <p>Naive Bayes uses probability theory: "Given that this email contains the words 'FREE', 'CLICK HERE', and 'WINNER', what's the probability it's spam?" It's based on Bayes' Theorem from statistics.</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Why "Naive"?</h4>
+            <p>It makes a "naive" assumption: all features are independent of each other. In reality, features often relate (if email has "FREE", it's more likely to also have "CLICK HERE"). Despite this unrealistic assumption, Naive Bayes works surprisingly well in practice!</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Business Application: Customer Sentiment Analysis</h4>
+            <p><strong>Analyzing Product Reviews:</strong></p>
+            <ul>
+                <li>Training: Learn probability that words appear in positive vs. negative reviews</li>
+                <li>New review: "This product is amazing and fast!" </li>
+                <li>Calculate: P(positive | "amazing", "fast") vs P(negative | "amazing", "fast")</li>
+                <li>Prediction: Positive sentiment (higher probability)</li>
+                <li><strong>Speed:</strong> Can classify thousands of reviews per second</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            Naive Bayes is incredibly fast and works well with small training datasets. Perfect for quick prototypes and real-time classification where speed matters more than perfect accuracy!
+        </div>
+        
+        <div class="detail-section">
+            <h4>Advantages</h4>
+            <ul>
+                <li>Extremely fast to train and predict</li>
+                <li>Works well with small datasets</li>
+                <li>Handles high-dimensional data well</li>
+                <li>Provides probability estimates (not just classifications)</li>
+                <li>Simple to implement and understand</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- K-Means Panel -->
+    <div id="panel-clustering">
+        <button class="modal-close" onclick="closeAllPanels()">×</button>
+        <span class="modal-icon">🎯</span>
+        <h3>K-Means Clustering</h3>
+        
+        <div class="detail-section">
+            <h4>Unsupervised Learning: Finding Natural Groups</h4>
+            <p>K-Means is different from other algorithms we've discussed—it's unsupervised, meaning it doesn't need labeled training data. It just looks at your data and finds natural groupings!</p>
+        </div>
+        
+        <div class="detail-section">
+            <h4>How K-Means Works</h4>
+            <ol>
+                <li><strong>Choose K:</strong> Decide how many clusters you want (e.g., K=3 for 3 customer segments)</li>
+                <li><strong>Initialize:</strong> Randomly place K "centroids" (cluster centers)</li>
+                <li><strong>Assign:</strong> Put each data point in the cluster of its nearest centroid</li>
+                <li><strong>Update:</strong> Move each centroid to the average position of points in its cluster</li>
+                <li><strong>Repeat:</strong> Steps 3-4 until centroids stop moving</li>
+            </ol>
+        </div>
+        
+        <div class="detail-section">
+            <h4>Business Application: Customer Segmentation</h4>
+            <p><strong>E-commerce Example:</strong></p>
+            <ul>
+                <li><strong>Input Data:</strong> Customer purchase frequency, average order value, product categories bought, time since last purchase</li>
+                <li><strong>K-Means with K=4 discovers:</strong>
+                    <ul>
+                        <li><strong>Cluster 1:</strong> High-value, frequent buyers (VIPs)</li>
+                        <li><strong>Cluster 2:</strong> Occasional buyers, moderate spending (Regulars)</li>
+                        <li><strong>Cluster 3:</strong> One-time purchasers, low value (At-risk)</li>
+                        <li><strong>Cluster 4:</strong> Inactive accounts (Churned)</li>
+                    </ul>
+                </li>
+                <li><strong>Action:</strong> Target each segment with appropriate messaging—VIP perks for Cluster 1, win-back offers for Cluster 3</li>
+            </ul>
+        </div>
+        
+        <div class="detail-section">
+            <h4>More Applications</h4>
+            <ul>
+                <li><strong>Image Compression:</strong> Cluster similar colors together, reducing file size</li>
+                <li><strong>Anomaly Detection:</strong> Points far from any cluster = outliers = potential fraud/defects</li>
+                <li><strong>Document Organization:</strong> Group similar articles/emails without pre-defined categories</li>
+                <li><strong>Market Research:</strong> Identify distinct consumer segments from survey data</li>
+            </ul>
+        </div>
+        
+        <div class="tip-box">
+            How to choose K? Try the "elbow method": run K-Means with K=1, 2, 3, ... 10. Plot within-cluster variation vs. K. Look for the "elbow" where adding more clusters doesn't help much—that's your optimal K!
+        </div>
+        
+        <div class="detail-section">
+            <h4>Limitations</h4>
+            <ul>
+                <li>Must specify K upfront (doesn't tell you how many clusters exist)</li>
+                <li>Sensitive to initial centroid placement (run multiple times with different starting points)</li>
+                <li>Assumes clusters are spherical and similar size</li>
+                <li>Struggles with clusters of different densities or odd shapes</li>
+            </ul>
+        </div>
+    </div>
+    
+    </div><!-- End hidden modal templates -->
+    
+    <script>
+        let currentSection = 1;
+        const totalSections = 10;
+        
+        // Demo variables
+        let treeStep = 0;
+        let kValue = 3;
+        
+        function updateProgress() {
+            const progress = (currentSection / totalSections) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        function showSection(n) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            if (n > totalSections) { currentSection = totalSections; }
+            if (n < 1) { currentSection = 1; }
+            
+            sections[currentSection - 1].classList.add('active');
+            
+            document.getElementById('prevBtn').disabled = currentSection === 1;
+            document.getElementById('nextBtn').textContent = currentSection === totalSections ? 'Finish ✓' : 'Next →';
+            
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function changeSection(n) {
+            currentSection += n;
+            showSection(currentSection);
+        }
+        
+        // Decision Tree Demo
+        function startDemo() {
+            treeStep = 1;
+            updateTreeDemo();
+        }
+        
+        function resetDemo() {
+            treeStep = 0;
+            document.getElementById('treeDemo').innerHTML = '<p style="text-align: center; color: #666;">Click "Start Demo" to begin!</p>';
+        }
+        
+        function updateTreeDemo() {
+            const demo = document.getElementById('treeDemo');
+            
+            if (treeStep === 1) {
+                demo.innerHTML = `
+                    <p><strong>Question 1:</strong> Do you like action movies?</p>
+                    <div style="margin-top: 15px;">
+                        <button class="demo-button" onclick="answerTree('yes', 1)" style="margin: 5px;">Yes</button>
+                        <button class="demo-button" onclick="answerTree('no', 1)" style="margin: 5px;">No</button>
+                    </div>
+                `;
+            } else if (treeStep === 2) {
+                demo.innerHTML = `
+                    <p>✓ You like action movies</p>
+                    <p><strong>Question 2:</strong> Do you like complex plots?</p>
+                    <div style="margin-top: 15px;">
+                        <button class="demo-button" onclick="answerTree('yes', 2)" style="margin: 5px;">Yes</button>
+                        <button class="demo-button" onclick="answerTree('no', 2)" style="margin: 5px;">No</button>
+                    </div>
+                `;
+            } else if (treeStep === 3) {
+                demo.innerHTML = `
+                    <p>✓ You like action movies</p>
+                    <p>✓ You like complex plots</p>
+                    <p style="margin-top: 20px; font-size: 1.2em; color: #4caf50;"><strong>🎬 Recommendation: YES, watch Inception!</strong></p>
+                    <p style="margin-top: 10px;">It's an action movie with a complex, mind-bending plot. Perfect match!</p>
+                `;
+            } else if (treeStep === -1) {
+                demo.innerHTML = `
+                    <p>✗ You don't like action movies</p>
+                    <p style="margin-top: 20px; font-size: 1.2em; color: #f44336;"><strong>🎬 Recommendation: NO, skip Inception</strong></p>
+                    <p style="margin-top: 10px;">It's heavy on action scenes, so probably not your style.</p>
+                `;
+            }
+        }
+        
+        function answerTree(answer, step) {
+            if (step === 1) {
+                if (answer === 'yes') {
+                    treeStep = 2;
+                } else {
+                    treeStep = -1;
+                }
+            } else if (step === 2) {
+                treeStep = 3;
+            }
+            updateTreeDemo();
+        }
+        
+        // Regression Demo
+        function runRegression() {
+            const result = document.getElementById('regressionResult');
+            result.innerHTML = '🤔 Calculating...';
+            
+            setTimeout(() => {
+                result.innerHTML = `
+                    <p><strong>Linear Regression Calculation:</strong></p>
+                    <p>The algorithm found the pattern: Price ≈ $160 per square foot</p>
+                    <p style="font-size: 1.3em; color: #4caf50; margin-top: 10px;">
+                        <strong>Prediction: A 1800 sq ft house will sell for approximately $320,000</strong>
+                    </p>
+                    <p style="margin-top: 10px; font-size: 0.95em;">
+                        (Calculation: 1800 sq ft × $160/sq ft + base price $32,000 = $320,000)
+                    </p>
+                `;
+            }, 1000);
+        }
+        
+        // KNN Demo
+        function changeK(k) {
+            kValue = k;
+            const result = document.getElementById('knnResult');
+            result.style.display = 'block';
+            
+            if (k === 1) {
+                result.innerHTML = `
+                    <p><strong>With K=1 (looking at 1 closest neighbor):</strong></p>
+                    <p>Closest match: <strong>Sarah</strong> → Loved Inception ✓</p>
+                    <p style="color: #4caf50; font-weight: bold;">Recommendation: YES (based on Sarah alone)</p>
+                    <p style="margin-top: 10px; font-size: 0.9em;">Note: K=1 can be risky—what if Sarah's an outlier?</p>
+                `;
+            } else if (k === 3) {
+                result.innerHTML = `
+                    <p><strong>With K=3 (looking at 3 closest neighbors):</strong></p>
+                    <p>Sarah ✓, Mike ✓, Emma ✗ → 2 out of 3 loved it</p>
+                    <p style="color: #4caf50; font-weight: bold;">Recommendation: YES (67% approval)</p>
+                    <p style="margin-top: 10px; font-size: 0.9em;">K=3 is more balanced than K=1!</p>
+                `;
+            } else if (k === 5) {
+                result.innerHTML = `
+                    <p><strong>With K=5 (looking at 5 closest neighbors):</strong></p>
+                    <p>Sarah ✓, Mike ✓, Emma ✗, Tom ✓, Lisa ✗ → 3 out of 5 loved it</p>
+                    <p style="color: #4caf50; font-weight: bold;">Recommendation: YES (60% approval)</p>
+                    <p style="margin-top: 10px; font-size: 0.9em;">More neighbors = more stable, less influenced by outliers</p>
+                `;
+            }
+        }
+        
+        // Node info display
+        function showNodeInfo(nodeId) {
+            document.querySelectorAll('.node-info').forEach(info => {
+                info.classList.remove('show');
+            });
+            document.querySelectorAll('.diagram-node').forEach(node => {
+                node.classList.remove('active');
+            });
+            
+            const targetInfo = document.getElementById(nodeId + 'Info');
+            if (targetInfo) {
+                targetInfo.classList.add('show');
+                event.currentTarget.classList.add('active');
+            }
+        }
+        
+        // Modal popup functions
+        function openPanel(panelId) {
+            const modal = document.getElementById(panelId);
+            const overlay = document.getElementById('panelOverlay');
+            
+            if (modal && overlay) {
+                overlay.classList.add('active');
+                overlay.innerHTML = '';
+                
+                const modalContent = document.createElement('div');
+                modalContent.className = 'modal-content';
+                modalContent.innerHTML = modal.innerHTML;
+                
+                overlay.appendChild(modalContent);
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeAllPanels() {
+            const overlay = document.getElementById('panelOverlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+                overlay.innerHTML = '';
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        // Quiz functions
+        function checkAnswer(element, isCorrect, questionNum) {
+            const options = element.parentElement.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById('feedback' + questionNum);
+            
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+            
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedback.classList.add('show', 'correct');
+                feedback.textContent = '✓ Excellent! That\'s correct!';
+            } else {
+                element.classList.add('incorrect');
+                options.forEach(opt => {
+                    if (opt.onclick.toString().includes('true')) {
+                        opt.classList.add('correct');
+                    }
+                });
+                feedback.classList.add('show', 'incorrect');
+                feedback.textContent = '✗ Not quite. The correct answer is highlighted in green. Review the material!';
+            }
+        }
+        
+        // Initialize
+        showSection(currentSection);
+    </script>
+</body>
+</html>
