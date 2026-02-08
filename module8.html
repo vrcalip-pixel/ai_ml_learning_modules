@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI in Education and Marketing</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; }
+        header { background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%); color: white; padding: 40px 30px; text-align: center; }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        header p { font-size: 1.2em; opacity: 0.95; }
+        .progress-bar { background: #e0e0e0; height: 8px; }
+        .progress-fill { background: linear-gradient(90deg, #56ab2f 0%, #a8e063 100%); height: 100%; width: 0%; transition: width 0.3s; }
+        .content { padding: 40px 30px; }
+        .section { display: none; animation: fadeIn 0.5s; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        h2 { color: #3d8b2f; font-size: 2em; margin-bottom: 20px; border-bottom: 3px solid #56ab2f; padding-bottom: 10px; }
+        h3 { color: #5a9d3a; font-size: 1.5em; margin: 30px 0 15px; }
+        h4 { color: #6db347; font-size: 1.2em; margin-bottom: 10px; }
+        p { margin-bottom: 15px; font-size: 1.1em; }
+        ul, ol { margin-left: 25px; margin-bottom: 15px; }
+        li { margin: 8px 0; }
+        a { color: #3d8b2f; text-decoration: none; font-weight: bold; }
+        a:hover { text-decoration: underline; }
+        .definition-box { background: #f1f8e9; border-left: 5px solid #56ab2f; padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .definition-box strong { color: #3d8b2f; font-size: 1.2em; display: block; margin-bottom: 10px; }
+        .key-concept { background: linear-gradient(135deg, #f1f8e9 0%, #dcedc8 100%); border-radius: 15px; padding: 25px; margin: 25px 0; }
+        .concept-header { background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%); color: white; padding: 15px 20px; border-radius: 10px; margin-bottom: 15px; font-size: 1.4em; font-weight: bold; }
+        .tabs { display: flex; border-bottom: 3px solid #56ab2f; margin: 30px 0 20px; flex-wrap: wrap; }
+        .tab { background: #f1f8e9; color: #3d8b2f; padding: 15px 25px; cursor: pointer; border: none; font-size: 1.1em; font-weight: bold; transition: all 0.3s; flex: 1; min-width: 200px; }
+        .tab:hover { background: #dcedc8; }
+        .tab.active { background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%); color: white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .split-screen { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
+        .split-panel { background: #f9fbe7; border: 3px solid #9ccc65; border-radius: 15px; padding: 25px; }
+        .split-panel h3 { margin-top: 0; color: #558b2f; }
+        .split-connection { text-align: center; margin: 20px 0; padding: 15px; background: #fff9c4; border-radius: 10px; font-weight: bold; color: #f57f17; }
+        .app-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0; }
+        .app-card { background: white; border: 3px solid #8bc34a; border-radius: 15px; padding: 20px; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(86, 171, 47, 0.2); }
+        .app-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(86, 171, 47, 0.4); }
+        .app-icon { font-size: 3em; margin-bottom: 10px; }
+        .app-name { color: #3d8b2f; font-size: 1.3em; font-weight: bold; margin-bottom: 10px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; border-radius: 20px; padding: 40px; max-width: 700px; max-height: 85vh; overflow-y: auto; position: relative; }
+        .modal-close { position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.5em; cursor: pointer; }
+        .modal-close:hover { background: #c0392b; transform: rotate(90deg); }
+        .example-box { background: #e8f5e9; border-left: 5px solid #4caf50; padding: 15px; margin: 15px 0; border-radius: 5px; }
+        .example-box::before { content: "💡 Example: "; font-weight: bold; color: #2e7d32; }
+        .benefit-box { background: #c8e6c9; border-left: 5px solid #388e3c; padding: 15px; margin: 15px 0; border-radius: 5px; }
+        .benefit-box::before { content: "✓ Impact: "; font-weight: bold; color: #1b5e20; }
+        .ethics-box { background: #ffebee; border-left: 5px solid #f44336; padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .ethics-box h4 { color: #c62828; margin-bottom: 10px; }
+        .connection-box { background: #fff3e0; border-left: 5px solid #ff9800; padding: 15px; margin: 15px 0; border-radius: 5px; }
+        .connection-box::before { content: "🔗 Connection: "; font-weight: bold; color: #e65100; }
+        .stat-highlight { background: linear-gradient(135deg, #66bb6a 0%, #aed581 100%); color: white; padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center; font-size: 1.2em; font-weight: bold; }
+        .try-it-box { background: linear-gradient(135deg, #42a5f5 0%, #64b5f6 100%); color: white; padding: 25px; border-radius: 15px; margin: 25px 0; }
+        .try-it-box h4 { color: white; margin-bottom: 15px; }
+        .try-it-box a { color: white; text-decoration: underline; }
+        .exercise-box { background: #fce4ec; border: 3px solid #f06292; border-radius: 15px; padding: 25px; margin: 25px 0; }
+        .exercise-box h4 { color: #c2185b; margin-bottom: 15px; }
+        .quiz-section { background: #c8e6c9; padding: 30px; border-radius: 15px; margin: 30px 0; }
+        .quiz-question { background: white; padding: 20px; border-radius: 10px; margin: 20px 0; border: 2px solid #66bb6a; }
+        .quiz-options { margin-top: 15px; }
+        .quiz-option { background: #f1f8e9; border: 2px solid #8bc34a; padding: 15px; margin: 10px 0; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+        .quiz-option:hover { background: #dcedc8; transform: translateX(5px); }
+        .quiz-option.correct { background: #4caf50; color: white; font-weight: bold; }
+        .quiz-option.incorrect { background: #f44336; color: white; }
+        .feedback { margin-top: 15px; padding: 15px; border-radius: 8px; display: none; }
+        .feedback.show { display: block; }
+        .feedback.correct { background: #c8e6c9; color: #1b5e20; border: 2px solid #4caf50; }
+        .feedback.incorrect { background: #ffcdd2; color: #b71c1c; border: 2px solid #f44336; }
+        .key-takeaways { background: #fff9c4; border-left: 5px solid #fbc02d; padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .key-takeaways h4 { color: #f57f17; margin-bottom: 10px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 30px; border-top: 2px solid #e0e0e0; }
+        button { background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%); color: white; border: none; padding: 15px 30px; font-size: 1.1em; border-radius: 30px; cursor: pointer; transition: all 0.3s; font-weight: bold; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(86, 171, 47, 0.4); }
+        button:disabled { background: #9e9e9e; cursor: not-allowed; transform: none; }
+        .completion-badge { text-align: center; padding: 40px; }
+        .badge { background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%); color: white; width: 150px; height: 150px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 3em; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(86, 171, 47, 0.4); }
+        @media (max-width: 768px) { .tabs { flex-direction: column; } .split-screen { grid-template-columns: 1fr; } .app-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 AI in Education & Marketing 📱</h1>
+            <p>The Power of Personalization</p>
+        </header>
+        
+        <div class="progress-bar"><div class="progress-fill" id="progressBar"></div></div>
+        
+        <div class="content">
+            <!-- Section 1: Introduction -->
+            <div class="section active">
+                <h2>AI Personalization in Action</h2>
+                <p>Education and marketing seem very different—one teaches, one sells. But they share a powerful AI principle: <strong>personalization</strong>. AI tailors experiences to individuals at scale.</p>
+                
+                <div class="definition-box">
+                    <strong>Personalization AI</strong>
+                    Technology that learns individual preferences, behaviors, and needs to deliver customized experiences—whether that's a learning path or a marketing message.
+                </div>
+                
+                <div class="key-concept">
+                    <div class="concept-header">🎯 The Personalization Principle</div>
+                    <p><strong>Education:</strong> Every student learns differently (pace, style, interests). AI adapts lessons to each learner.</p>
+                    <p><strong>Marketing:</strong> Every customer is unique (preferences, purchase history). AI customizes ads and recommendations.</p>
+                    <p style="margin-top: 15px;"><strong>Same AI Technology:</strong> Both use algorithms from Module 4 (collaborative filtering, neural networks, clustering) to understand individuals and predict what they need next!</p>
+                </div>
+                
+                <div class="split-screen">
+                    <div class="split-panel">
+                        <h3>📚 Education AI</h3>
+                        <p><strong>Challenge:</strong> 30 students, 30 different learning speeds and styles. One teacher can't personalize for everyone.</p>
+                        <p><strong>AI Solution:</strong> Adaptive platforms adjust difficulty, recommend resources, identify struggling areas—for each student simultaneously.</p>
+                    </div>
+                    
+                    <div class="split-panel">
+                        <h3>📱 Marketing AI</h3>
+                        <p><strong>Challenge:</strong> Millions of customers, each with unique preferences. Can't manually personalize for everyone.</p>
+                        <p><strong>AI Solution:</strong> Recommendation engines show products you'll love, ads target your interests—personalized at massive scale.</p>
+                    </div>
+                </div>
+                
+                <div class="split-connection">
+                    🔗 Both use the same AI: Analyze behavior → Predict preferences → Personalize experience
+                </div>
+                
+                <div class="stat-highlight">
+                    📊 Personalization = 25% better learning outcomes in education, 20% higher sales in marketing
+                </div>
+                
+                <div class="connection-box">
+                    Module 4: Remember collaborative filtering and neural networks? They power personalization in both fields!
+                </div>
+            </div>
+            
+            <!-- Section 2: Education & Marketing Applications (Tabbed) -->
+            <div class="section">
+                <h2>AI Applications</h2>
+                
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab(0)">📚 Education</button>
+                    <button class="tab" onclick="switchTab(1)">📱 Marketing</button>
+                </div>
+                
+                <!-- Education Tab -->
+                <div class="tab-content active">
+                    <h3>Education AI Applications</h3>
+                    
+                    <div class="app-grid">
+                        <div class="app-card" onclick="openModal('adaptive')">
+                            <div class="app-icon">🎯</div>
+                            <div class="app-name">Adaptive Learning</div>
+                            <p>Adjusts difficulty based on performance</p>
+                        </div>
+                        
+                        <div class="app-card" onclick="openModal('analytics')">
+                            <div class="app-icon">📊</div>
+                            <div class="app-name">Learning Analytics</div>
+                            <p>Tracks progress, predicts outcomes</p>
+                        </div>
+                        
+                        <div class="app-card" onclick="openModal('accessibility')">
+                            <div class="app-icon">♿</div>
+                            <div class="app-name">Accessibility Tools</div>
+                            <p>Translation, transcription, assistance</p>
+                        </div>
+                        
+                        <div class="app-card" onclick="openModal('content')">
+                            <div class="app-icon">✍️</div>
+                            <div class="app-name">Content Creation</div>
+                            <p>AI helps teachers create materials</p>
+                        </div>
+                    </div>
+                    
+                    <h4>Real Examples:</h4>
+                    <div class="example-box"><strong>Khan Academy:</strong> AI tutors 135M+ students globally. Adapts math lessons to each student's level, provides instant feedback, recommends next topics.</div>
+                    <div class="example-box"><strong>Duolingo:</strong> 500M+ users learn languages with AI that adjusts lesson difficulty, predicts when you'll forget words, personalizes practice.</div>
+                    <div class="example-box"><strong>Coursera:</strong> AI recommends courses based on your goals/background, predicts if you'll complete, suggests career paths.</div>
+                    <div class="example-box"><strong>Grammarly:</strong> AI writing assistant used by 30M+ students. Fixes grammar, suggests style improvements, explains errors.</div>
+                    
+                    <div class="benefit-box">Students using adaptive AI learn 30% faster and retain 25% more than traditional methods</div>
+                </div>
+                
+                <!-- Marketing Tab -->
+                <div class="tab-content">
+                    <h3>Marketing AI Applications</h3>
+                    
+                    <div class="app-grid">
+                        <div class="app-card" onclick="openModal('personalized-ads')">
+                            <div class="app-icon">🎯</div>
+                            <div class="app-name">Personalized Ads</div>
+                            <p>Target right customers with right message</p>
+                        </div>
+                        
+                        <div class="app-card" onclick="openModal('content-gen')">
+                            <div class="app-icon">✍️</div>
+                            <div class="app-name">Content Generation</div>
+                            <p>AI creates ad copy, images, videos</p>
+                        </div>
+                        
+                        <div class="app-card" onclick="openModal('predictive')">
+                            <div class="app-icon">📊</div>
+                            <div class="app-name">Predictive Analytics</div>
+                            <p>Forecast campaign success, customer value</p>
+                        </div>
+                        
+                        <div class="app-card" onclick="openModal('chatbots')">
+                            <div class="app-icon">💬</div>
+                            <div class="app-name">Chatbots</div>
+                            <p>24/7 customer engagement</p>
+                        </div>
+                        
+                        <div class="app-card" onclick="openModal('social')">
+                            <div class="app-icon">📱</div>
+                            <div class="app-name">Social Media AI</div>
+                            <p>Optimize posts, target audiences</p>
+                        </div>
+                    </div>
+                    
+                    <h4>Real Examples:</h4>
+                    <div class="example-box"><strong>Netflix/Spotify:</strong> 80% of Netflix views come from AI recommendations. Spotify creates personalized playlists for 500M+ users.</div>
+                    <div class="example-box"><strong>Amazon:</strong> "Customers who bought..." generates 35% of sales ($160B annually). AI personalizes homepage for each visitor.</div>
+                    <div class="example-box"><strong>Mailchimp:</strong> AI predicts best send times, writes subject lines, segments audiences. Used by 13M+ businesses.</div>
+                    
+                    <div class="benefit-box">Personalized marketing increases ROI by 20-30% and customer engagement by 2-5x</div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Split-Screen Deep Dive -->
+            <div class="section">
+                <h2>How Personalization Works: Side-by-Side</h2>
+                <p>See the same AI principles applied in education vs. marketing:</p>
+                
+                <h3>Step 1: Data Collection</h3>
+                <div class="split-screen">
+                    <div class="split-panel">
+                        <h4>📚 Education</h4>
+                        <p>Platform tracks: Which problems attempted, time spent, correct/incorrect answers, topics revisited, help requests</p>
+                    </div>
+                    <div class="split-panel">
+                        <h4>📱 Marketing</h4>
+                        <p>Platform tracks: Products viewed, time on page, purchases, abandoned carts, clicks, searches</p>
+                    </div>
+                </div>
+                
+                <h3>Step 2: Pattern Recognition</h3>
+                <div class="split-screen">
+                    <div class="split-panel">
+                        <h4>📚 Education</h4>
+                        <p>AI identifies: "Student struggles with fractions but excels at geometry. Learns best with visual examples. Needs more practice before moving on."</p>
+                    </div>
+                    <div class="split-panel">
+                        <h4>📱 Marketing</h4>
+                        <p>AI identifies: "Customer browses running shoes, bought fitness tracker, reads health blogs. Likely interested in athletic gear. Price-sensitive—waits for sales."</p>
+                    </div>
+                </div>
+                
+                <h3>Step 3: Prediction</h3>
+                <div class="split-screen">
+                    <div class="split-panel">
+                        <h4>📚 Education</h4>
+                        <p>AI predicts: "If we show visual fraction diagrams and more practice problems, 85% chance student masters concept within 3 days."</p>
+                    </div>
+                    <div class="split-panel">
+                        <h4>📱 Marketing</h4>
+                        <p>AI predicts: "If we show running shoe ad with 20% discount, 60% chance customer clicks, 15% chance purchases within 48 hours."</p>
+                    </div>
+                </div>
+                
+                <h3>Step 4: Personalization</h3>
+                <div class="split-screen">
+                    <div class="split-panel">
+                        <h4>📚 Education</h4>
+                        <p><strong>Action:</strong> Platform shows video explaining fractions with pizza slices (visual), then easier problems for confidence, gradually increasing difficulty. Provides hints when student pauses >30 sec.</p>
+                    </div>
+                    <div class="split-panel">
+                        <h4>📱 Marketing</h4>
+                        <p><strong>Action:</strong> Customer sees ad: "20% Off Running Shoes - Today Only!" with specific brands they viewed. Email follows if they don't buy. Product recommendations on homepage match their interests.</p>
+                    </div>
+                </div>
+                
+                <div class="split-connection">
+                    🔗 Same Process: Collect data → Find patterns → Predict what works → Personalize experience
+                </div>
+                
+                <div class="connection-box">
+                    Module 3: Remember data quality? Both education and marketing personalization ONLY work with clean, accurate data!
+                </div>
+            </div>
+            
+            <!-- Section 4: Ethics -->
+            <div class="section">
+                <h2>Ethical Considerations</h2>
+                
+                <h3>Education AI Ethics</h3>
+                
+                <div class="ethics-box">
+                    <h4>⚠️ Student Data Privacy</h4>
+                    <p><strong>Issue:</strong> EdTech platforms collect sensitive data on minors—test scores, learning disabilities, behavioral patterns.</p>
+                    <p><strong>Risks:</strong> Data breaches, parents unaware what's collected, companies selling student data to advertisers.</p>
+                    <p><strong>Safeguards:</strong> FERPA/COPPA regulations, parental consent, data minimization, clear privacy policies</p>
+                </div>
+                
+                <div class="ethics-box">
+                    <h4>⚖️ Bias in Grading & Recommendations</h4>
+                    <p><strong>Example:</strong> AI essay grader trained on standard English penalizes students who speak dialects or are ESL learners—even when ideas are sound.</p>
+                    <p><strong>Another Example:</strong> AI recommends easier classes to students from disadvantaged backgrounds, limiting their opportunities.</p>
+                    <p><strong>Solutions:</strong> Test AI across diverse student populations, human review of important decisions, transparency about how AI works</p>
+                </div>
+                
+                <div class="ethics-box">
+                    <h4>🌍 Equity & Access</h4>
+                    <p><strong>Issue:</strong> Wealthy schools afford AI platforms; poor schools don't. Digital divide widens.</p>
+                    <p><strong>Risk:</strong> Students with AI assistance learn faster, creating permanent achievement gaps.</p>
+                    <p><strong>Solutions:</strong> Government funding for EdTech in underserved schools, free/low-cost AI tools (Khan Academy model), offline alternatives</p>
+                </div>
+                
+                <h3 style="margin-top: 40px;">Marketing AI Ethics</h3>
+                
+                <div class="ethics-box">
+                    <h4>🎯 Manipulation & Dark Patterns</h4>
+                    <p><strong>Issue:</strong> AI can be TOO good at persuasion—exploiting psychological triggers to manipulate purchases.</p>
+                    <p><strong>Examples:</strong> "Only 2 left in stock!" (artificial scarcity), "Your friend bought this" (social pressure), endless scroll keeping you hooked</p>
+                    <p><strong>Solutions:</strong> Ethical design principles, regulations against deceptive practices, consumer education</p>
+                </div>
+                
+                <div class="ethics-box">
+                    <h4>🔒 Privacy Violations</h4>
+                    <p><strong>Issue:</strong> Tracking across websites, apps, devices to build detailed profiles without consent.</p>
+                    <p><strong>Example:</strong> You search "divorce lawyer" → Suddenly see ads everywhere. Reveals private information to family using shared devices.</p>
+                    <p><strong>Solutions:</strong> GDPR/CCPA regulations, opt-in consent, data deletion rights, tracking transparency</p>
+                </div>
+                
+                <div class="ethics-box">
+                    <h4>🔴 Filter Bubbles & Echo Chambers</h4>
+                    <p><strong>Issue:</strong> AI shows content matching your existing views, reinforcing biases and limiting exposure to diverse perspectives.</p>
+                    <p><strong>Impact:</strong> Political polarization, spread of misinformation, inability to understand different viewpoints.</p>
+                    <p><strong>Solutions:</strong> Algorithm design that includes diverse perspectives, user controls, media literacy education</p>
+                </div>
+                
+                <div class="ethics-box">
+                    <h4>👶 Predatory Targeting</h4>
+                    <p><strong>Issue:</strong> AI targets vulnerable groups—children, gambling addicts, people in financial distress.</p>
+                    <p><strong>Example:</strong> Payday loan ads shown to people with bad credit searching "need money fast."</p>
+                    <p><strong>Solutions:</strong> Regulations prohibiting targeting of vulnerable populations, age restrictions, ethical review boards</p>
+                </div>
+                
+                <div class="key-takeaways">
+                    <h4>🎓 Ethical Framework</h4>
+                    <ul>
+                        <li><strong>Transparency:</strong> Users know when AI is personalizing content</li>
+                        <li><strong>Consent:</strong> Opt-in, not opt-out, for data collection</li>
+                        <li><strong>Fairness:</strong> Test for bias, ensure equity across demographics</li>
+                        <li><strong>Privacy:</strong> Collect only necessary data, secure it properly</li>
+                        <li><strong>Human Agency:</strong> People control their experience, can override AI</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Section 5: Try It Yourself & Exercise -->
+            <div class="section">
+                <h2>Try It Yourself!</h2>
+                <p>Experience personalization AI firsthand with these free tools:</p>
+                
+                <div class="try-it-box">
+                    <h4>📚 Education Tools to Try</h4>
+                    <ul>
+                        <li><strong>Khan Academy:</strong> <a href="https://www.khanacademy.org" target="_blank">khanacademy.org</a> - Free personalized math, science, humanities lessons. Try a few exercises and watch how it adapts!</li>
+                        <li><strong>Duolingo:</strong> <a href="https://www.duolingo.com" target="_blank">duolingo.com</a> - Free language learning. Notice how difficulty adjusts to your performance.</li>
+                        <li><strong>Grammarly:</strong> <a href="https://www.grammarly.com" target="_blank">grammarly.com</a> - Free writing assistant. Paste text and see AI suggestions.</li>
+                    </ul>
+                    <p><strong>What to notice:</strong> How does the platform learn about you? What data does it collect? How quickly does it personalize?</p>
+                </div>
+                
+                <div class="try-it-box">
+                    <h4>📱 Marketing Tools to Try</h4>
+                    <ul>
+                        <li><strong>Netflix:</strong> Create a new profile and watch how recommendations change based on what you view.</li>
+                        <li><strong>Amazon:</strong> Search for a product, then notice how homepage and ads adapt over the next few days.</li>
+                        <li><strong>Spotify:</strong> Check your "Discover Weekly" playlist - AI curated based on your listening history.</li>
+                    </ul>
+                    <p><strong>What to notice:</strong> How accurate are recommendations? Do they introduce you to new things or just reinforce existing preferences (filter bubble)?</p>
+                </div>
+                
+                <h3>Design Your Own Plan</h3>
+                
+                <div class="exercise-box">
+                    <h4>🎓 Exercise 1: Personalized Learning Plan</h4>
+                    <p><strong>Scenario:</strong> You're teaching 30 high school students algebra. 10 are advanced, 15 are at grade level, 5 are struggling.</p>
+                    <p><strong>Your Task:</strong> Design an AI-assisted learning plan:</p>
+                    <ol>
+                        <li>What data would you collect about each student?</li>
+                        <li>How would AI personalize for the 3 groups?</li>
+                        <li>What would trigger AI to recommend extra help?</li>
+                        <li>How do you ensure fairness (no group left behind)?</li>
+                        <li>How do you respect student privacy?</li>
+                    </ol>
+                    <p><strong>Think about:</strong> Module 3 (data quality), Module 4 (which algorithms), Module 7 (ethics)</p>
+                </div>
+                
+                <div class="exercise-box">
+                    <h4>📱 Exercise 2: Personalized Marketing Campaign</h4>
+                    <p><strong>Scenario:</strong> You sell eco-friendly water bottles. You have 3 customer segments:</p>
+                    <ul>
+                        <li><strong>Athletes:</strong> Care about performance, hydration</li>
+                        <li><strong>Environmentalists:</strong> Care about sustainability, reducing plastic</li>
+                        <li><strong>Budget Shoppers:</strong> Care about price, deals</li>
+                    </ul>
+                    <p><strong>Your Task:</strong> Design AI-powered personalization:</p>
+                    <ol>
+                        <li>What data determines which segment a customer belongs to?</li>
+                        <li>How would you personalize messaging for each segment?</li>
+                        <li>What AI predicts who's likely to buy?</li>
+                        <li>How do you avoid manipulative tactics?</li>
+                        <li>How do you respect customer privacy?</li>
+                    </ol>
+                    <p><strong>Think about:</strong> Balancing business goals with ethical responsibility</p>
+                </div>
+                
+                <div class="key-takeaways">
+                    <h4>💡 Reflection Questions</h4>
+                    <ul>
+                        <li>What surprised you about personalization AI?</li>
+                        <li>Where is personalization helpful vs. invasive?</li>
+                        <li>How would you feel if you learned all your online experiences were AI-personalized?</li>
+                        <li>What rules should govern personalization AI?</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Section 6: Quiz -->
+            <div class="section">
+                <h2>Application Scenarios Quiz</h2>
+                
+                <div class="quiz-section">
+                    <div class="quiz-question">
+                        <strong>Scenario 1: A middle school wants AI to identify students at risk of falling behind. Best approach?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 1)">Track students' social media to predict issues</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 1)">Use learning analytics (test scores, assignment completion, engagement) with teacher review</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 1)">Rely solely on AI predictions without human input</div>
+                        </div>
+                        <div class="feedback" id="feedback1"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Scenario 2: An e-commerce company wants to increase sales. Which AI application fits best?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 2)">Adaptive learning platform</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 2)">Personalized product recommendations based on browsing/purchase history</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 2)">Medical imaging AI</div>
+                        </div>
+                        <div class="feedback" id="feedback2"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Scenario 3: Khan Academy shows easier math problems to students who struggle. Is this ethical?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 3)">No - limits student potential</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 3)">Yes - IF combined with support to eventually reach grade level (scaffolding, not lowering expectations)</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 3)">Always unethical to differentiate</div>
+                        </div>
+                        <div class="feedback" id="feedback3"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Scenario 4: A news site uses AI to personalize articles shown to each reader. What's the ethical concern?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 4)">No concern - personalization is always good</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 4)">Filter bubble: Users only see perspectives they agree with, increasing polarization</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 4)">AI can't personalize news effectively</div>
+                        </div>
+                        <div class="feedback" id="feedback4"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Scenario 5: Company wants AI to predict which customers will cancel subscriptions. Best use of predictions?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 5)">Automatically cancel them first to save resources</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 5)">Offer personalized retention incentives (discounts, improvements) to at-risk customers</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 5)">Make it harder for predicted customers to cancel</div>
+                        </div>
+                        <div class="feedback" id="feedback5"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Scenario 6: EdTech platform wants to share student data with researchers to improve AI. Should they?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 6)">Yes, always - research benefits everyone</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 6)">No, never - privacy is absolute</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 6)">Only with parental consent, anonymization, clear explanation of how data will be used</div>
+                        </div>
+                        <div class="feedback" id="feedback6"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 7: Completion -->
+            <div class="section">
+                <div class="completion-badge">
+                    <div class="badge">🎓</div>
+                    <h2>Personalization Expert!</h2>
+                </div>
+                
+                <h2>What You've Learned</h2>
+                <div class="key-takeaways">
+                    <ul>
+                        <li>✅ How personalization AI works in education and marketing</li>
+                        <li>✅ 4 education applications + 5 marketing applications</li>
+                        <li>✅ Real examples: Khan Academy, Duolingo, Coursera, Grammarly, Netflix, Amazon, Mailchimp</li>
+                        <li>✅ Side-by-side comparison showing same AI principles in both fields</li>
+                        <li>✅ Ethical considerations: privacy, bias, manipulation, filter bubbles</li>
+                        <li>✅ Hands-on: Tried real AI tools</li>
+                        <li>✅ Designed your own learning and marketing plans</li>
+                    </ul>
+                </div>
+                
+                <h3>Your AI Journey: Modules 1-8 Complete!</h3>
+                <p>You've covered:</p>
+                <ul>
+                    <li>Modules 1-2: AI fundamentals and types</li>
+                    <li>Module 3: Data quality</li>
+                    <li>Module 4: Algorithms</li>
+                    <li>Module 5: Hands-on tools</li>
+                    <li>Module 6: Business applications</li>
+                    <li>Module 7: Healthcare and public services</li>
+                    <li>Module 8: Education and marketing</li>
+                </ul>
+                
+                <h3>Next: Ethics & Society</h3>
+                <p><strong>Module 9:</strong> Ethics and Bias in AI - Deep dive into fairness, accountability, transparency</p>
+                <p><strong>Module 10:</strong> AI and Society - Workforce transformation, privacy, surveillance</p>
+                
+                <div class="benefit-box">
+                    You now understand AI across multiple industries and can think critically about its applications!
+                </div>
+            </div>
+            
+            <div class="nav-buttons">
+                <button id="prevBtn" onclick="changeSection(-1)">← Previous</button>
+                <button id="nextBtn" onclick="changeSection(1)">Next →</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+    
+    <script>
+        let currentSection = 1;
+        const totalSections = 7;
+        
+        const modals = {
+            adaptive: '<h3>🎯 Adaptive Learning</h3><p><strong>What it is:</strong> Platform adjusts difficulty, pacing, content type based on each student\'s performance.</p><p><strong>Khan Academy Example:</strong> Student struggles with fractions → AI shows video explanations, easier practice problems, more hints. Student excels → AI accelerates to advanced topics.</p><div class="benefit-box">Students learn 30% faster with adaptive platforms</div>',
+            
+            analytics: '<h3>📊 Learning Analytics</h3><p><strong>What it is:</strong> AI tracks engagement, predicts which students will struggle, identifies knowledge gaps.</p><p><strong>Coursera Example:</strong> Analyzes video watch time, quiz scores, discussion participation. Predicts 80% likely to drop out → Sends encouragement email, recommends peer study group.</p><div class="benefit-box">Early intervention increases course completion by 25%</div>',
+            
+            accessibility: '<h3>♿ Accessibility Tools</h3><p><strong>What it is:</strong> AI removes barriers for students with disabilities or language differences.</p><ul><li>Live transcription for deaf students</li><li>Text-to-speech for blind students</li><li>Translation for non-English speakers</li><li>Dyslexia-friendly formatting</li></ul><div class="benefit-box">Makes education accessible to 10M+ additional students globally</div>',
+            
+            content: '<h3>✍️ Content Creation for Teachers</h3><p><strong>What it is:</strong> AI helps teachers create lesson plans, quizzes, assignments faster.</p><p><strong>Example:</strong> Teacher types "Create 10 algebra word problems about calculating discounts" → AI generates age-appropriate problems in seconds.</p><div class="benefit-box">Teachers save 5-10 hours/week on materials prep</div>',
+            
+            'personalized-ads': '<h3>🎯 Personalized Ads & Recommendations</h3><p><strong>Netflix/Spotify:</strong> 80% of Netflix content watched comes from recommendations. Analyzes viewing history, ratings, similar users.</p><p><strong>Amazon:</strong> "Customers who bought..." drives 35% of sales ($160B/year). Personalizes homepage for each visitor.</p><div class="benefit-box">Personalization increases sales 20-30%</div>',
+            
+            'content-gen': '<h3>✍️ AI Content Generation</h3><p><strong>What it is:</strong> AI writes ad copy, creates images, generates video scripts.</p><p><strong>Tools:</strong> Jasper AI, Copy.ai, DALL-E, Midjourney</p><p><strong>Example:</strong> Input "ad for eco-friendly water bottle targeting athletes" → AI generates 5 headline options, 3 image concepts, email copy.</p><div class="benefit-box">Reduces content creation time by 60-70%</div>',
+            
+            predictive: '<h3>📊 Predictive Marketing Analytics</h3><p><strong>What it is:</strong> AI forecasts campaign ROI, customer lifetime value, churn risk.</p><p><strong>Example:</strong> AI predicts email campaign will generate $50K revenue with 95% confidence → Approve budget. Another campaign predicted $5K → Cancel or revise.</p><div class="benefit-box">Improves marketing ROI 25-40%</div>',
+            
+            chatbots: '<h3>💬 Marketing Chatbots</h3><p><strong>What it is:</strong> AI conversations on websites answering questions, qualifying leads, guiding purchases 24/7.</p><p><strong>Example:</strong> Visitor asks "Do you ship to Canada?" → Chatbot: "Yes! Free shipping on orders $50+. Can I help you find something?"</p><div class="benefit-box">Handle 60-80% of customer inquiries, save $8B annually across industries</div>',
+            
+            social: '<h3>📱 Social Media AI</h3><p><strong>What it is:</strong> AI optimizes post timing, targets audiences, generates content, analyzes sentiment.</p><p><strong>Example:</strong> Mailchimp AI analyzes when YOUR audience is most active → Schedules posts for maximum engagement. A/B tests images/copy automatically.</p><div class="benefit-box">Increases social media engagement 2-3x</div>'
+        };
+        
+        function updateProgress() {
+            document.getElementById('progressBar').style.width = (currentSection / totalSections) * 100 + '%';
+        }
+        
+        function showSection(n) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(s => s.classList.remove('active'));
+            if (n > totalSections) currentSection = totalSections;
+            if (n < 1) currentSection = 1;
+            sections[currentSection - 1].classList.add('active');
+            document.getElementById('prevBtn').disabled = currentSection === 1;
+            document.getElementById('nextBtn').textContent = currentSection === totalSections ? 'Finish ✓' : 'Next →';
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function changeSection(n) {
+            currentSection += n;
+            showSection(currentSection);
+        }
+        
+        function switchTab(i) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab')[i].classList.add('active');
+            document.querySelectorAll('.tab-content')[i].classList.add('active');
+        }
+        
+        function openModal(id) {
+            document.getElementById('modalContent').innerHTML = modals[id];
+            document.getElementById('modal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+        
+        function checkAnswer(el, correct, n) {
+            const opts = el.parentElement.querySelectorAll('.quiz-option');
+            opts.forEach(o => o.style.pointerEvents = 'none');
+            const fb = document.getElementById('feedback' + n);
+            if (correct) {
+                el.classList.add('correct');
+                fb.classList.add('show', 'correct');
+                fb.textContent = '✓ Correct! Good thinking!';
+            } else {
+                el.classList.add('incorrect');
+                opts.forEach(o => { if (o.onclick.toString().includes('true')) o.classList.add('correct'); });
+                fb.classList.add('show', 'incorrect');
+                fb.textContent = '✗ Not quite. See the correct answer in green.';
+            }
+        }
+        
+        showSection(currentSection);
+    </script>
+</body>
+</html>
