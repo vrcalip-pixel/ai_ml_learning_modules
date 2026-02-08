@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI in Healthcare and Public Services</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; }
+        header { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); color: white; padding: 40px 30px; text-align: center; }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        header p { font-size: 1.2em; opacity: 0.95; }
+        .progress-bar { background: #e0e0e0; height: 8px; }
+        .progress-fill { background: linear-gradient(90deg, #2c3e50 0%, #3498db 100%); height: 100%; width: 0%; transition: width 0.3s; }
+        .content { padding: 40px 30px; }
+        .section { display: none; animation: fadeIn 0.5s; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        h2 { color: #2c3e50; font-size: 2em; margin-bottom: 20px; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h3 { color: #2980b9; font-size: 1.5em; margin: 30px 0 15px 0; }
+        h4 { color: #3498db; font-size: 1.2em; margin-bottom: 10px; }
+        p { margin-bottom: 15px; font-size: 1.1em; }
+        ul, ol { margin-left: 25px; margin-bottom: 15px; }
+        li { margin: 8px 0; }
+        .definition-box { background: #ecf0f1; border-left: 5px solid #2c3e50; padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .definition-box strong { color: #2c3e50; font-size: 1.2em; display: block; margin-bottom: 10px; }
+        .key-concept { background: linear-gradient(135deg, #ebf5fb 0%, #d6eaf8 100%); border-radius: 15px; padding: 25px; margin: 25px 0; }
+        .concept-header { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); color: white; padding: 15px 20px; border-radius: 10px; margin-bottom: 15px; font-size: 1.4em; font-weight: bold; }
+        .tabs { display: flex; border-bottom: 3px solid #3498db; margin: 30px 0 20px; flex-wrap: wrap; }
+        .tab { background: #ecf0f1; color: #34495e; padding: 15px 25px; cursor: pointer; border: none; font-size: 1.1em; font-weight: bold; transition: all 0.3s; flex: 1; min-width: 150px; }
+        .tab:hover { background: #d6eaf8; }
+        .tab.active { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); color: white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .app-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0; }
+        .app-card { background: white; border: 3px solid #3498db; border-radius: 15px; padding: 20px; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2); }
+        .app-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(52, 152, 219, 0.4); }
+        .app-icon { font-size: 3em; margin-bottom: 10px; }
+        .app-name { color: #2c3e50; font-size: 1.3em; font-weight: bold; margin-bottom: 10px; }
+        .flowchart { background: #ecf0f1; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .flow-step { background: white; border: 3px solid #3498db; border-radius: 10px; padding: 20px; margin: 20px auto; max-width: 600px; cursor: pointer; transition: all 0.3s; }
+        .flow-step:hover { background: #ebf5fb; }
+        .flow-step.active { background: #d6eaf8; border-color: #2c3e50; }
+        .flow-detail { display: none; background: #ebf5fb; padding: 15px; margin-top: 15px; border-radius: 5px; border-left: 4px solid #3498db; }
+        .flow-step.active .flow-detail { display: block; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; border-radius: 20px; padding: 40px; max-width: 700px; max-height: 85vh; overflow-y: auto; position: relative; }
+        .modal-close { position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.5em; cursor: pointer; transition: all 0.3s; }
+        .modal-close:hover { background: #c0392b; transform: rotate(90deg); }
+        .example-box { background: #fff3cd; border-left: 5px solid #f39c12; padding: 15px; margin: 15px 0; border-radius: 5px; }
+        .example-box::before { content: "🏥 Example: "; font-weight: bold; color: #d68910; }
+        .benefit-box { background: #d4edda; border-left: 5px solid #28a745; padding: 15px; margin: 15px 0; border-radius: 5px; }
+        .benefit-box::before { content: "✓ Impact: "; font-weight: bold; color: #1e7e34; }
+        .ethics-box { background: #f8d7da; border-left: 5px solid #e74c3c; padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .ethics-box h4 { color: #c0392b; margin-bottom: 10px; }
+        .connection-box { background: #d1ecf1; border-left: 5px solid #17a2b8; padding: 15px; margin: 15px 0; border-radius: 5px; }
+        .connection-box::before { content: "🔗 Module "; font-weight: bold; color: #117a8b; }
+        .stat-highlight { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center; font-size: 1.2em; font-weight: bold; }
+        .quiz-section { background: #d4edda; padding: 30px; border-radius: 15px; margin: 30px 0; }
+        .quiz-question { background: white; padding: 20px; border-radius: 10px; margin: 20px 0; border: 2px solid #28a745; }
+        .quiz-options { margin-top: 15px; }
+        .quiz-option { background: #ecf0f1; border: 2px solid #3498db; padding: 15px; margin: 10px 0; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+        .quiz-option:hover { background: #d6eaf8; transform: translateX(5px); }
+        .quiz-option.correct { background: #28a745; color: white; font-weight: bold; }
+        .quiz-option.incorrect { background: #e74c3c; color: white; }
+        .feedback { margin-top: 15px; padding: 15px; border-radius: 8px; display: none; }
+        .feedback.show { display: block; }
+        .feedback.correct { background: #d4edda; color: #155724; border: 2px solid #28a745; }
+        .feedback.incorrect { background: #f8d7da; color: #721c24; border: 2px solid #e74c3c; }
+        .key-takeaways { background: #d1ecf1; border-left: 5px solid #17a2b8; padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .key-takeaways h4 { color: #0c5460; margin-bottom: 10px; }
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 30px; border-top: 2px solid #e0e0e0; }
+        button { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); color: white; border: none; padding: 15px 30px; font-size: 1.1em; border-radius: 30px; cursor: pointer; transition: all 0.3s; font-weight: bold; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4); }
+        button:disabled { background: #95a5a6; cursor: not-allowed; transform: none; }
+        .completion-badge { text-align: center; padding: 40px; }
+        .badge { background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); color: white; width: 150px; height: 150px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 3em; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(52, 152, 219, 0.4); }
+        @media (max-width: 768px) { .tabs { flex-direction: column; } .app-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏥 AI in Healthcare & Public Services</h1>
+            <p>Saving Lives, Improving Communities</p>
+        </header>
+        
+        <div class="progress-bar"><div class="progress-fill" id="progressBar"></div></div>
+        
+        <div class="content">
+            <!-- Section 1: Introduction -->
+            <div class="section active">
+                <h2>AI for Human Wellbeing</h2>
+                <p>AI isn't just about business—it's saving lives in hospitals and making public services work better for everyone.</p>
+                
+                <div class="definition-box">
+                    <strong>Healthcare AI</strong>
+                    Using AI to improve diagnosis, treatment, drug discovery, and patient care—ultimately saving lives and reducing costs.
+                </div>
+                
+                <div class="definition-box">
+                    <strong>Public Service AI</strong>
+                    Applying AI to emergency response, transportation, education to better serve citizens.
+                </div>
+                
+                <div class="stat-highlight">
+                    📊 AI could save 400,000 lives annually and reduce US healthcare costs by $150B
+                </div>
+                
+                <div class="key-concept">
+                    <div class="concept-header">🎯 Why This Matters</div>
+                    <p><strong>Healthcare:</strong> Earlier diagnosis, personalized treatment, faster drug discovery, fewer medical errors</p>
+                    <p><strong>Public Services:</strong> Faster emergency response, reduced traffic, personalized education, better resource allocation</p>
+                </div>
+                
+                <div class="connection-box">
+                    5: Hospitals use similar AI tools you learned in Module 5—just at massive scale!
+                </div>
+            </div>
+            
+            <!-- Section 2: Healthcare Applications -->
+            <div class="section">
+                <h2>Healthcare AI Applications</h2>
+                
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab(0)">🔬 Diagnostics</button>
+                    <button class="tab" onclick="switchTab(1)">💊 Treatment</button>
+                    <button class="tab" onclick="switchTab(2)">📱 Monitoring</button>
+                </div>
+                
+                <div class="tab-content active">
+                    <div class="app-grid">
+                        <div class="app-card" onclick="openModal('imaging')">
+                            <div class="app-icon">🩻</div>
+                            <div class="app-name">Medical Imaging</div>
+                            <p>AI reads X-rays, MRIs to detect disease</p>
+                        </div>
+                        <div class="app-card" onclick="openModal('symptom')">
+                            <div class="app-icon">🤒</div>
+                            <div class="app-name">Symptom Checkers</div>
+                            <p>Apps help understand symptoms</p>
+                        </div>
+                    </div>
+                    <div class="example-box"><strong>Google DeepMind:</strong> Detects 50+ eye diseases, 94% accuracy. Used in UK hospitals.</div>
+                    <div class="benefit-box">Radiologists with AI: 25% faster, detect 15% more abnormalities</div>
+                </div>
+                
+                <div class="tab-content">
+                    <div class="app-grid">
+                        <div class="app-card" onclick="openModal('drug')">
+                            <div class="app-icon">💊</div>
+                            <div class="app-name">Drug Discovery</div>
+                            <p>Find new medicines 10x faster</p>
+                        </div>
+                        <div class="app-card" onclick="openModal('personalized')">
+                            <div class="app-icon">🧬</div>
+                            <div class="app-name">Personalized Medicine</div>
+                            <p>Tailor treatment to genetics</p>
+                        </div>
+                    </div>
+                    <div class="example-box"><strong>IBM Watson:</strong> Recommends personalized cancer treatments. 230+ hospitals worldwide.</div>
+                    <div class="benefit-box">Drug development: 10-15 years → 3-5 years with AI</div>
+                </div>
+                
+                <div class="tab-content">
+                    <div class="app-grid">
+                        <div class="app-card" onclick="openModal('wearables')">
+                            <div class="app-icon">⌚</div>
+                            <div class="app-name">Wearables</div>
+                            <p>24/7 vital sign monitoring</p>
+                        </div>
+                        <div class="app-card" onclick="openModal('mental')">
+                            <div class="app-icon">🧠</div>
+                            <div class="app-name">Mental Health</div>
+                            <p>AI chatbots for therapy support</p>
+                        </div>
+                    </div>
+                    <div class="example-box"><strong>Zebra Medical:</strong> Found 120+ patients with undiagnosed osteoporosis, prevented fractures.</div>
+                    <div class="benefit-box">Apple Watch detected AFib in 419,000 users—many had no symptoms</div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Patient Journey -->
+            <div class="section">
+                <h2>Patient Journey: AI in Action</h2>
+                <p>Click each step to see AI throughout healthcare:</p>
+                
+                <div class="flowchart">
+                    <div class="flow-step" onclick="toggleFlow(this)">
+                        <h4>1. Symptom Check</h4>
+                        <p>Patient uses Ada Health app for chest pain</p>
+                        <div class="flow-detail">
+                            <p>AI analyzes 1000+ conditions. Recommends: "Seek emergency care—possible heart issue"</p>
+                            <p><strong>Impact:</strong> Early recognition, faster response</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-step" onclick="toggleFlow(this)">
+                        <h4>2. Emergency Response</h4>
+                        <p>LA Fire AI dispatches ambulance optimally</p>
+                        <div class="flow-detail">
+                            <p>AI routes around traffic, alerts hospital ER to prepare</p>
+                            <p><strong>Impact:</strong> 3 minutes faster arrival (critical for heart attacks)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-step" onclick="toggleFlow(this)">
+                        <h4>3. Hospital Diagnosis</h4>
+                        <p>Zebra Medical AI analyzes chest X-ray</p>
+                        <div class="flow-detail">
+                            <p>AI flags potential blockage in seconds. Doctor confirms, orders treatment.</p>
+                            <p><strong>Impact:</strong> 20 minutes faster diagnosis</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-step" onclick="toggleFlow(this)">
+                        <h4>4. Treatment Plan</h4>
+                        <p>IBM Watson suggests personalized treatment</p>
+                        <div class="flow-detail">
+                            <p>AI analyzes 1000+ similar cases, recommends stent + drug regimen with evidence</p>
+                            <p><strong>Impact:</strong> Treatment based on best outcomes</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-step" onclick="toggleFlow(this)">
+                        <h4>5. Recovery Monitoring</h4>
+                        <p>AI monitors vitals, predicts complications</p>
+                        <div class="flow-detail">
+                            <p>Sensors detect subtle changes, alert nurses before symptoms appear</p>
+                            <p><strong>Impact:</strong> Complications caught 6 hours earlier</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-step" onclick="toggleFlow(this)">
+                        <h4>6. Home Care</h4>
+                        <p>Apple Watch monitors heart 24/7</p>
+                        <div class="flow-detail">
+                            <p>Detects arrhythmias, sends data to doctor, medication reminders</p>
+                            <p><strong>Impact:</strong> Prevents readmission</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-highlight">
+                    ⏱️ Time to treatment: 45 min → 28 min with AI = Lives saved!
+                </div>
+            </div>
+            
+            <!-- Section 4: Public Services -->
+            <div class="section">
+                <h2>AI in Public Services</h2>
+                
+                <h3>🚨 Emergency Services</h3>
+                <div class="example-box">
+                    <strong>LA Fire Department:</strong> AI optimizes dispatch, predicts response times, routes vehicles around traffic. Result: 20% faster response, more lives saved.
+                </div>
+                <div class="example-box">
+                    <strong>FEMA (Disaster Response):</strong> AI predicts disaster impact, optimizes resource allocation (food, water, medical supplies), coordinates evacuations. Used in hurricanes, wildfires.
+                </div>
+                <div class="benefit-box">AI dispatch systems reduce emergency response time by 15-25%</div>
+                
+                <h3>🚦 Transportation</h3>
+                <div class="example-box">
+                    <strong>Singapore Smart Nation:</strong> AI traffic management adjusts signals in real-time based on congestion, predicts traffic patterns, reroutes buses. Result: 25% less congestion, lower emissions.
+                </div>
+                <div class="benefit-box">Smart traffic systems reduce commute times 15-20%, cut emissions 10-15%</div>
+                
+                <h3>📚 Education</h3>
+                <div class="example-box">
+                    <strong>Personalized Learning:</strong> AI platforms (Khan Academy, Coursera) adapt to each student's pace, identify struggling areas, recommend resources. Used in thousands of schools.
+                </div>
+                <div class="benefit-box">AI tutoring improves test scores 15-30% vs. traditional methods</div>
+                
+                <div class="key-takeaways">
+                    <h4>🔑 Public Services Key Points</h4>
+                    <ul>
+                        <li>AI optimizes limited resources for maximum impact</li>
+                        <li>Faster response times in emergencies save lives</li>
+                        <li>Transportation AI reduces congestion and emissions</li>
+                        <li>Education AI personalizes learning for every student</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Section 5: Ethics -->
+            <div class="section">
+                <h2>Ethical Considerations</h2>
+                <p>Healthcare and public services AI raise unique ethical challenges:</p>
+                
+                <div class="ethics-box">
+                    <h4>⚠️ Privacy Concerns</h4>
+                    <p><strong>Issue:</strong> Medical records are extremely sensitive. AI requires vast patient data.</p>
+                    <p><strong>Risks:</strong></p>
+                    <ul>
+                        <li>Data breaches expose private health information</li>
+                        <li>Insurance companies could use AI predictions to deny coverage</li>
+                        <li>Employers might discriminate based on health predictions</li>
+                    </ul>
+                    <p><strong>Safeguards:</strong> HIPAA regulations, data anonymization, strict access controls, encryption</p>
+                </div>
+                
+                <div class="ethics-box">
+                    <h4>⚖️ Bias & Fairness</h4>
+                    <p><strong>Issue:</strong> AI trained on non-diverse data can be biased.</p>
+                    <p><strong>Real Example:</strong> Skin cancer AI trained mostly on light skin → less accurate for darker skin tones, leading to misdiagnosis.</p>
+                    <p><strong>Another Example:</strong> Pulse oximeters (measure blood oxygen) less accurate on darker skin, worsened COVID outcomes for Black patients.</p>
+                    <p><strong>Solutions:</strong> Train AI on diverse patient populations, test for bias across demographics, include diverse teams in AI development</p>
+                </div>
+                
+                <div class="ethics-box">
+                    <h4>🔍 Transparency & Explainability</h4>
+                    <p><strong>Issue:</strong> "Black box" AI makes life-or-death decisions doctors don't fully understand.</p>
+                    <p><strong>Scenario:</strong> AI recommends aggressive cancer treatment. Doctor asks "Why?" AI can't explain its reasoning.</p>
+                    <p><strong>Why it matters:</strong> Doctors need to understand recommendations to trust them and explain to patients.</p>
+                    <p><strong>Solutions:</strong> Explainable AI (XAI) that shows reasoning, human-in-the-loop decision making, AI as assistant not replacement</p>
+                </div>
+                
+                <div class="ethics-box">
+                    <h4>🌍 Equity & Access</h4>
+                    <p><strong>Issue:</strong> Will AI worsen healthcare disparities?</p>
+                    <p><strong>Concerns:</strong></p>
+                    <ul>
+                        <li>Wealthy hospitals get AI, rural/poor hospitals don't</li>
+                        <li>AI requires internet/smartphones—excluding low-income patients</li>
+                        <li>Language barriers (AI trained on English)</li>
+                    </ul>
+                    <p><strong>Solutions:</strong> Subsidize AI for underserved hospitals, develop low-tech alternatives, multilingual AI, telemedicine to extend access</p>
+                </div>
+                
+                <div class="key-takeaways">
+                    <h4>🎓 Ethical Framework for Healthcare/Public Service AI</h4>
+                    <ul>
+                        <li><strong>Do no harm:</strong> Patient safety first, rigorous testing</li>
+                        <li><strong>Informed consent:</strong> Patients know when AI is used</li>
+                        <li><strong>Human oversight:</strong> AI assists, humans decide</li>
+                        <li><strong>Fairness:</strong> Test for bias, ensure equity</li>
+                        <li><strong>Privacy:</strong> Protect sensitive data</li>
+                        <li><strong>Transparency:</strong> Explain AI decisions</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Section 6: Quiz -->
+            <div class="section">
+                <h2>Knowledge Check</h2>
+                
+                <div class="quiz-section">
+                    <div class="quiz-question">
+                        <strong>Ethical Dilemma: AI recommends treatment A (70% success), but experienced doctor prefers treatment B based on intuition. Who decides?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 1)">Always follow AI—it's data-driven</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 1)">Doctor decides after considering AI input (human-in-loop)</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 1)">Patient decides alone</div>
+                        </div>
+                        <div class="feedback" id="feedback1"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Application Matching: Hospital wants to analyze thousands of X-rays daily for early disease detection. Which AI?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 2)">Medical Imaging AI (CNNs trained on radiology data)</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 2)">Symptom checker app</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 2)">Wearable health tracker</div>
+                        </div>
+                        <div class="feedback" id="feedback2"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Impact Evaluation: An AI skin cancer detector is 90% accurate on light skin, 70% on dark skin. What's the ethical concern?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 3)">It's fine—70% is still helpful</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 3)">Bias: Could cause more misdiagnoses in darker-skinned patients, worsening health disparities</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 3)">No concern—patients should see doctors anyway</div>
+                        </div>
+                        <div class="feedback" id="feedback3"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Application Matching: City wants to reduce ambulance response times during rush hour. Best AI application?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 4)">Wearable health monitors</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 4)">Smart traffic management + predictive routing (like LA Fire)</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 4)">Drug discovery AI</div>
+                        </div>
+                        <div class="feedback" id="feedback4"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Ethical Dilemma: AI predicts a patient will develop Alzheimer's in 10 years. Should doctor tell them?</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 5)">Yes, always share predictions</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 5)">No, it will cause unnecessary anxiety</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 5)">Depends: Consider prediction accuracy, if treatment exists, patient preferences, psychological impact</div>
+                        </div>
+                        <div class="feedback" id="feedback5"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <strong>Impact Evaluation: Singapore's smart traffic AI reduced commute times 25% but required cameras everywhere. Assess trade-off:</strong>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 6)">Clear win—efficiency matters most</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false, 6)">Clear loss—privacy too important</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true, 6)">Complex trade-off: Requires public discussion, safeguards, transparency about data use</div>
+                        </div>
+                        <div class="feedback" id="feedback6"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 7: Completion -->
+            <div class="section">
+                <div class="completion-badge">
+                    <div class="badge">🏥</div>
+                    <h2>Healthcare & Public Service AI Expert!</h2>
+                </div>
+                
+                <h2>What You've Learned</h2>
+                <div class="key-takeaways">
+                    <ul>
+                        <li>✅ 6 healthcare AI applications (imaging, drugs, personalized medicine, wearables, mental health, patient care)</li>
+                        <li>✅ Real examples: IBM Watson, Google DeepMind, Zebra Medical, Ada Health</li>
+                        <li>✅ Patient journey showing AI at every step</li>
+                        <li>✅ 3 public service applications (emergency, transportation, education)</li>
+                        <li>✅ Examples: LA Fire, Singapore Smart Nation, FEMA</li>
+                        <li>✅ 4 ethical considerations (privacy, bias, transparency, equity)</li>
+                        <li>✅ How to balance innovation with ethical responsibility</li>
+                    </ul>
+                </div>
+                
+                <h3>Next: Module 8</h3>
+                <p><strong>AI in Education & Marketing:</strong> How AI personalizes learning and transforms marketing campaigns.</p>
+                
+                <div class="benefit-box">
+                    You now understand AI's most impactful applications—those that save lives and improve communities!
+                </div>
+            </div>
+            
+            <div class="nav-buttons">
+                <button id="prevBtn" onclick="changeSection(-1)">← Previous</button>
+                <button id="nextBtn" onclick="changeSection(1)">Next →</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+    
+    <script>
+        let currentSection = 1;
+        const totalSections = 7;
+        
+        const modals = {
+            imaging: '<h3>🩻 Medical Imaging AI</h3><p>Analyzes X-rays, CT, MRI to detect cancer, fractures, pneumonia.</p><p><strong>Google DeepMind:</strong> 50+ eye diseases, 94% accuracy. UK NHS deployment.</p><div class="benefit-box">25% faster diagnoses, 15% more abnormalities found</div>',
+            symptom: '<h3>🤒 Symptom Checker</h3><p><strong>Ada Health:</strong> 13M+ users, 1,000+ conditions, 10 languages. 85% accuracy for serious conditions.</p><p>Helps patients know: emergency vs appointment vs self-care.</p>',
+            drug: '<h3>💊 Drug Discovery</h3><p>Traditional: 10-15 years, $2.6B per drug. With AI: 3-5 years, <$1B.</p><p>AI simulates billions of molecules, predicts effectiveness, repurposes existing drugs.</p><div class="stat-highlight">COVID vaccines in <1 year thanks to AI</div>',
+            personalized: '<h3>🧬 Personalized Medicine</h3><p>AI analyzes genetics, predicts which drugs work best for each patient, determines optimal dosage.</p><div class="benefit-box">30% better response rates vs standard treatment</div>',
+            wearables: '<h3>⌚ Wearables</h3><p>Apple Watch, Fitbit detect AFib, low heart rate, sleep apnea, blood oxygen issues.</p><div class="stat-highlight">419,000 Apple Watch users diagnosed with AFib</div>',
+            mental: '<h3>🧠 Mental Health AI</h3><p>Chatbots (Woebot, Wysa) provide 24/7 CBT. Crisis detection on social media.</p><p>20-30% reduction in depression/anxiety after 2 weeks.</p><p>Important: Complements, doesn\'t replace therapists.</p>'
+        };
+        
+        function updateProgress() {
+            document.getElementById('progressBar').style.width = (currentSection / totalSections) * 100 + '%';
+        }
+        
+        function showSection(n) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(s => s.classList.remove('active'));
+            if (n > totalSections) currentSection = totalSections;
+            if (n < 1) currentSection = 1;
+            sections[currentSection - 1].classList.add('active');
+            document.getElementById('prevBtn').disabled = currentSection === 1;
+            document.getElementById('nextBtn').textContent = currentSection === totalSections ? 'Finish ✓' : 'Next →';
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function changeSection(n) {
+            currentSection += n;
+            showSection(currentSection);
+        }
+        
+        function switchTab(i) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab')[i].classList.add('active');
+            document.querySelectorAll('.tab-content')[i].classList.add('active');
+        }
+        
+        function toggleFlow(el) {
+            const wasActive = el.classList.contains('active');
+            document.querySelectorAll('.flow-step').forEach(s => s.classList.remove('active'));
+            if (!wasActive) el.classList.add('active');
+        }
+        
+        function openModal(id) {
+            document.getElementById('modalContent').innerHTML = modals[id];
+            document.getElementById('modal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+        
+        function checkAnswer(el, correct, n) {
+            const opts = el.parentElement.querySelectorAll('.quiz-option');
+            opts.forEach(o => o.style.pointerEvents = 'none');
+            const fb = document.getElementById('feedback' + n);
+            if (correct) {
+                el.classList.add('correct');
+                fb.classList.add('show', 'correct');
+                fb.textContent = '✓ Correct! Well reasoned!';
+            } else {
+                el.classList.add('incorrect');
+                opts.forEach(o => { if (o.onclick.toString().includes('true')) o.classList.add('correct'); });
+                fb.classList.add('show', 'incorrect');
+                fb.textContent = '✗ Not quite. See the correct answer in green.';
+            }
+        }
+        
+        showSection(currentSection);
+    </script>
+</body>
+</html>
